@@ -1,0 +1,19 @@
+</DOCTYPE html> 
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>register</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='logreg.css')}}"> 
+    </head>
+    <body>
+
+        <form method="post">
+            <h2>Register</h2>
+            <label>username <input type="text" name="username" required></label>
+            <label>Password <input type="password" name="password" required></label> 
+            <button type="submit">Register</button>
+            <p>Already have an account? Log in <a href="{{url_for('auth.login')}}">here</a></p>
+        </form>
+        
+     </body>
+</html>
