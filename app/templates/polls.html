@@ -1,0 +1,76 @@
+
+
+{% extends "base.html" %}
+
+{% block title %}Всі опитування - Опитування{% endblock %}
+
+{% block content %}
+<div class="polls-header">
+    <h2>Всі опитування</h2>
+    <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Створити опитування</a>
+</div>
+
+{% if polls.items %}
+    {% for poll in polls.items %}
+    <div class="poll-card">
+        <div class="poll-header">
+            <h3><a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a></h3>
+            <span class="poll-stats">
+                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} голосів
+                <i class="fas fa-comments"></i> {{ poll.comments|length }} коментарів
+            </span>
+        </div>
+        
+        <div class="poll-author">
+            <div class="user-avatar">{{ poll.author.username[0]|upper }}</div>
+            <div>
+                <div class="author-name">{{ poll.author.username }}</div>
+                <small class="poll-date">{{ poll.created_at.strftime('%d.%m.%Y о %H:%M') }}</small>
+            </div>
+        </div>
+        
+        {% if poll.description %}
+        <p class="poll-description">{{ poll.description }}</p>
+        {% endif %}
+        
+        <div class="poll-preview">
+            <div class="vote-preview">
+                <div class="vote-option">
+                    <span>Так: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill yes-fill" style="width: {{ poll.getyespercentage() }}%"></div>
+                    </div>
+                </div>
+                <div class="vote-option">
+                    <span>Ні: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill no-fill" style="width: {{ poll.getnopercentage() }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="poll-actions">
+            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary">Голосувати</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Пагінація -->
+    <div class="pagination">
+        {% if polls.has_prev %}
+            <a href="{{ url_for('polls.listpolls', page=polls.prev_num) }}" class="page-link">← Попередня</a>
+        {% endif %}
+        
+        <span class="page-info">Сторінка {{ polls.page }} з {{ polls.pages }}</span>
+        
+        {% if polls.has_next %}
+            <a href="{{ url_for('polls.listpolls', page=polls.next_num) }}" class="page-link">Наступна →</a>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="no-polls">
+        <p>Ще немає опитувань. <a href="{{ url_for('polls.create_poll') }}">Створіть перше!</a></p>
+    </div>
+{% endif %}
+{% endblock %}

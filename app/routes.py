@@ -122,6 +122,10 @@ def my_polls():
     user_polls = Poll.query.filter_by(user_id = current_user.id).order_by(Poll.created_at.desc()).paginate(page=page, per_page=2)
     return render_template("my_polls.html", polls = user_polls)
 
+@auth.route("/logout", methods = ["GET", "POST"])
+def logout():
+    logout_user()
+    return redirect(url_for("main.home"))
 
 
 

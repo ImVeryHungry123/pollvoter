@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create poll
+{% endblock %}
+
+{% block content %}
+<div class="poll-form-container">
+    <h2>Create new poll</h2>
+
+    <form method="POST" class="poll-form">
+        <div class="form-group">
+            <label for="title">Question poll:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description (optional):</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create poll</button>
+            <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Скасувати</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

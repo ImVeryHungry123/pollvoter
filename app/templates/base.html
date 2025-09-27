@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}Pollvoter{%endblock%}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}"> 
+</head>
+<body>
+    <nav>
+        <div>
+            <a href="{{url_for('main.home')}}">Pollvoter</a>
+            <div>
+                {%if current_user.is_authenticated%}
+                <a href="{{url_for('main.home')}}">Home</a>
+                <a href="{{url_for('polls.my_polls')}}">My polls</a>
+                <a href="{{url_for('polls.create_poll')}}">Create poll</a>
+                <a href="{{url_for('polls.listpolls')}}">Polls</a>
+                <a href="{{url_for('auth.logout')}}">Log out</a>
+                {%else%}
+                <a href="{{url_for('auth.login')}}">Login</a>
+                <a href="{{url_for('auth.register')}}">Register</a>
+                {%endif%}
+
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        {% with messages = get_flashed_messages()%}
+        {%if messages%}
+        <div>
+            {%for message in messages%}
+            <div>{{message}}</div>
+            {%endfor%}
+        </div>
+        {%endif%}
+        {%endwith%}
+
+    
+
+        {%block content%}{%endblock%}
+    </div>
+
+    <footer>
+        <div>
+            <p>Have a nice day!</p>
+        </div>
+    </footer>
+
+
+</body>
+</html>
