@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ poll.title }} - Опитування{% endblock %}
+{% block title %}{{ poll.title }} - Poll{% endblock %}
 
 {% block content %}
 <div class="poll-detail">
@@ -8,8 +8,8 @@
         <div class="poll-header">
             <h2>{{ poll.title }}</h2>
             <span class="poll-stats">
-                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} голосів
-                <i class="fas fa-comments"></i> {{ poll.comments|length }} коментарів
+                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes
+                <i class="fas fa-comments"></i> {{ poll.comments|length }} comments
             </span>
         </div>
         
@@ -17,7 +17,7 @@
             <div class="user-avatar">{{ poll.author.username[0]|upper }}</div>
             <div>
                 <div class="author-name">{{ poll.author.username }}</div>
-                <small class="poll-date">{{ poll.created_at.strftime('%d.%m.%Y о %H:%M') }}</small>
+                <small class="poll-date">{{ poll.created_at.strftime('%d.%m.%Y  %H:%M') }}</small>
             </div>
         </div>
         
@@ -25,31 +25,31 @@
         <p class="poll-description">{{ poll.description }}</p>
         {% endif %}
         
-        <!-- Голосування -->
+        <!-- Voting -->
         {% if user_vote %}
             <div class="voted-message">
-                <p>Ви вже проголосували в цьому опитуванні.</p>
+                <p>You have already voted in this poll.</p>
             </div>
         {% else %}
             <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}" class="vote-form">
                 <div class="vote-options">
-                    <button type="submit" name="vote" value="yes" class="btn btn-success vote-btn">Так</button>
-                    <button type="submit" name="vote" value="no" class="btn btn-danger vote-btn">Ні</button>
+                    <button type="submit" name="vote" value="yes" class="btn btn-success vote-btn">Yes</button>
+                    <button type="submit" name="vote" value="no" class="btn btn-danger vote-btn">No</button>
                 </div>
             </form>
         {% endif %}
         
-        <!-- Результати голосування -->
+        <!-- Voting results -->
         <div class="vote-results">
-            <h4>Результати:</h4>
+            <h4>Results:</h4>
             <div class="vote-option">
-                <span>Так: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
+                <span>Yes: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
                 <div class="progress-bar">
                     <div class="progress-fill yes-fill" style="width: {{ poll.getyespercentage() }}%"></div>
                 </div>
             </div>
             <div class="vote-option">
-                <span>Ні: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
+                <span>No: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
                 <div class="progress-bar">
                     <div class="progress-fill no-fill" style="width: {{ poll.getnopercentage() }}%"></div>
                 </div>
@@ -57,19 +57,19 @@
         </div>
     </div>
     
-    <!-- Коментарі -->
+    <!-- Comments -->
     <div class="comments-section">
-        <h3>Коментарі ({{ poll.comments|length }})</h3>
+        <h3>Comments ({{ poll.comments|length }})</h3>
         
-        <!-- Форма додавання коментаря -->
+        <!-- Comment form -->
         <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" class="comment-form">
             <div class="form-group">
-                <textarea name="content" placeholder="Залишити коментар..." required></textarea>
+                <textarea name="content" placeholder="Leave a comment..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Додати коментар</button>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
         </form>
         
-        <!-- Список коментарів -->
+        <!-- Comments list -->
         <div class="comments-list">
             {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %}
             <div class="comment">
@@ -78,14 +78,14 @@
                         <div class="user-avatar small">{{ comment.author.username[0]|upper }}</div>
                         <strong>{{ comment.author.username }}</strong>
                     </div>
-                    <small class="comment-date">{{ comment.created_at.strftime('%d.%m.%Y о %H:%M') }}</small>
+                    <small class="comment-date">{{ comment.created_at.strftime('%d.%m.%Y  %H:%M') }}</small>
                 </div>
                 <div class="comment-content">
                     {{ comment.content }}
                 </div>
             </div>
             {% else %}
-            <p class="no-comments">Ще немає коментарів. Будьте першим!</p>
+            <p class="no-comments">No comments yet. Be the first!</p>
             {% endfor %}
         </div>
     </div>

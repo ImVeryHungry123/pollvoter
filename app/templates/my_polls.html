@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Мої опитування - Опитування{% endblock %}
+{% block title %}My Polls - Polling{% endblock %}
 
 {% block content %}
 <div class="polls-header">
-    <h2>Мої опитування</h2>
-    <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Створити опитування</a>
+    <h2>My Polls</h2>
+    <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Create Poll</a>
 </div>
 
 {% if polls.items %}
@@ -14,13 +14,13 @@
         <div class="poll-header">
             <h3><a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a></h3>
             <span class="poll-stats">
-                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} голосів
-                <i class="fas fa-comments"></i> {{ poll.comments|length }} коментарів
+                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes
+                <i class="fas fa-comments"></i> {{ poll.comments|length }} comments
             </span>
         </div>
         
         <div class="poll-meta">
-            <small class="poll-date">Створено: {{ poll.created_at.strftime('%d.%m.%Y о %H:%M') }}</small>
+            <small class="poll-date">Created: {{ poll.created_at.strftime('%d.%m.%Y at %H:%M') }}</small>
         </div>
         
         {% if poll.description %}
@@ -30,13 +30,13 @@
         <div class="poll-preview">
             <div class="vote-preview">
                 <div class="vote-option">
-                    <span>Так: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
+                    <span>Yes: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
                     <div class="progress-bar">
                         <div class="progress-fill yes-fill" style="width: {{ poll.getyespercentage() }}%"></div>
                     </div>
                 </div>
                 <div class="vote-option">
-                    <span>Ні: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
+                    <span>No: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
                     <div class="progress-bar">
                         <div class="progress-fill no-fill" style="width: {{ poll.getnopercentage() }}%"></div>
                     </div>
@@ -45,26 +45,26 @@
         </div>
         
         <div class="poll-actions">
-            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary">Переглянути</a>
+            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary">View</a>
         </div>
     </div>
     {% endfor %}
 
-    <!-- Пагінація -->
+    <!-- Pagination -->
     <div class="pagination">
         {% if polls.has_prev %}
-            <a href="{{ url_for('polls.my_polls', page=polls.prev_num) }}" class="page-link">← Попередня</a>
+            <a href="{{ url_for('polls.my_polls', page=polls.prev_num) }}" class="page-link">← Previous</a>
         {% endif %}
         
-        <span class="page-info">Сторінка {{ polls.page }} з {{ polls.pages }}</span>
+        <span class="page-info">Page {{ polls.page }} of {{ polls.pages }}</span>
         
         {% if polls.has_next %}
-            <a href="{{ url_for('polls.my_polls', page=polls.next_num) }}" class="page-link">Наступна →</a>
+            <a href="{{ url_for('polls.my_polls', page=polls.next_num) }}" class="page-link">Next →</a>
         {% endif %}
     </div>
 {% else %}
     <div class="no-polls">
-        <p>Ви ще не створили жодного опитування. <a href="{{ url_for('polls.create_poll') }}">Створіть перше!</a></p>
+        <p>You haven't created any polls yet. <a href="{{ url_for('polls.create_poll') }}">Create the first one!</a></p>
     </div>
 {% endif %}
 {% endblock %}

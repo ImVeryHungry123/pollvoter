@@ -1,0 +1,335 @@
+/* === GLOBAL RESET & BASE === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fb;
+    color: #1f1f1f;
+    line-height: 1.6;
+}
+
+/* === NAVIGATION === */
+nav {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    color: #111;
+    text-decoration: none;
+    margin-right: 1.5rem;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+/* === MAIN CONTAINER === */
+div:not(nav):not(footer) {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+}
+
+/* === POLLS HEADER === */
+.polls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.polls-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn:hover {
+    background-color: #333;
+}
+
+/* === POLL CARD === */
+.poll-card {
+    background-color: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.poll-card:hover {
+    transform: translateY(-2px);
+}
+
+.poll-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.poll-header h3 a {
+    color: #000;
+    text-decoration: none;
+    font-size: 1.3rem;
+}
+
+.poll-header h3 a:hover {
+    text-decoration: underline;
+}
+
+.poll-stats {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.poll-meta {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.poll-description {
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+/* === PROGRESS BAR === */
+.vote-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.vote-option span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 0.25rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    transition: width 0.4s ease-in-out;
+}
+
+.yes-fill {
+    background-color: #111;
+}
+
+.no-fill {
+    background-color: #666;
+}
+
+/* === POLL ACTIONS === */
+.poll-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* === PAGINATION === */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+}
+
+.page-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.page-link:hover {
+    background-color: #e4e4e4;
+}
+
+.page-info {
+    color: #555;
+}
+
+/* === NO POLLS === */
+.no-polls {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.no-polls a {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: #000000;
+    font-size: 0.9rem;
+}
+
+/* === CLEANER CONTAINERS === */
+
+/* Prevent nested box overload — apply card look only to direct poll cards */
+.poll-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Avoid extra card layers for simple containers */
+div:not(nav):not(footer):not(.poll-card):not(.vote-preview):not(.polls-header):not(.pagination) {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* === MODERN BUTTONS === */
+
+.btn {
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: none;
+}
+
+.btn:hover {
+    background-color: #1a1a1a; /* slightly lighter black */
+    transform: translateY(-1px); /* optional: subtle lift on hover */
+}
+
+/* Optional: when button is clicked */
+.btn:active {
+    background-color: #333;
+    transform: translateY(0); /* Reset the lift */
+}
+
+}
+
+/* === FORM ELEMENTS (e.g., Add Comment area) === */
+
+form {
+    margin-top: 1.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    width: 100%;
+    resize: none;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    background-color: #fefefe;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* === COMMENT SECTION === */
+.comment-section {
+    margin-top: 2rem;
+}
+
+.comment {
+    padding: 1rem;
+    border-bottom: 1px solid #000000;
+    color: #000000;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+/* === SPACING IMPROVEMENTS === */
+.vote-preview {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.poll-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+footer {
+    margin-top: 4rem;
+}
+
+/* === REDUCED INNER CONTAINER BOXES === */
+.flash-message,
+.no-polls,
+.poll-meta {
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+}

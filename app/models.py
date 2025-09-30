@@ -17,7 +17,9 @@ class User(UserMixin, db.Model):
     
 
     password_hash = Column(Text)
-
+    polls = relationship("Poll", back_populates="author")
+    votes = relationship("Vote", back_populates="user")
+    comments = relationship("Comment", back_populates="author")
     def Setpassword(self, password):
         self.password_hash = generate_password_hash(password)
     def Checkpassword(self, password):
@@ -34,8 +36,9 @@ class Poll(db.Model):
     description = Column(Text)
     created_at = Column(DateTime, default=datetime.now)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-    votes = relationship("Vote", backref="poll", lazy=True, cascade="all, delete-orphan")
-    comments = relationship("Comment", backref="poll", lazy=True, cascade="all, delete-orphan")
+    votes = relationship("Vote", back_populates="poll", lazy=True, cascade="all, delete-orphan")
+    comments = relationship("Comment", back_populates="poll", lazy=True, cascade="all, delete-orphan")
+    author = relationship("User", back_populates="polls")
     def getvotecount(self):
         return Vote.query.filter_by(poll_id = self.id).count()
     
@@ -73,7 +76,9 @@ class Vote(db.Model):
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
 
-
+    user = relationship("User", back_populates="votes")
+    poll = relationship("Poll", back_populates="votes")
+    
     __table_args__ = (
         UniqueConstraint('user_id', 'poll_id', name='user_poll_uc'),
     )
@@ -81,10 +86,12 @@ class Vote(db.Model):
 
 class Comment(db.Model):
     __tablename__ = "comment"
-
+        
     id = Column(Integer, primary_key=True)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
+    author = relationship("User", back_populates="comments")
+    poll = relationship("Poll", back_populates="comments")
