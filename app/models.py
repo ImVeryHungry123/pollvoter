@@ -14,9 +14,12 @@ class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
     username = Column(Text, unique=True, nullable = False)
-    
-
+    created_at = Column(DateTime, default=datetime.now)
+    full_name = Column(Text)
+    bio = Column(Text)
+    pfp = Column(Text)
     password_hash = Column(Text)
+
     polls = relationship("Poll", back_populates="author")
     votes = relationship("Vote", back_populates="user")
     comments = relationship("Comment", back_populates="author")

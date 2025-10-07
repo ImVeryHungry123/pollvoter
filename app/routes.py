@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User, db, Poll, Comment, Vote
+import os
+from werkzeug.utils import secure_filename
 
 auth = Blueprint("auth", __name__)
 main = Blueprint("main", __name__)
@@ -129,3 +131,78 @@ def logout():
 
 
 
+@main.route('/profile')
+@login_required
+def profile():
+    user_polls = Poll.query.filter_by(user_id=current_user.id).order_by(
+        Poll.created_at.desc()
+    ).all()
+
+    polls_count = len(user_polls)
+
+    total_votes = Vote.query.join(Poll).filter(
+        Poll.user_id == current_user.id
+    ).count()
+
+    total_comments = Comment.query.filter_by(
+        user_id=current_user.id
+    ).count()
+
+    return render_template(
+        'profile.html',
+        user_polls=user_polls,
+        polls_count=polls_count,
+        total_votes=total_votes,
+        total_comments=total_comments
+    )
+
+@main.route('/edit_profile', methods = ["GET", "POST"])
+@login_required
+def edit_profile():
+    if request.method == "POST":
+        current_user.full_name = request.form.get("full_name")
+        current_user.bio = request.form.get("bio")
+        if "pfp" in request.files:
+            file = request.files["pfp"]
+            if current_user.pfp:
+                oldfilepath = os.path.join(current_app.config["PFP_FOLDER"], current_user.pfp)
+                if os.path.exists(oldfilepath):
+                    os.remove(oldfilepath)
+            filename = secure_filename(f"user_{current_user.id}_{file.filename}")
+            file.save(os.path.join(
+                    current_app.config['PFP_FOLDER'], 
+                    filename
+                ))
+            current_user.pfp = filename
+        db.session.commit()
+        flash("Profile updated!")
+        return redirect(url_for("main.profile"))
+    return render_template("edit_profile.html")
+
+@main.route('/user/<username>')
+def user_profile(username):
+   
+    user = User.query.filter_by(username=username).first_or_404()
+    
+
+    user_polls = Poll.query.filter_by(user_id=user.id).order_by(
+        Poll.created_at.desc()
+    ).all()
+    
+   
+    polls_count = len(user_polls)
+    
+  
+    total_votes = Vote.query.join(Poll).filter(Poll.user_id == user.id).count()
+    
+   
+    total_comments = Comment.query.filter_by(user_id=user.id).count()
+    
+    return render_template(
+        'user_profile.html',
+        user=user,
+        user_polls=user_polls,
+        polls_count=polls_count,
+        total_votes=total_votes,
+        total_comments=total_comments
+    )
