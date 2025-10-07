@@ -28,7 +28,11 @@ class User(UserMixin, db.Model):
     def Checkpassword(self, password):
         return check_password_hash(self.password_hash, password)
     
-
+    def getpfp(self):
+        if self.pfp:
+            return f"/static/uploads/pfp/{self.pfp}"
+        else:
+            return f"/static/uploads/pfp/default.jpg"
 
 
 class Poll(db.Model):

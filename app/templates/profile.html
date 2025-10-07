@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Your Profile - Pollvoter{% endblock %}
+
+{% block content %}
+<h1>Welcome to Your Profile</h1>
+
+<img src="{{ current_user.getpfp() }}" alt="Profile Picture" width="150" height="150">
+
+<p>Total Polls: {{ polls_count }}</p>
+<p>Total Votes: {{ total_votes }}</p>
+<p>Total Comments: {{ total_comments }}</p>
+
+<h2>Your Polls</h2>
+<ul>
+    {% for poll in user_polls %}
+        <li>{{ poll.title }} - Created on {{ poll.created_at }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('main.edit_profile') }}">Edit Profile</a>
+{% endblock %}

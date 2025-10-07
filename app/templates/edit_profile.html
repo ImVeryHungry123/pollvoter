@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - Pollvoter{% endblock %}
+
+{% block content %}
+<h1>Edit Your Profile</h1>
+
+<img src="{{ current_user.getpfp() }}" alt="Current Profile Picture" width="150" height="150">
+
+<form method="POST" enctype="multipart/form-data">
+    <label>Full Name:</label>
+    <input type="text" name="full_name" value="{{ current_user.full_name }}"><br>
+
+    <label>Bio:</label>
+    <textarea name="bio">{{ current_user.bio }}</textarea><br>
+
+    <label>Profile Picture:</label>
+    <input type="file" name="pfp"><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock %}
