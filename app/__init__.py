@@ -12,7 +12,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pollvoter.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config["UPLOAD_FOLDER"] = "static/uploads"
-    app.config["PFP_FOLDER"] =  "static/uploads/pfp"
+    app.config["PFP_FOLDER"] =  "app/static/uploads/pfp"
     
     db.init_app(app)
     login_manager.init_app(app)

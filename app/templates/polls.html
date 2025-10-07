@@ -22,9 +22,9 @@
         </div>
         
         <div class="poll-author">
-            <div class="user-avatar">{{ poll.author.username[0]|upper }}</div>
+            <div class="user-avatar"><img src="{{ current_user.getpfp() }}" alt="Profile Picture" width="150" height="150"></div>
             <div>
-                <div class="author-name">{{ poll.author.username }}</div>
+                <div class="author-name">{{ poll.author.full_name if poll.author.full_name else poll.author.username }}</div>
                 <small class="poll-date">{{ poll.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
             </div>
         </div>

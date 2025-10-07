@@ -164,16 +164,22 @@ def edit_profile():
         current_user.bio = request.form.get("bio")
         if "pfp" in request.files:
             file = request.files["pfp"]
-            if current_user.pfp:
-                oldfilepath = os.path.join(current_app.config["PFP_FOLDER"], current_user.pfp)
-                if os.path.exists(oldfilepath):
-                    os.remove(oldfilepath)
-            filename = secure_filename(f"user_{current_user.id}_{file.filename}")
-            file.save(os.path.join(
-                    current_app.config['PFP_FOLDER'], 
-                    filename
-                ))
-            current_user.pfp = filename
+            
+            if file and file.filename:
+                pfp_folder = current_app.config['PFP_FOLDER']
+                os.makedirs(pfp_folder,exist_ok=True)
+                
+                if current_user.pfp:
+                    oldfilepath = os.path.join(current_app.config["PFP_FOLDER"], current_user.pfp)
+                    if os.path.exists(oldfilepath):
+                        os.remove(oldfilepath)
+                
+                filename = secure_filename(f"user_{current_user.id}_{file.filename}")
+                file.save(os.path.join(
+                        current_app.config['PFP_FOLDER'], 
+                        filename
+                    ))
+                current_user.pfp = filename
         db.session.commit()
         flash("Profile updated!")
         return redirect(url_for("main.profile"))
