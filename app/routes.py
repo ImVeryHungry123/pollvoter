@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import User, db, Poll, Comment, Vote
+from .models import User, db, Poll, Comment, Vote, CommentReaction
 import os
 from werkzeug.utils import secure_filename
 
@@ -280,3 +280,27 @@ def delete_comment(comment_id):
     flash("Comment has been deleted.")
 
     return redirect(url_for("polls.poll_detail", poll_id=poll_id))
+
+@polls.route("/comment/<int:comment_id>/react", methods=["POST"])
+@login_required
+def react_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    reaction_type = request.form.get("reaction")
+    if reaction_type not in ["like", "dislike"]:
+        flash("Invalid reaction")
+        return redirect(url_for("polls.poll_detail", poll_id=comment.poll_id))
+    existing_reaction = CommentReaction.query.filter_by(user_id = current_user.id, comment_id = comment_id).first()
+    if existing_reaction:
+        if existing_reaction.reaction_type == reaction_type:
+            db.session.delete(existing_reaction)
+        else:
+            existing_reaction.reaction_type = reaction_type
+    else:
+        new_reaction = CommentReaction(reaction_type = reaction_type, user_id = current_user.id, comment_id = comment_id)
+        db.session.add(new_reaction)
+    db.session.commit()
+    return redirect(url_for("polls.poll_detail", poll_id=comment.poll_id))
+            
+
+    
+    
