@@ -67,7 +67,19 @@ class Poll(db.Model):
             return 0
         return (self.getnocount()/total)*100
         
+class CommentReaction(db.Model):
+    __tablename__ = "comment_reaction"
 
+    id = Column(Integer, primary_key=True)
+    reaction_type = Column(Text, nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    comment_id = Column(Integer, ForeignKey("comment.id"), nullable=False)
+    user = relationship("User")
+    comment = relationship("Comment", back_populates="reactions")
+
+    __table_args__ = (
+        UniqueConstraint('user_id', 'comment_id', name='user_comment_reaction_uc'),
+    )
 
 
 

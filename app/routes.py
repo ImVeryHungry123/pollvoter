@@ -212,3 +212,71 @@ def user_profile(username):
         total_votes=total_votes,
         total_comments=total_comments
     )
+
+@polls.route("/poll/<int:poll_id>/edit", methods = ["GET", "POST"])
+@login_required
+def edit_poll(poll_id):
+    poll = Poll.query.get_or_404(poll_id)
+    if poll.author != current_user:
+        flash("You don't have access to edit this poll")
+        return redirect(url_for("polls.my_polls"))
+    if request.method == "POST":
+        poll.title = request.form["title"]
+        poll.description = request.form["description"]
+        db.session.commit()
+        flash("Changes successful!")
+        return redirect(url_for("polls.my_polls"))
+    return render_template("edit_poll.html", poll = poll)
+
+@polls.route("/poll/<int:poll_id>/delete", methods = ["POST"])
+@login_required
+def delete_poll(poll_id):
+    poll = Poll.query.get_or_404(poll_id)
+    if poll.author != current_user:
+        flash("You don't have access to delete this poll")
+        return redirect(url_for("polls.my_polls"))
+    db.session.delete(poll)
+    db.session.commit()
+    flash("Deleted poll!")
+    return redirect(url_for("polls.my_polls"))
+
+
+
+
+
+@polls.route("/comment/<int:comment_id>/edit", methods=["POST"])
+@login_required
+def edit_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+
+    if comment.author != current_user:
+        flash("You are not authorized to edit this comment.")
+        return redirect(url_for("polls.poll_detail", poll_id=comment.poll_id))
+
+    new_content = request.form.get("content")
+
+    if new_content:
+        comment.content = new_content
+        db.session.commit()
+        flash("Comment updated successfully.")
+    else:
+        flash("Comment content cannot be empty.")
+
+    return redirect(url_for("polls.poll_detail", poll_id=comment.poll_id))
+
+
+@polls.route("/comment/<int:comment_id>/delete", methods=["POST"])
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    poll_id = comment.poll_id
+
+    if comment.author != current_user:
+        flash("You are not authorized to delete this comment.")
+        return redirect(url_for("polls.poll_detail", poll_id=poll_id))
+
+    db.session.delete(comment)
+    db.session.commit()
+    flash("Comment has been deleted.")
+
+    return redirect(url_for("polls.poll_detail", poll_id=poll_id))
