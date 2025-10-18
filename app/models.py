@@ -35,37 +35,7 @@ class User(UserMixin, db.Model):
             return f"/static/uploads/pfp/default.jpg"
 
 
-class Poll(db.Model):
-    __tablename__ = "poll"
 
-    id = Column(Integer, primary_key=True)
-    title = Column(Text, nullable=False)
-    description = Column(Text)
-    created_at = Column(DateTime, default=datetime.now)
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-    votes = relationship("Vote", back_populates="poll", lazy=True, cascade="all, delete-orphan")
-    comments = relationship("Comment", back_populates="poll", lazy=True, cascade="all, delete-orphan")
-    author = relationship("User", back_populates="polls")
-    def getvotecount(self):
-        return Vote.query.filter_by(poll_id = self.id).count()
-    
-    def getyescount(self):
-        return Vote.query.filter_by(poll_id = self.id, vote = True).count()
-    
-    def getnocount(self):
-        return Vote.query.filter_by(poll_id = self.id, vote = False).count()
-    
-    def getyespercentage(self):
-        total = self.getvotecount()
-        if total == 0:
-            return 0
-        return (self.getyescount()/total)*100
-    
-    def getnopercentage(self):
-        total = self.getvotecount()
-        if total == 0:
-            return 0
-        return (self.getnocount()/total)*100
         
 class CommentReaction(db.Model):
     __tablename__ = "comment_reaction"
@@ -89,15 +59,16 @@ class Vote(db.Model):
     __tablename__ = "vote"
 
     id = Column(Integer, primary_key=True)
-    vote = Column(Boolean, nullable=False) 
+
     created_at = Column(DateTime, default=datetime.now)
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
+    option_id = Column(Integer, ForeignKey("poll_option.id"), nullable=False)
 
     user = relationship("User", back_populates="votes")
     poll = relationship("Poll", back_populates="votes")
-    
+    option = relationship("PollOption", back_populates="votes")
     __table_args__ = (
         UniqueConstraint('user_id', 'poll_id', name='user_poll_uc'),
     )
@@ -109,33 +80,61 @@ class Comment(db.Model):
     id = Column(Integer, primary_key=True)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
-    reactions = relationship("CommentReaction", back_populates="comment", cascade="all, delete-orphan")
 
-    
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     author = relationship("User", back_populates="comments")
     poll = relationship("Poll", back_populates="comments")
-    def get_likes_count(self):
-        return CommentReaction.query.filter_by(comment_id=self.id, reaction_type='like').count()
-
-    def get_dislikes_count(self):
-        return CommentReaction.query.filter_by(comment_id=self.id, reaction_type='dislike').count()
 
 
 
 
 
 
+class PollOption(db.Model):
+    __tablename__ = "poll_option"
+
+    id = Column(Integer, primary_key=True)
+    text = Column(Text, nullable=False)
+    poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
+
+    votes = relationship("Vote", back_populates="option", cascade="all, delete-orphan")
 
 
+class Poll(db.Model):
+    __tablename__ = "poll"
 
+    id = Column(Integer, primary_key=True)
+    title = Column(Text, nullable=False)
+    description = Column(Text)
+    created_at = Column(DateTime, default=datetime.now)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
 
+    author = relationship("User", back_populates="polls")
+    comments = relationship("Comment", back_populates="poll", cascade="all, delete-orphan")
+    options = relationship("PollOption", back_populates="poll", cascade="all, delete-orphan")
+    votes = relationship("Vote", back_populates="poll", cascade="all, delete-orphan")
 
+    def get_vote_count(self):
+        return len(self.votes)
 
-
-
-
-
+    
+    def getyescount(self):
+        return Vote.query.filter_by(poll_id = self.id, vote = True).count()
+    
+    def getnocount(self):
+        return Vote.query.filter_by(poll_id = self.id, vote = False).count()
+    
+    def getyespercentage(self):
+        total = self.getvotecount()
+        if total == 0:
+            return 0
+        return (self.getyescount()/total)*100
+    
+    def getnopercentage(self):
+        total = self.getvotecount()
+        if total == 0:
+            return 0
+        return (self.getnocount()/total)*100
 
 
