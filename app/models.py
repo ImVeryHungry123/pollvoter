@@ -114,3 +114,22 @@ class Comment(db.Model):
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     author = relationship("User", back_populates="comments")
     poll = relationship("Poll", back_populates="comments")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

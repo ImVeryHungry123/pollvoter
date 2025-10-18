@@ -57,11 +57,9 @@
         </div>
     </div>
     
-    <!-- Comments -->
     <div class="comments-section">
         <h3>Comments ({{ poll.comments|length }})</h3>
         
-        <!-- Comment form -->
         <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" class="comment-form">
             <div class="form-group">
                 <textarea name="content" placeholder="Leave a comment..." required></textarea>
@@ -69,7 +67,6 @@
             <button type="submit" class="btn btn-primary">Add Comment</button>
         </form>
         
-        <!-- Comments list -->
         <div class="comments-list">
             {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %}
             <div class="comment">
@@ -83,6 +80,9 @@
                 <div class="comment-content">
                     {{ comment.content }}
                 </div>
+                {%if comment.author == current_user%}
+                <button onclick="toggleEdit({{comment.id}})">Edit</button>
+                {%endif%}
             </div>
             {% else %}
             <p class="no-comments">No comments yet. Be the first!</p>
@@ -90,4 +90,18 @@
         </div>
     </div>
 </div>
+<script>
+    function toggleEdit(commentId){
+        const viewDiv = document.getElementById('comment-view-' + commentId)
+        const editDiv = document.getElementById('comment-edit-' + commentId)
+
+        if (viewDiv.style.display === 'none') {
+            viewDiv.style.display = 'block';
+            editDiv.style.display = 'none';
+        } else {
+            viewDiv.style.display = 'none';
+            editDiv.style.display = 'block';
+        }
+    }
+</script>
 {% endblock %}
