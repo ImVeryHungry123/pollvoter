@@ -109,12 +109,18 @@ class Comment(db.Model):
     id = Column(Integer, primary_key=True)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
+    reactions = relationship("CommentReaction", back_populates="comment", cascade="all, delete-orphan")
 
+    
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     author = relationship("User", back_populates="comments")
     poll = relationship("Poll", back_populates="comments")
+    def get_likes_count(self):
+        return CommentReaction.query.filter_by(comment_id=self.id, reaction_type='like').count()
 
+    def get_dislikes_count(self):
+        return CommentReaction.query.filter_by(comment_id=self.id, reaction_type='dislike').count()
 
 
 
