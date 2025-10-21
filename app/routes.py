@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import User, db, Poll, Comment, Vote, CommentReaction
+from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption
 import os
 from werkzeug.utils import secure_filename
 
@@ -38,17 +38,7 @@ def register():
 
 
 
-@polls.route("/create_poll", methods = ["GET", "POST"])
-@login_required
-def create_poll():
-    if request.method == "POST":
-        title = request.form["title"]
-        description = request.form["description"]
-        newpoll = Poll(title = title, description = description, user_id = current_user.id)
-        db.session.add(newpoll)
-        db.session.commit()
-        return redirect(url_for("polls.poll_detail", poll_id = newpoll.id))
-    return render_template("create_poll.html")
+
 
 @polls.route("/poll/<int:poll_id>")
 @login_required
@@ -73,11 +63,11 @@ def listpolls():
 @login_required
 def vote(poll_id):
     poll = Poll.query.get_or_404(poll_id)
-    vote_value = request.form.get("vote")
 
-    if vote_value not in ["yes", "no"]:
-        flash("Invalid vote option")
-        return redirect(url_for("polls.poll_detail", poll_id=poll_id))
+    option_id = request.form.get("option_id")
+    if not option_id:
+        return redirect(url_for("polls.poll_detail", poll_id = poll_id))
+
 
     existing_vote = Vote.query.filter_by(user_id = current_user.id, poll_id = poll_id).first()
 
@@ -86,9 +76,10 @@ def vote(poll_id):
         return redirect(url_for("polls.poll_detail", poll_id=poll_id))
 
     new_vote = Vote(
-        vote=(vote_value == "yes"),
-        user_id=current_user.id,
-        poll_id=poll_id
+
+        user_id = current_user.id,
+        poll_id = poll_id, 
+        option_id = option_id
     )
 
     db.session.add(new_vote)
@@ -303,4 +294,28 @@ def react_comment(comment_id):
             
 
     
-    
+@polls.route("/create_poll", methods=["GET", "POST"])
+@login_required
+def create_poll():
+    if request.method == "POST":
+        title = request.form.get("title")
+        description = request.form.get("description")
+        options_texts = request.form.getlist("options")
+
+        if not title or len(options_texts) < 2:
+            flash("Please provide a title and at least two options.")
+            return render_template("create_poll.html")
+
+        new_poll = Poll(title=title, description=description, author=current_user)
+        db.session.add(new_poll)
+
+        for option_text in options_texts:
+            if option_text:
+                option = PollOption(text=option_text, poll=new_poll)
+                db.session.add(option)
+
+        db.session.commit()
+        flash("Poll created successfully!")
+        return redirect(url_for("polls.poll_detail", poll_id=new_poll.id))
+
+    return render_template("create_poll.html")

@@ -80,7 +80,7 @@ class Comment(db.Model):
     id = Column(Integer, primary_key=True)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
-
+    reactions = relationship("CommentReaction", back_populates="comment", cascade="all, delete-orphan")
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     author = relationship("User", back_populates="comments")
@@ -97,7 +97,7 @@ class PollOption(db.Model):
     id = Column(Integer, primary_key=True)
     text = Column(Text, nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
-
+    poll = relationship("Poll", back_populates="options")
     votes = relationship("Vote", back_populates="option", cascade="all, delete-orphan")
 
 
