@@ -28,34 +28,40 @@
         <!-- Voting -->
         {% if user_vote %}
             <div class="voted-message">
-                <p>You have already voted in this poll.</p>
+                <p>You have already voted. Your choice was: <strong>{{ user_vote.option.text }}</strong></p>
             </div>
         {% else %}
             <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}" class="vote-form">
                 <div class="vote-options">
-                    <button type="submit" name="vote" value="yes" class="btn btn-success vote-btn">Yes</button>
-                    <button type="submit" name="vote" value="no" class="btn btn-danger vote-btn">No</button>
+                    {% for option in poll.options %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="option_id" id="option{{ option.id }}" value="{{ option.id }}" required>
+                        <label class="form-check-label" for="option{{ option.id }}">
+                            {{ option.text }}
+                        </label>
+                    </div>
+                    {% endfor %}
                 </div>
+                <button type="submit" class="btn btn-primary mt-3">Submit Vote</button>
             </form>
         {% endif %}
-        
-        <!-- Voting results -->
+
         <div class="vote-results">
             <h4>Results:</h4>
-            <div class="vote-option">
-                <span>Yes: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
-                <div class="progress-bar">
-                    <div class="progress-fill yes-fill" style="width: {{ poll.getyespercentage() }}%"></div>
+            {% set total_votes = poll.getvotecount() %}
+            
+            {% for option in poll.options %}
+                {% set vote_count = option.votes|length %}
+                {% set percentage = (vote_count / total_votes * 100) if total_votes > 0 else 0 %}
+                
+                <div class="vote-option">
+                    <span>{{ option.text }}: {{ vote_count }} ({{ "%.1f"|format(percentage) }}%)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ percentage }}%"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="vote-option">
-                <span>No: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
-                <div class="progress-bar">
-                    <div class="progress-fill no-fill" style="width: {{ poll.getnopercentage() }}%"></div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
-    </div>
     
     <div class="comments-section">
         <h3>Comments ({{ poll.comments|length }})</h3>

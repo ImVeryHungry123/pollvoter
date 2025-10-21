@@ -33,22 +33,7 @@
         <p class="poll-description">{{ poll.description }}</p>
         {% endif %}
         
-        <div class="poll-preview">
-            <div class="vote-preview">
-                <div class="vote-option">
-                    <span>Yes: {{ poll.getyescount() }} ({{ "%.1f"|format(poll.getyespercentage()) }}%)</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill yes-fill" style="width: {{ poll.getyespercentage() }}%"></div>
-                    </div>
-                </div>
-                <div class="vote-option">
-                    <span>No: {{ poll.getnocount() }} ({{ "%.1f"|format(poll.getnopercentage()) }}%)</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill no-fill" style="width: {{ poll.getnopercentage() }}%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         
         <div class="poll-actions">
             <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary">Vote</a>

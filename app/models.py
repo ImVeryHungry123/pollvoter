@@ -115,26 +115,10 @@ class Poll(db.Model):
     options = relationship("PollOption", back_populates="poll", cascade="all, delete-orphan")
     votes = relationship("Vote", back_populates="poll", cascade="all, delete-orphan")
 
-    def get_vote_count(self):
+    def getvotecount(self):
         return len(self.votes)
 
     
-    def getyescount(self):
-        return Vote.query.filter_by(poll_id = self.id, vote = True).count()
-    
-    def getnocount(self):
-        return Vote.query.filter_by(poll_id = self.id, vote = False).count()
-    
-    def getyespercentage(self):
-        total = self.getvotecount()
-        if total == 0:
-            return 0
-        return (self.getyescount()/total)*100
-    
-    def getnopercentage(self):
-        total = self.getvotecount()
-        if total == 0:
-            return 0
-        return (self.getnocount()/total)*100
+
 
 
