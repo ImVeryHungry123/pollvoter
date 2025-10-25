@@ -11,6 +11,7 @@ from sqlalchemy.orm import relationship, backref
 
 db = SQLAlchemy()
 blocklist = Table("blocklist", 
+                  db.metadata,
                   Column("blocker_id", Integer, ForeignKey("user.id"), primary_key=True), 
                   Column("blocked_id", Integer, ForeignKey("user.id"), primary_key=True))
 class User(UserMixin, db.Model):

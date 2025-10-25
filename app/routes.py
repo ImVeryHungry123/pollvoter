@@ -319,3 +319,21 @@ def create_poll():
         return redirect(url_for("polls.poll_detail", poll_id=new_poll.id))
 
     return render_template("create_poll.html")
+
+@main.route("/block/<username>", methods=["POST"])
+@login_required
+def block(username):
+    user = User.query.filter_by(username = username).first_or_404()
+    if user == current_user:
+        return redirect(url_for("main.user_profile", username = username))
+    current_user.block(user)
+    return redirect(url_for("main.user_profile", username = username))
+
+@main.route("/unblock/<username>", methods=["POST"])
+@login_required
+def unblock(username):
+    user = User.query.filter_by(username = username).first_or_404()
+    if user == current_user:
+        return redirect(url_for("main.user_profile", username = username))
+    current_user.unblock(user)
+    return redirect(url_for("main.user_profile", username = username))
