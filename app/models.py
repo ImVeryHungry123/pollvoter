@@ -4,12 +4,15 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Integer, Text, DateTime, Column
 from datetime import datetime
-from sqlalchemy import Column, Integer, Boolean, DateTime, ForeignKey, Text, UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, Boolean, DateTime, ForeignKey, Text, UniqueConstraint, Table
+from sqlalchemy.orm import relationship, backref
 
 
 
 db = SQLAlchemy()
+blocklist = Table("blocklist", 
+                  Column("blocker_id", Integer, ForeignKey("user.id"), primary_key=True), 
+                  Column("blocked_id", Integer, ForeignKey("user.id"), primary_key=True))
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
@@ -33,7 +36,23 @@ class User(UserMixin, db.Model):
             return f"/static/uploads/pfp/{self.pfp}"
         else:
             return f"/static/uploads/pfp/default.jpg"
-
+    blocked = relationship(
+        "User", secondary=blocklist, 
+        primaryjoin=(blocklist.c.blocker_id == id),
+        secondaryjoin=(blocklist.c.blocked_id == id),
+        backref=db.backref("blocked_by", lazy="dynamic"),
+        lazy="dynamic"
+    )
+    def is_blocking(self, user):
+        return self.blocked.filter(blocklist.c.blocked_id == user.id).count() > 0
+    def block(self, user):
+        if not self.is_blocking(user):
+            self.blocked.append(user)
+            db.session.commit()
+    def unblock(self, user):
+        if self.is_blocking(user):
+            self.blocked.remove(user)
+            db.session.commit()
 
 
         
@@ -85,7 +104,10 @@ class Comment(db.Model):
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     author = relationship("User", back_populates="comments")
     poll = relationship("Poll", back_populates="comments")
-
+    def get_likes_count(self):
+        return CommentReaction.query.filter_by(comment_id = self.id, reaction_type = "like").count()
+    def get_dislikes_count(self):
+        return CommentReaction.query.filter_by(comment_id = self.id, reaction_type = "dislike").count()
 
 
 
