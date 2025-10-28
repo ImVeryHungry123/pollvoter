@@ -9,7 +9,11 @@
     <h2>All Polls</h2>
     <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Create Poll</a>
 </div>
-
+<div class="sort-options"> 
+    <a href="{{url_for('polls.listpolls', sort_by = 'newest')}}">Newest</a>
+    <a href="{{url_for('polls.listpolls', sort_by = 'popular')}}">Popular</a>
+    <a href="{{url_for('polls.listpolls', sort_by = 'discussed')}}">Discussed</a>
+</div>
 {% if polls.items %}
     {% for poll in polls.items %}
     <div class="poll-card">

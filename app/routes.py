@@ -47,13 +47,6 @@ def poll_detail(poll_id):
     user_vote = Vote.query.filter_by(user_id = current_user.id, poll_id = poll_id).first()
     return render_template("poll_detail.html", poll = poll, user_vote = user_vote)
 
-@polls.route("/polls")
-@login_required
-def listpolls():
-    page = request.args.get("page", 1, type=int)
-    polls = Poll.query.order_by(Poll.created_at.desc()).paginate(page=page, per_page=2)
-    return render_template("polls.html", polls = polls)
-
 
 
 
@@ -337,3 +330,27 @@ def unblock(username):
         return redirect(url_for("main.user_profile", username = username))
     current_user.unblock(user)
     return redirect(url_for("main.user_profile", username = username))
+
+
+@polls.route('/polls')
+@login_required
+def listpolls():
+    sort_by = request.args.get('sort_by', 'newest', type=str)
+    page = request.args.get('page', 1, type=int)
+
+    blocked_ids = [user.id for user in current_user.blocked]
+    blocked_by_ids = [user.id for user in current_user.blocked_by]
+    exclude_ids = blocked_ids + blocked_by_ids
+
+    query = Poll.query.filter(Poll.user_id.notin_(exclude_ids))
+
+    if sort_by == 'popular':
+        query = query.outerjoin(Vote).group_by(Poll.id).order_by(db.func.count(Vote.id).desc())
+    elif sort_by == 'discussed':
+        query = query.outerjoin(Comment).group_by(Poll.id).order_by(db.func.count(Comment.id).desc())
+    else:
+        query = query.order_by(Poll.created_at.desc())
+
+    polls = query.paginate(page=page, per_page=5)
+
+    return render_template('polls.html', polls=polls, sort_by=sort_by)
