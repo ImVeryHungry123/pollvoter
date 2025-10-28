@@ -74,8 +74,9 @@
         </form>
         
 <div class="comments-list">
-    {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %} 
-    {%if not current_user.is_blocking(comment.author) and comment.author != current_user and not comment.author.is_blocking(current_user)%}
+    {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %}
+    
+    {% if comment.author == current_user or (not current_user.is_blocking(comment.author) and not comment.author.is_blocking(current_user)) %}
     
     <div class="comment">
         <div class="comment-header">
@@ -114,9 +115,7 @@
                 </form>
             {% endif %}
         </div>
-        {% endif %}
-    </div>
-    {% else %}
+    </div> {% endif %} {% else %}
     <p class="no-comments">Still no comments. Be the first!</p>
     {% endfor %}
 </div>
