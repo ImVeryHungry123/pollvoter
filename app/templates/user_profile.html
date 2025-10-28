@@ -4,7 +4,19 @@
 
 {% block content %}
 <h1>{{ user.full_name }}'s Profile</h1>
-
+{% if user != current_user %}
+    <div class="user-actions mt-3">
+        {% if current_user.is_blocking(user) %}
+            <form action="{{ url_for('main.unblock', username=user.username) }}" method="POST">
+                <button type="submit" class="btn btn-secondary">Unblock User</button>
+            </form>
+        {% else %}
+            <form action="{{ url_for('main.block', username=user.username) }}" method="POST">
+                <button type="submit" class="btn btn-danger">Block User</button>
+            </form>
+        {% endif %}
+    </div>
+{% endif %}
 <img src="{{ user.getpfp() }}" alt="{{ user.username }}'s Profile Picture" width="150" height="150">
 
 <p>Bio: {{ user.bio }}</p>
