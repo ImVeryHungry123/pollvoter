@@ -9,6 +9,7 @@
 <body>
     <nav>
         <div>
+            <img src="{{url_for('static', filename = 'Pollvoter.png')}}" alt="">
             <a href="{{url_for('main.home')}}">Pollvoter</a>
             <div>
                 {%if current_user.is_authenticated%}

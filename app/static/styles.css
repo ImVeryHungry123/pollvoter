@@ -57,20 +57,105 @@ div:not(nav):not(footer) {
     font-weight: 600;
 }
 
+/* === MODERN BUTTONS === */
 .btn {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.4rem;
     background-color: #000;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    text-decoration: none;
+    border-radius: 10px;
+    font-size: 1rem;
     font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+}
+
+.btn:hover::before {
+    animation: shimmer 0.75s forwards;
+}
+
+@keyframes shimmer {
+    100% {
+        left: 125%;
+    }
 }
 
 .btn:hover {
-    background-color: #333;
+    background-color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* === SORT OPTIONS === */
+.sort-options {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.sort-options a {
+    color: #ffffff;
+    background-color: #0a0a0a;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    border: 1px solid #222;
+    position: relative;
+    overflow: hidden;
+}
+
+.sort-options a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+}
+
+.sort-options a:hover::before {
+    animation: shimmer 0.75s forwards;
+}
+
+.sort-options a:hover {
+    background-color: #1a1a1a;
+    border-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+}
+
+.sort-options a:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 /* === POLL CARD === */
@@ -209,60 +294,10 @@ footer {
     padding: 1.5rem 0;
     color: #000000;
     font-size: 0.9rem;
+    margin-top: 4rem;
 }
 
-/* === CLEANER CONTAINERS === */
-
-/* Prevent nested box overload — apply card look only to direct poll cards */
-.poll-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-/* Avoid extra card layers for simple containers */
-div:not(nav):not(footer):not(.poll-card):not(.vote-preview):not(.polls-header):not(.pagination) {
-    background-color: transparent;
-    box-shadow: none;
-    padding: 0;
-}
-
-/* === MODERN BUTTONS === */
-
-.btn {
-.btn {
-    display: inline-block;
-    padding: 0.6rem 1.4rem;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    box-shadow: none;
-}
-
-.btn:hover {
-    background-color: #1a1a1a; /* slightly lighter black */
-    transform: translateY(-1px); /* optional: subtle lift on hover */
-}
-
-/* Optional: when button is clicked */
-.btn:active {
-    background-color: #333;
-    transform: translateY(0); /* Reset the lift */
-}
-
-}
-
-/* === FORM ELEMENTS (e.g., Add Comment area) === */
-
+/* === COMMENTS & FORMS === */
 form {
     margin-top: 1.5rem;
 }
@@ -281,7 +316,6 @@ select {
     border: 1px solid #ffffff;
     border-radius: 8px;
     background-color: #fefefe;
-    font-size: 1rem;
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
@@ -293,7 +327,6 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* === COMMENT SECTION === */
 .comment-section {
     margin-top: 2rem;
 }
@@ -306,30 +339,4 @@ select:focus {
 
 .comment:last-child {
     border-bottom: none;
-}
-
-/* === SPACING IMPROVEMENTS === */
-.vote-preview {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.poll-actions {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end;
-}
-
-footer {
-    margin-top: 4rem;
-}
-
-/* === REDUCED INNER CONTAINER BOXES === */
-.flash-message,
-.no-polls,
-.poll-meta {
-    background: none;
-    box-shadow: none;
-    border: none;
-    padding: 0;
 }
