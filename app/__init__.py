@@ -1,4 +1,6 @@
 from flask import Flask
+import click
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from app.routes import auth, main, polls
@@ -26,3 +28,12 @@ def create_app():
     return app
 
 app = create_app()
+@app.cli.command("make_admin")
+@click.argument("username")
+def make_admin(username):
+    with app.app_context():
+        user = User.query.filter_by(username = username).first()
+        if user:
+            user.is_admin = True
+            db.session.commit()
+        

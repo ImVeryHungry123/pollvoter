@@ -68,7 +68,7 @@
         
         <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" class="comment-form">
             <div class="form-group">
-                <textarea name="content" placeholder="Leave a comment..." required></textarea>
+                <textarea name="content" placeholder="Leave a comment..." required maxlength="60"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Add Comment</button>
         </form>
@@ -95,7 +95,7 @@
 
         <div id="comment-edit-{{ comment.id }}" style="display: none;">
             <form method="POST" action="{{ url_for('polls.edit_comment', comment_id=comment.id) }}" class="comment-edit-form">
-                <textarea name="content" class="form-control" required>{{ comment.content }}</textarea>
+                <textarea name="content" class="form-control" required maxlength="120">{{ comment.content }}</textarea>
                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
                 <button type="button" class="btn btn-sm btn-light" onclick="toggleEdit({{ comment.id }})">Cancel</button>
             </form>

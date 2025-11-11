@@ -9,10 +9,10 @@
 
 <form method="POST" enctype="multipart/form-data">
     <label>Full Name:</label>
-    <input type="text" name="full_name" value="{{ current_user.full_name }}"><br>
+    <input type="text" name="full_name" value="{{ current_user.full_name }}" maxlength="30"><br>
 
     <label>Bio:</label>
-    <textarea name="bio">{{ current_user.bio }}</textarea><br>
+    <textarea name="bio" maxlength="80">{{ current_user.bio }}</textarea><br>
 
     <label>Profile Picture:</label>
     <input type="file" name="pfp"><br>

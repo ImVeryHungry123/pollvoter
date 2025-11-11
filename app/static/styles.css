@@ -15,7 +15,7 @@ body {
 /* === NAVIGATION === */
 nav {
     background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -40,7 +40,7 @@ div:not(nav):not(footer) {
     margin: 2rem auto;
     padding: 1.5rem;
     background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     border-radius: 12px;
 }
 
@@ -70,41 +70,16 @@ div:not(nav):not(footer) {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
     transition: all 0.25s ease;
-}
-
-.btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
-    transform: skewX(-25deg);
-}
-
-.btn:hover::before {
-    animation: shimmer 0.75s forwards;
-}
-
-@keyframes shimmer {
-    100% {
-        left: 125%;
-    }
 }
 
 .btn:hover {
     background-color: #1a1a1a;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
 }
 
 .btn:active {
     transform: translateY(0);
-    box-shadow: none;
 }
 
 /* === SORT OPTIONS === */
@@ -126,43 +101,22 @@ div:not(nav):not(footer) {
     font-size: 15px;
     font-weight: 500;
     transition: all 0.25s ease;
-    border: 1px solid #222;
-    position: relative;
-    overflow: hidden;
-}
-
-.sort-options a::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
-    transform: skewX(-25deg);
-}
-
-.sort-options a:hover::before {
-    animation: shimmer 0.75s forwards;
 }
 
 .sort-options a:hover {
     background-color: #1a1a1a;
-    border-color: #333;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
 }
 
 .sort-options a:active {
     transform: translateY(0);
-    box-shadow: none;
 }
 
 /* === POLL CARD === */
 .poll-card {
     background-color: #fafafa;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     transition: transform 0.2s ease-in-out;
@@ -172,6 +126,7 @@ div:not(nav):not(footer) {
     transform: translateY(-2px);
 }
 
+/* === POLL DETAILS === */
 .poll-header {
     display: flex;
     justify-content: space-between;
@@ -243,13 +198,6 @@ div:not(nav):not(footer) {
     background-color: #666;
 }
 
-/* === POLL ACTIONS === */
-.poll-actions {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-}
-
 /* === PAGINATION === */
 .pagination {
     display: flex;
@@ -292,7 +240,7 @@ div:not(nav):not(footer) {
 footer {
     text-align: center;
     padding: 1.5rem 0;
-    color: #000000;
+    color: #000;
     font-size: 0.9rem;
     margin-top: 4rem;
 }
@@ -302,9 +250,7 @@ form {
     margin-top: 1.5rem;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
+input,
 textarea,
 select {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -313,7 +259,7 @@ select {
     resize: none;
     padding: 0.7rem 1rem;
     margin-bottom: 1rem;
-    border: 1px solid #ffffff;
+    border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fefefe;
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -324,7 +270,7 @@ textarea:focus,
 select:focus {
     outline: none;
     border-color: #000;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
 }
 
 .comment-section {
@@ -333,10 +279,35 @@ select:focus {
 
 .comment {
     padding: 1rem;
-    border-bottom: 1px solid #000000;
-    color: #000000;
+    border-bottom: 1px solid #ddd;
+    color: #000;
 }
 
 .comment:last-child {
     border-bottom: none;
+}
+
+/* === NAVBAR === */
+.navbar {
+    background-color: #ffffff;
+    padding: 10px 30px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.navcontainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logoimage {
+    height: 70px;
+    width: 90px;
 }

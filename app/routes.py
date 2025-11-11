@@ -1,12 +1,15 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption
+import click
+from functools import wraps
+from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption,Report
 import os
 from werkzeug.utils import secure_filename
 
 auth = Blueprint("auth", __name__)
 main = Blueprint("main", __name__)
 polls = Blueprint("polls", __name__)
+admin = Blueprint("admin", __name__)
 
 @auth.route("/login", methods = ["GET", "POST"])
 def login():
@@ -354,3 +357,84 @@ def listpolls():
     polls = query.paginate(page=page, per_page=5)
 
     return render_template('polls.html', polls=polls, sort_by=sort_by)
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorate_function(*args,**kwargs):
+        if not current_user.is_authenticated or not current_user.is_admin:
+            flash('You have no access to this page.')
+            return redirect(url_for('main.home'))
+        return f(*args,**kwargs)
+    return decorate_function()
+
+@admin.route("/admin")
+@login_required
+@admin_required
+def dashboard():
+    reports = Report.query.filter_by(status = "pending").order_by(Report.created_at.desc()).all()
+    return render_template("admin_panel.html", reports = reports)
+
+@admin.route("/admin/report/dismiss/<int:report_id>", methods = ["POST"])
+@login_required
+@admin_required
+def dismiss(report_id):
+    report = Report.query.get_or_404(report_id)
+    report.status = "resolved"
+    db.session.commit()
+    return redirect(url_for("admin.dashboard"))
+
+@admin.route("/admin/delete_poll/<int:poll_id>/<int:report_id>", methods = ["POST"])
+@login_required
+@admin_required
+def admin_delete_poll(poll_id, report_id):
+    poll = Poll.query.get_or_404(poll_id)
+    db.session.delete(poll)
+    report = Report.query.get_or_404(report_id)
+    report.status = "resolved"
+    db.session.commit()
+    return redirect(url_for("admin.dashboard"))
+
+
+
+@admin.route("/admin/delete_comment/<int:comment_id>/<int:report_id>", methods = ["POST"])
+@login_required
+@admin_required
+def admin_delete_comment(comment_id, report_id):
+    comment = Comment.query.get_or_404(comment_id)
+    db.session.delete(comment)
+    report = Report.query.get_or_404(report_id)
+    report.status = "resolved"
+    db.session.commit()
+    return redirect(url_for("admin.dashboard"))
+
+
+@polls.route("/poll/<int:poll_id>/report", methods = ["GET", "POST"])
+@login_required
+def report_poll(poll_id):
+    poll = Poll.query.get_or_404(poll_id)
+    if request.method == "POST":
+        reason = request.form.get("reason")
+        new_report = Report(
+            reason = reason, reporter_id = current_user.id, poll_id = poll.id, reported_user_id = poll.author.id
+            
+        )
+        db.session.add(new_report)
+        db.session.commit()
+        return redirect(url_for("polls.poll_detail", poll_id = poll.id))
+    return render_template("report_form.html", poll = poll)
+
+@polls.route("/comment/<int:comment_id>/report", methods = ["GET", "POST"])
+@login_required
+def report_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    if request.method == "POST":
+        reason = request.form.get("reason")
+        new_report = Report(
+            reason = reason, reporter_id = current_user.id, comment_id = comment.id, reported_user_id = comment.author.id
+            
+        )
+        db.session.add(new_report)
+        db.session.commit()
+        return redirect(url_for("polls.poll_detail", poll_id = comment.poll.id))
+    return render_template("report_form.html", comment = comment)

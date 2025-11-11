@@ -4,7 +4,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Integer, Text, DateTime, Column
 from datetime import datetime
-from sqlalchemy import Column, Integer, Boolean, DateTime, ForeignKey, Text, UniqueConstraint, Table
+from sqlalchemy import Column, Integer, Boolean, DateTime, ForeignKey, Text, UniqueConstraint, Table, String
 from sqlalchemy.orm import relationship, backref
 
 
@@ -17,13 +17,13 @@ blocklist = Table("blocklist",
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
-    username = Column(Text, unique=True, nullable = False)
+    username = Column(String(20), unique=True, nullable = False)
     created_at = Column(DateTime, default=datetime.now)
-    full_name = Column(Text)
-    bio = Column(Text)
+    full_name = Column(String(20))
+    bio = Column(String(100))
     pfp = Column(Text)
     password_hash = Column(Text)
-
+    is_admin = Column(Boolean, default = False)
     polls = relationship("Poll", back_populates="author")
     votes = relationship("Vote", back_populates="user")
     comments = relationship("Comment", back_populates="author")
@@ -98,7 +98,7 @@ class Comment(db.Model):
     __tablename__ = "comment"
         
     id = Column(Integer, primary_key=True)
-    content = Column(Text, nullable=False)
+    content = Column(String(100), nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     reactions = relationship("CommentReaction", back_populates="comment", cascade="all, delete-orphan")
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
@@ -118,7 +118,7 @@ class PollOption(db.Model):
     __tablename__ = "poll_option"
 
     id = Column(Integer, primary_key=True)
-    text = Column(Text, nullable=False)
+    text = Column(String(50), nullable=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     poll = relationship("Poll", back_populates="options")
     votes = relationship("Vote", back_populates="option", cascade="all, delete-orphan")
@@ -129,7 +129,7 @@ class Poll(db.Model):
 
     id = Column(Integer, primary_key=True)
     title = Column(Text, nullable=False)
-    description = Column(Text)
+    description = Column(String(120))
     created_at = Column(DateTime, default=datetime.now)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
 
@@ -145,3 +145,22 @@ class Poll(db.Model):
 
 
 
+class Report(db.Model):
+    __tablename__ = 'report'
+
+    id = Column(Integer, primary_key=True)
+    reason = Column(String(500), nullable=False)
+    created_at = Column(DateTime, default=datetime.now)
+    status = Column(String(20), default='pending', nullable=False)  
+
+    reporter_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    reporter = relationship('User', foreign_keys=[reporter_id])
+
+    poll_id = Column(Integer, ForeignKey('poll.id'), nullable=True)
+    poll = relationship('Poll')
+
+    comment_id = Column(Integer, ForeignKey('comment.id'), nullable=True)
+    comment = relationship('Comment')
+
+    reported_user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    reported_user = relationship('User', foreign_keys=[reported_user_id])

@@ -7,11 +7,11 @@
 <form method="POST" id="poll-form">
     <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" name="title" id="title" class="form-control" required>
+        <input type="text" name="title" id="title" class="form-control" required maxlength="40"">
     </div>
     <div class="form-group">
         <label for="description">Description (Optional)</label>
-        <textarea name="description" id="description" class="form-control"></textarea>
+        <textarea name="description" id="description" class="form-control"maxlength = 70></textarea>
     </div>
 
     <hr>
@@ -19,10 +19,10 @@
     <h4>Options</h4>
     <div id="options-container">
         <div class="form-group">
-            <input type="text" name="options" class="form-control" placeholder="Option 1" required>
+            <input type="text" name="options" class="form-control" placeholder="Option 1" required maxlength="25">
         </div>
         <div class="form-group">
-            <input type="text" name="options" class="form-control" placeholder="Option 2" required>
+            <input type="text" name="options" class="form-control" placeholder="Option 2" required maxlength="25">
         </div>
     </div>
     
@@ -44,7 +44,7 @@
         newOptionInput.name = 'options';
         newOptionInput.className = 'form-control';
         newOptionInput.placeholder = 'Option ' + optionCount;
-        
+        newOptionInput.maxLength = 25;
         newOptionDiv.appendChild(newOptionInput);
         container.appendChild(newOptionDiv);
     });
