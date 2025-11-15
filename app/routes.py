@@ -438,3 +438,4 @@ def report_comment(comment_id):
         db.session.commit()
         return redirect(url_for("polls.poll_detail", poll_id = comment.poll.id))
     return render_template("report_form.html", comment = comment)
+
