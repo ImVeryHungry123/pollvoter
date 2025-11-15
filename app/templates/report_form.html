@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Report {{ type }}{% endblock %}
+
+{% block content %}
+<h2>Report a {{ type }}</h2>
+
+<div class="report-item">
+    {% if type == "Poll" %}
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.description }}</p>
+        <small>by {{ item.author.username }}</small>
+    {% else %}
+        <p>"{{ item.content }}"</p>
+        <small>by {{ item.author.username }} on poll "{{ item.poll.title }}"</small>
+    {% endif %}
+</div>
+
+<form method="POST" class="mt-3">
+    <div class="form-group">
+        <label for="reason">Чому ви скаржитесь на цей контент?</label>
+        <textarea name="reason" id="reason" class="form-control" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-danger">Submit Report</button>
+    <a href="{{ url_for('polls.poll_detail', poll_id=(item.id if type=='Poll' else item.poll_id)) }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

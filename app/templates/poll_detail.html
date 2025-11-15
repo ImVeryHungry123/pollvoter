@@ -7,6 +7,9 @@
     <div class="poll-card">
         <div class="poll-header">
             <h2>{{ poll.title }}</h2>
+            {%if poll.author != current_user%}
+                <a href="{{url_for('polls.report_poll' , poll_id = poll.id)}}">Report</a>
+            {%endif%}
             <span class="poll-stats">
                 <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes
                 <i class="fas fa-comments"></i> {{ poll.comments|length }} comments
@@ -102,6 +105,11 @@
         </div>
 
         <div class="comment-actions">
+            {%if comment.author != current_user%}
+            <form method="GET" action="{{ url_for('polls.report_comment', comment_id=comment.id) }}" style="display: inline;">
+                <button type="submit" class="btn btn-sm btn-warning">Report</button>
+            </form>
+            {%endif%}
             <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: inline;">
                 <button type="submit" name="reaction" value="like" class="btn btn-sm btn-light">👍 {{ comment.get_likes_count() }}</button>
                 <button type="submit" name="reaction" value="dislike" class="btn btn-sm btn-light">👎 {{ comment.get_dislikes_count() }}</button>

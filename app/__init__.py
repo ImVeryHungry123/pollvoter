@@ -3,7 +3,7 @@ import click
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from app.routes import auth, main, polls
+from app.routes import auth, main, polls,admin
 from app.models import User, db
 from flask_migrate import Migrate
 login_manager = LoginManager()
@@ -22,6 +22,7 @@ def create_app():
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(polls)
+    app.register_blueprint(admin)
     @login_manager.user_loader
     def load_user(userid):
         return User.query.get(int(userid))

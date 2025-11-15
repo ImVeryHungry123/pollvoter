@@ -21,7 +21,9 @@
                 <a href="{{url_for('polls.listpolls')}}">Polls</a>
                 <a href="{{url_for('auth.logout')}}">Log out</a>
                 <a href="{{url_for('main.profile')}}">My Profile</a>
-
+                    {%if current_user.is_authenticated and current_user.is_admin%}
+                    <a href="{{url_for('admin.dashboard')}}">Admon panel</a>
+                    {%endif%}
                 {%else%}
                 <a href="{{url_for('auth.login')}}">Login</a>
                 <a href="{{url_for('auth.register')}}">Register</a>

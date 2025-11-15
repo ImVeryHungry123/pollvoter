@@ -366,7 +366,7 @@ def admin_required(f):
             flash('You have no access to this page.')
             return redirect(url_for('main.home'))
         return f(*args,**kwargs)
-    return decorate_function()
+    return decorate_function
 
 @admin.route("/admin")
 @login_required
