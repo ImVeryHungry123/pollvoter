@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}"> 
 </head>
 <body>
+{% set unread_count = unread_count if unread_count is defined else 0 %}
+
+
+
     <nav class="navbar">
         
         <div class="navcontainer">
@@ -21,8 +25,10 @@
                 <a href="{{url_for('polls.listpolls')}}">Polls</a>
                 <a href="{{url_for('auth.logout')}}">Log out</a>
                 <a href="{{url_for('main.profile')}}">My Profile</a>
+                <a href="{{url_for('main.notifications')}}">Notifications</a>
+
                     {%if current_user.is_authenticated and current_user.is_admin%}
-                    <a href="{{url_for('admin.dashboard')}}">Admon panel</a>
+                    <a href="{{url_for('admin.dashboard')}}">Admin panel</a>
                     {%endif%}
                 {%else%}
                 <a href="{{url_for('auth.login')}}">Login</a>
@@ -32,13 +38,29 @@
             </div>
         </div>
     </nav>
+    <div class="top-right-buttons" style="background:transparent;border:none;box-shadow: none;">
+    <!-- Notifications -->
+    <button class="notif-btn">
+        🔔
+        {% if unread_count > 0 %}
+        <span class="notif-badge">{{ unread_count }}</span>
+        {% endif %}
+    </button>
 
-    <div>
+    <!-- Settings -->
+    <button class="settings-btn">
+        ⚙️
+    </button>
+    <button id="toggledarkmode" class="theme-btn">🌙</button>
+
+</div>
+
+    <div style="background:transparent;border:none;box-shadow: none;">
         {% with messages = get_flashed_messages()%}
         {%if messages%}
-        <div>
+        <div style="background:transparent;border:none;box-shadow: none;">
             {%for message in messages%}
-            <div>{{message}}</div>
+            <div style="background:transparent;border:none;box-shadow: none;">{{message}}</div>
             {%endfor%}
         </div>
         {%endif%}
@@ -49,12 +71,37 @@
         {%block content%}{%endblock%}
     </div>
 
-    <footer>
-        <div>
+    <footer style="background:transparent;border:none;box-shadow: none;">
+        <div style="background:transparent;border:none;box-shadow: none;">
             <p>Have a nice day!</p>
         </div>
     </footer>
 
 
+
+    <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/11/15/09/20251115093148-HGRHJZHT.js" defer></script>
+    
+    <script>
+        const button = document.getElementById("toggledarkmode");
+        const body = document.body;
+        const current_theme = localStorage.getItem("theme");
+        if (current_theme === "dark"){
+            body.classList.add("dark-mode");
+            button.textContent = "☀️";
+        }
+        button.addEventListener("click", function(){
+            body.classList.toggle("dark-mode");
+            let theme = "light";
+            if (body.classList.contains("dark-mode")){
+                theme = "dark";
+                button.textContent = "☀️";
+            
+            }else {
+                button.textContent = "🌙";
+            }
+            localStorage.setItem("theme", theme);
+        });
+    </script>
 </body>
 </html>

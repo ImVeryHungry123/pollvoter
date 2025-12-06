@@ -164,3 +164,17 @@ class Report(db.Model):
 
     reported_user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     reported_user = relationship('User', foreign_keys=[reported_user_id])
+
+
+class Notification(db.Model):
+    __tablename__ = 'notification'
+
+    id = Column(Integer, primary_key=True)
+    message = Column(Text)
+    is_read = Column(Boolean)
+    created_at = Column(DateTime, default=datetime.now)
+
+    recipient_id = Column(Integer, ForeignKey('user.id'))
+    recipient = relationship("User", backref="notifications", foreign_keys=[recipient_id])
+    poll_id = Column(Integer, ForeignKey('poll.id'))
+    

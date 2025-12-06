@@ -4,48 +4,48 @@
 
 {% block content %}
 <h2>Admin Dashboard</h2>
-<p>Тут знаходяться всі скарги, що очікують на розгляд.</p>
+<p>All the sent reports belong here.</p>
 
 <div class="reports-list">
     {% for report in reports %}
     <div class="report-card card mb-3">
         <div class="card-header">
-            <strong>Скарга #{{ report.id }}</strong> (від: {{ report.reporter.username }})
+            <strong>Report #{{ report.id }}</strong> (від: {{ report.reporter.username }})
         </div>
         <div class="card-body">
-            <p><strong>Причина:</strong> {{ report.reason }}</p>
+            <p><strong>Reason:</strong> {{ report.reason }}</p>
             <hr>
             
             {% if report.poll %}
                 <div class="reported-content poll">
-                    <strong>Опитування:</strong> <a href="{{ url_for('polls.poll_detail', poll_id=report.poll.id) }}">{{ report.poll.title }}</a>
-                    <p>Автор: {{ report.reported_user.username }}</p>
+                    <strong>Poll:</strong> <a href="{{ url_for('polls.poll_detail', poll_id=report.poll.id) }}">{{ report.poll.title }}</a>
+                    <p>Author: {{ report.reported_user.username }}</p>
                     
-                    <form method="POST" action="{{ url_for('admin.admin_delete_poll', poll_id=report.poll.id, report_id=report.id) }}" style="display: inline;" onsubmit="return confirm('Ви впевнені, що хочете видалити це ОПИТУВАННЯ?');">
-                        <button type="submit" class="btn btn-danger">Видалити Опитування</button>
+                    <form method="POST" action="{{ url_for('admin.admin_delete_poll', poll_id=report.poll.id, report_id=report.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this poll?');">
+                        <button type="submit" class="btn btn-danger">Delete poll</button>
                     </form>
                 </div>
                 
             {% elif report.comment %}
                 <div class="reported-content comment">
-                    <strong>Коментар:</strong>
+                    <strong>Comment:</strong>
                     <blockquote>"{{ report.comment.content }}"</blockquote>
-                    <p>Автор: {{ report.reported_user.username }} (в опитуванні: <a href="{{ url_for('polls.poll_detail', poll_id=report.comment.poll.id) }}">{{ report.comment.poll.title }}</a>)</p>
+                    <p>Author: {{ report.reported_user.username }} (In poll: <a href="{{ url_for('polls.poll_detail', poll_id=report.comment.poll.id) }}">{{ report.comment.poll.title }}</a>)</p>
                     
-                    <form method="POST" action="{{ url_for('admin.admin_delete_comment', comment_id=report.comment.id, report_id=report.id) }}" style="display: inline;" onsubmit="return confirm('Ви впевнені, що хочете видалити цей КОМЕНТАР?');">
-                        <button type="submit" class="btn btn-danger">Видалити Коментар</button>
+                    <form method="POST" action="{{ url_for('admin.admin_delete_comment', comment_id=report.comment.id, report_id=report.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                        <button type="submit" class="btn btn-danger">Delete Comment</button>
                     </form>
                 </div>
             {% endif %}
 
-            <form method="POST" action="{{ url_for('admin.dismiss_report', report_id=report.id) }}" style="display: inline; margin-left: 10px;">
-                <button type="submit" class="btn btn-secondary">Відхилити Скаргу</button>
+            <form method="POST" action="{{ url_for('admin.dismiss', report_id=report.id) }}" style="display: inline; margin-left: 10px;">
+                <button type="submit" class="btn btn-secondary">Delete report</button>
             </form>
 
         </div>
     </div>
     {% else %}
-    <p>Нових скарг немає. Чудова робота!</p>
+    <p>Currently no reports. Nice work!</p>
     {% endfor %}
 </div>
 {% endblock %}

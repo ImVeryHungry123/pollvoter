@@ -2,15 +2,21 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_user, logout_user, login_required, current_user
 import click
 from functools import wraps
-from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption,Report
+from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption, Report, Notification
 import os
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 auth = Blueprint("auth", __name__)
 main = Blueprint("main", __name__)
 polls = Blueprint("polls", __name__)
 admin = Blueprint("admin", __name__)
-
+@main.context_processor
+def notifications_count():
+    if current_user.is_authenticated:
+        unreadcount = Notification.query.filter_by(recipient_id = current_user.id, is_read = False).count()
+        return dict(unreadcount = unreadcount)
+    return dict(unreadcount = 0)
 @auth.route("/login", methods = ["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -79,8 +85,11 @@ def vote(poll_id):
     )
 
     db.session.add(new_vote)
-    db.session.commit()
 
+    if poll.author != current_user:
+        notification = Notification(message = f"{current_user.username} Has voted in your poll! {poll.title}", recipient_id = poll.author.id, poll_id = poll.id)
+        db.session.add(notification)
+    db.session.commit()
     flash("Thank you for voting!")
     return redirect(url_for("polls.poll_detail", poll_id=poll_id))
 
@@ -96,8 +105,12 @@ def add_comment(poll_id):
         return redirect(url_for("polls.poll_detail", poll_id = poll_id))
     new_comment = Comment(content = content, user_id = current_user.id, poll_id = poll_id)
     db.session.add(new_comment)
-    db.session.commit()
+
     flash("Comment added")
+    if poll.author != current_user:
+        notification = Notification(message = f"{current_user.username} Has commented in your poll! {poll.title}", recipient_id = poll.author.id, poll_id = poll.id)
+        db.session.add(notification)   
+    db.session.commit()
     return redirect(url_for("polls.poll_detail", poll_id = poll_id))
 
 @main.route("/")
@@ -422,7 +435,7 @@ def report_poll(poll_id):
         db.session.add(new_report)
         db.session.commit()
         return redirect(url_for("polls.poll_detail", poll_id = poll.id))
-    return render_template("report_form.html", poll = poll)
+    return render_template("report_form.html", item = poll, type = "Poll")
 
 @polls.route("/comment/<int:comment_id>/report", methods = ["GET", "POST"])
 @login_required
@@ -437,5 +450,14 @@ def report_comment(comment_id):
         db.session.add(new_report)
         db.session.commit()
         return redirect(url_for("polls.poll_detail", poll_id = comment.poll.id))
-    return render_template("report_form.html", comment = comment)
+    return render_template("report_form.html", item = comment, type = "Comment")
+
+@main.route("/notifications")
+@login_required
+def notifications():
+    notifications = Notification.query.filter_by(recipient_id = current_user.id).order_by(Notification.created_at.desc()).all()
+    for i in notifications:
+        i.is_read = True
+    db.session.commit()
+    return render_template("notification.html", notifications = notifications)
 

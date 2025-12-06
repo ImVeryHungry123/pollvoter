@@ -1,4 +1,56 @@
 /* === GLOBAL RESET & BASE === */
+
+:root {
+    --bg-color: #f4f6f9;      
+    --text-color: #333333;    
+    --card-bg: #ffffff;      
+    --navbar-bg: #ffffff;     
+    --border-color: #e1e4e8;  
+    --input-bg: #ffffff;     
+    --link-color: #000000;    
+}
+
+.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --navbar-bg: #1e1e1e;
+    --border-color: #333333;
+    --input-bg: #2c2c2c;
+    --link-color: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.navbar {
+    background-color: var(--navbar-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand, .nav-links a {
+    color: var(--text-color) !important; 
+}
+
+.poll-card, .comment, .report-card, .card, .profile-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+input, textarea, select {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+
+
+
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -310,4 +362,72 @@ select:focus {
 .logoimage {
     height: 70px;
     width: 90px;
+}
+/* CSS */
+.top-bar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: flex-end; /* push button to the right */
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+
+/* CSS for floating top-right bell */
+/* container for both buttons */
+/* floating buttons */
+.notif-btn,
+.settings-btn {
+  position: fixed;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+/* spacing: settings button slightly left of notif */
+.settings-btn {
+  right: 80px; /* notif is at 20px from right, settings is 60px left of that */
+}
+.theme-btn {
+    right: 140px;
+}
+.notif-btn {
+  right: 20px;
+}
+
+.notif-btn:hover,
+.settings-btn:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+/* unread badge */
+.notif-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
