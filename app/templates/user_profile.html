@@ -4,6 +4,17 @@
 
 {% block content %}
 <h1>{{ user.full_name }}'s Profile</h1>
+<span style="background-color: {{user.get_rank_color()}}; color: white;">
+    {{user.get_rank()}}
+</span>
+
+{%if current_user.is_authenticated and user != current_user%}
+    {%if current_user.is_following(user)%}
+    <a href="{{url_for('main.unfollow', username = user.username)}}">Unfollow</a>
+    {%else%}
+    <a href="{{url_for('main.follow', username = user.username)}}">Follow</a>
+    {%endif%}
+{%endif%}
 {% if user != current_user %}
     <div class="user-actions mt-3">
         {% if current_user.is_blocking(user) %}

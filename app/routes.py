@@ -109,7 +109,11 @@ def add_comment(poll_id):
     flash("Comment added")
     if poll.author != current_user:
         notification = Notification(message = f"{current_user.username} Has commented in your poll! {poll.title}", recipient_id = poll.author.id, poll_id = poll.id)
-        db.session.add(notification)   
+        db.session.add(notification)
+    for follower in current_user.followers:
+            notification = Notification(message = f"Your channel {current_user.username} added a new comment to this poll {poll.title }", recipient_id = follower.id, poll_id = poll.id)
+            db.session.add(notification)
+       
     db.session.commit()
     return redirect(url_for("polls.poll_detail", poll_id = poll_id))
 
@@ -324,6 +328,10 @@ def create_poll():
                 db.session.add(option)
 
         db.session.commit()
+        for follower in current_user.followers:
+            notification = Notification(message = f"Your channel {current_user.username} created a new poll! {new_poll.title }", recipient_id = follower.id, poll_id = new_poll.id)
+            db.session.add(notification)
+        db.session.commit()
         flash("Poll created successfully!")
         return redirect(url_for("polls.poll_detail", poll_id=new_poll.id))
 
@@ -461,3 +469,33 @@ def notifications():
     db.session.commit()
     return render_template("notification.html", notifications = notifications)
 
+@main.route("/follow/<username>")
+@login_required
+def follow(username):
+    user = User.query.filter_by(username = username).first()
+    if user is None:
+        flash("User was not detected")
+        return redirect(url_for("main.home"))
+    if user == current_user:
+        flash("You can't follow yourself")
+        return redirect(url_for("main.home"))
+    current_user.follow(user)
+    notification = Notification(message = f"{current_user.username} has followed you!", recipient_id = user.id)
+    db.session.add(notification)
+    db.session.commit()
+    flash(f"You followed {username}!")
+    return redirect(url_for("main.user_profile", username = username))
+
+@main.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User ({}) not found'.format(username))
+        return redirect(url_for('main.home'))
+
+    current_user.unfollow(user)
+    db.session.commit()
+
+    flash(f'You unfollowed {username}')
+    return redirect(url_for('main.user_profile', username=username))

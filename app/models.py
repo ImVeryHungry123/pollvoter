@@ -14,6 +14,9 @@ blocklist = Table("blocklist",
                   db.metadata,
                   Column("blocker_id", Integer, ForeignKey("user.id"), primary_key=True), 
                   Column("blocked_id", Integer, ForeignKey("user.id"), primary_key=True))
+followers = db.Table("followers", 
+                  Column("follower_id", Integer, ForeignKey("user.id")), 
+                  Column("followed_id", Integer, ForeignKey("user.id")))
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
@@ -44,6 +47,22 @@ class User(UserMixin, db.Model):
         backref=db.backref("blocked_by", lazy="dynamic"),
         lazy="dynamic"
     )
+    followed = relationship(
+        "User", secondary=followers, 
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref("followers", lazy="dynamic"),
+        lazy="dynamic"
+    )
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user) 
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0      
     def is_blocking(self, user):
         return self.blocked.filter(blocklist.c.blocked_id == user.id).count() > 0
     def block(self, user):
@@ -54,7 +73,30 @@ class User(UserMixin, db.Model):
         if self.is_blocking(user):
             self.blocked.remove(user)
             db.session.commit()
+    def get_rank(self):
+        poll_count = Poll.query.filter_by(user_id=self.id).count()
+        vote_count = Vote.query.filter_by(user_id=self.id).count()
+        comment_count = Comment.query.filter_by(user_id=self.id).count()
 
+        total_score = poll_count + vote_count + comment_count
+
+        if total_score < 5:
+            return "Newbie"
+        elif total_score < 20:
+            return "Active"
+        elif total_score < 50:
+            return "Expert"
+        else:
+            return "Divine"
+
+
+    def get_rank_color(self):
+        rank = self.get_rank()
+        if rank == "Newbie": return "gray"
+        if rank == "Active": return "blue"
+        if rank == "Expert": return "purple"
+        if rank == "Divine": return "gold"
+        return "black"
 
         
 class CommentReaction(db.Model):
@@ -109,8 +151,6 @@ class Comment(db.Model):
         return CommentReaction.query.filter_by(comment_id = self.id, reaction_type = "like").count()
     def get_dislikes_count(self):
         return CommentReaction.query.filter_by(comment_id = self.id, reaction_type = "dislike").count()
-
-
 
 
 

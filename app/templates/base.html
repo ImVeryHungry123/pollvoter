@@ -22,6 +22,7 @@
                     <a href="{{url_for('polls.create_poll')}}">Create poll</a>
                     <a href="{{url_for('polls.listpolls')}}">Polls</a>
                     <a href="{{url_for('main.profile')}}">Profile</a>
+                    <a href="{{url_for('main.notifications')}}">Notifications</a>
                     <a href="{{url_for('auth.logout')}}">Log out</a>
                     {%if current_user.is_authenticated and current_user.is_admin%}
                         <a href="{{url_for('admin.dashboard')}}">Admin</a>
