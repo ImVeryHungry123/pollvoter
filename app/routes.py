@@ -110,9 +110,9 @@ def add_comment(poll_id):
     if poll.author != current_user:
         notification = Notification(message = f"{current_user.username} Has commented in your poll! {poll.title}", recipient_id = poll.author.id, poll_id = poll.id)
         db.session.add(notification)
-    for follower in current_user.followers:
-            notification = Notification(message = f"Your channel {current_user.username} added a new comment to this poll {poll.title }", recipient_id = follower.id, poll_id = poll.id)
-            db.session.add(notification)
+        for follower in current_user.followers:
+                notification = Notification(message = f"Your channel {current_user.username} added a new comment to this poll {poll.title }", recipient_id = follower.id, poll_id = poll.id)
+                db.session.add(notification)
        
     db.session.commit()
     return redirect(url_for("polls.poll_detail", poll_id = poll_id))

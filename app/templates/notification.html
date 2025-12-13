@@ -8,7 +8,11 @@
 <div>
     {%for i in notifications%}
     <p>{{i.message}}</p>
-    <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View poll</a>
+        {%if i.poll_id%}
+        <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View poll</a>
+        {%else%}
+        <span class="text-muted"></span>
+        {% endif %}
     {%else%}
     <p>You currently have no notifications.</p>
     {%endfor%}
