@@ -9,65 +9,70 @@
 <body>
     {% set unread_count = unread_count if unread_count is defined else 0 %}
 
-    <nav class="navbar">
-        <div class="navcontainer">
-            <a href="{{url_for('main.home')}}" class="navbar-brand">
-                <img src="{{url_for('static', filename = 'Pollvoter.png')}}" alt="" class="logoimage">
-                Pollvoter
-            </a>
-            <div class="navlinks">
-                {%if current_user.is_authenticated%}
-                    <a href="{{url_for('main.home')}}">Home</a>
-                    <a href="{{url_for('polls.my_polls')}}">My polls</a>
-                    <a href="{{url_for('polls.create_poll')}}">Create poll</a>
-                    <a href="{{url_for('polls.listpolls')}}">Polls</a>
-                    <a href="{{url_for('main.profile')}}">Profile</a>
-                    <a href="{{url_for('main.notifications')}}">Notifications</a>
-                    <a href="{{url_for('auth.logout')}}">Log out</a>
-                    {%if current_user.is_authenticated and current_user.is_admin%}
+<nav class="navbar">
+    <div class="navcontainer">
+        <a href="{{url_for('main.home')}}" class="navbar-brand">
+            <img src="{{url_for('static', filename = 'Pollvoter.png')}}" alt="Logo" class="logoimage">
+            <span class="brand-text">Pollvoter</span>
+        </a>
+
+        <div class="nav-links">
+            {%if current_user.is_authenticated%}
+                <a href="{{url_for('main.home')}}">Home</a>
+                <a href="{{url_for('polls.my_polls')}}">My Polls</a>
+                <a href="{{url_for('polls.create_poll')}}">Create</a>
+                <a href="{{url_for('polls.listpolls')}}">Polls</a>
+                <a href="{{url_for('main.notifications')}}">Notifications</a>
+
+                {%if current_user.is_authenticated and current_user.is_admin%}
+
                         <a href="{{url_for('admin.dashboard')}}">Admin</a>
+
                     {%endif%}
-                {%else%}
-                    <a href="{{url_for('auth.login')}}">Login</a>
-                    <a href="{{url_for('auth.register')}}">Register</a>
-                {%endif%}
-            </div>
+                <a href="{{url_for('main.profile')}}">Profile</a>
+            {%endif%}
         </div>
-    </nav>
 
+        <div class="nav-controls">
+            <button id="toggledarkmode" class="icon-btn" title="Toggle Theme">🌙</button>
+            
+            <button class="icon-btn" title="Settings">⚙️</button>
 
-<div class="top-right-buttons">
-    <button id="toggledarkmode" class="theme-btn">🌙</button>
-    <button class="settings-btn">⚙️</button>
-    
-    <div class="notification-dropdown-container"> 
-        <button class="notif-btn" id="notification-toggle">
-            🔔
-            {% if unread_count > 0 %}
-                <span class="notif-badge">{{ unread_count }}</span>
-            {% endif %}
-        </button>
-        
-        <div class="notification-dropdown-content" id="notification-dropdown">
-            <h4>Recent Notifications</h4>
-            {%if latest_notifs%}
-                {%for i in latest_notifs%}
-                <div class="notification-item">
-                    <p>{{i.message}}</p>
-                    {%if i.poll_id%}
-                    <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View poll</a>
-                    {%else%}
-                    <span class="text-muted"></span>
+            <div class="notification-dropdown-container">
+                <button class="icon-btn" id="notification-toggle">
+                    🔔
+                    {% if unread_count > 0 %}
+                        <span class="notif-badge">{{ unread_count }}</span>
                     {% endif %}
+                </button>
+                
+                <div class="notification-dropdown-content" id="notification-dropdown">
+                    <h4>Notifications</h4>
+                    {%if latest_notifs%}
+                        {%for i in latest_notifs%}
+                        <div class="notification-item">
+                            <p>{{i.message}}</p>
+                            {%if i.poll_id%}
+                            <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View</a>
+                            {%endif%}
+                        </div>
+                        {%endfor%}
+                        <a href="{{url_for('main.notifications')}}" class="view-all-link">View all</a>
+                    {%else%}
+                        <div class="notification-item"><p>No notifications</p></div>
+                    {%endif%}
                 </div>
-                {%endfor%}
-                <a href="{{url_for('main.notifications')}}" class="view-all-link">View all</a>
+            </div>
+
+            {%if current_user.is_authenticated%}
+                <a href="{{url_for('auth.logout')}}" class="btn btn-sm btn-outline">Log out</a>
             {%else%}
-            <div class="notification-item"><p>No notifications</p></div>
+                <a href="{{url_for('auth.login')}}" class="btn btn-sm">Login</a>
+                <a href="{{url_for('auth.register')}}" class="btn btn-sm btn-primary">Register</a>
             {%endif%}
         </div>
     </div>
-    </div>
+</nav>
 
     <div class="main-container">
         {% with messages = get_flashed_messages()%}

@@ -1,70 +1,46 @@
-/* === GLOBAL RESET & BASE === */
-
+/* === MODERN VARIABLES === */
 :root {
-    /* Light Mode Variables (Unchanged) */
-    --bg-color: #f4f6f9;
-    --text-color: #333333;
-    --card-bg: #ffffff;
-    --navbar-bg: #ffffff;
-    --border-color: #e1e4e8;
-    --input-bg: #ffffff;
-    --link-color: #000000;
-    --subtle-text: #666; /* New variable for secondary text */
-    --accent-color: #000; /* New variable for primary black accent */
-    --accent-hover: #1a1a1a; /* New variable for button hover */
-    --yes-fill-color: #111; /* New variable for progress bar fill */
-    --no-fill-color: #666; /* New variable for progress bar fill */
-    --progress-bg: #e0e0e0; /* New variable for progress bar background */
-    --shadow-light: 0 2px 6px rgba(0, 0, 0, 0.04);
+    /* Light Theme */
+    --bg-body: #F9FAFB;        /* Very light cool gray */
+    --bg-card: #FFFFFF;
+    --bg-nav: rgba(255, 255, 255, 0.9); /* Slight transparency for glass effect */
+    
+    --text-main: #111827;      /* Almost black for sharpness */
+    --text-muted: #6B7280;     /* Cool gray for secondary text */
+    
+    --primary: #2563EB;        /* Modern Blue */
+    --primary-hover: #1D4ED8;
+    
+    --border-subtle: #E5E7EB;  /* Very light border */
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    
+    --radius-md: 12px;         /* Modern rounded corners */
+    --radius-full: 9999px;
 }
 
 .dark-mode {
-    /* Dark Mode Variables (Smoother/Darker) */
-    --bg-color: #1a1a1a; /* Very dark gray for deep background */
-    --text-color: #e0e0e0; /* Light gray for main text */
-    --card-bg: #262626; /* Slightly lighter dark gray for elevated elements */
-    --navbar-bg: #262626;
-    --border-color: #383838; /* Subtle dark border */
-    --input-bg: #333333; /* Darker background for inputs */
-    --link-color: #f0f0f0; /* White/Light link color */
-    --subtle-text: #a0a0a0; /* Lighter gray for subtle text (meta, stats) */
-    --accent-color: #f0f0f0; /* Use light color for primary buttons */
-    --accent-hover: #ffffff; /* Brighter white for button hover */
-    --yes-fill-color: #ffffff; /* Purple accent for 'Yes' progress */
-    --no-fill-color: #ffffff; /* Teal accent for 'No' progress */
-    --progress-bg: #383838; /* Dark background for progress bar */
-    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3); /* Darker shadow for depth */
+    /* Dark Theme - Deep & Rich */
+    --bg-body: #0f1115;        
+    --bg-card: #181b21;
+    --bg-nav: rgba(24, 27, 33, 0.9);
+    
+    --text-main: #F3F4F6;
+    --text-muted: #9CA3AF;
+    
+    --primary: #3B82F6;
+    --primary-hover: #60A5FA;
+    
+    --border-subtle: #2d3342;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.navbar {
-    background-color: var(--navbar-bg);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); /* Adjusted below for dark mode */
-}
-
-.navbar-brand, .nav-links a {
-    color: var(--text-color) !important;
-}
-
-.poll-card, .comment, .report-card, .card, .profile-container {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03); /* Adjusted below for dark mode */
-}
-
-input, textarea, select {
-    background-color: var(--input-bg) !important;
-    color: var(--text-color) !important;
-    border: 1px solid var(--border-color) !important;
-}
-
+/* === RESET & BASE === */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -72,532 +48,264 @@ input, textarea, select {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* Use variables for core styling */
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Modern Font Stack */
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* === NAVIGATION === */
-nav {
-    background-color: var(--navbar-bg);
-    box-shadow: var(--shadow-light); /* Use variable */
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border-color); /* Added for consistency */
-}
-
-nav a {
-    color: var(--text-color); /* Use variable */
+a {
     text-decoration: none;
-    margin-right: 1.5rem;
-    font-weight: 500;
-    transition: color 0.2s ease-in-out;
+    color: inherit;
+    transition: color 0.2s;
 }
 
-nav a:hover {
-    color: var(--link-color); /* Use variable for hover color */
-}
-
-/* === MAIN CONTAINER === */
-div:not(nav):not(footer) {
-    max-width: 960px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background-color: var(--card-bg); /* Use variable */
-    box-shadow: var(--shadow-light); /* Use variable */
-    border-radius: 12px;
-}
-
-/* === POLLS HEADER === */
-.polls-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.polls-header h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
-}
-
-/* === MODERN BUTTONS === */
-.btn {
-    display: inline-block;
-    padding: 0.6rem 1.4rem;
-    background-color: var(--accent-color);
-    color: var(--bg-color); /* Invert text color for button text */
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.btn:hover {
-    background-color: var(--accent-hover);
-    color: var(--bg-color); /* Keep text color for button text */
-    transform: translateY(-2px);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
-
-/* === SORT OPTIONS === */
-.sort-options {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.sort-options a {
-    color: var(--card-bg); /* Use card background as contrast color for text */
-    background-color: var(--text-color); /* Use main text color as background */
-    padding: 10px 18px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    transition: all 0.25s ease;
-}
-
-/* Override the default dark-mode variables for sort options to ensure strong contrast */
-.dark-mode .sort-options a {
-    color: #1a1a1a; /* Dark text for dark mode buttons */
-    background-color: #f0f0f0; /* Light background for dark mode buttons */
-}
-
-.sort-options a:hover {
-    background-color: var(--accent-hover);
-    transform: translateY(-2px);
-}
-
-.dark-mode .sort-options a:hover {
-    background-color: #ffffff; /* Bright white hover for dark mode */
-}
-
-.sort-options a:active {
-    transform: translateY(0);
-}
-
-/* === POLL CARD === */
-.poll-card {
-    background-color: var(--card-bg); /* Use variable */
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03); /* Keep light shadow for subtle lift */
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.2s ease-in-out;
-    border: 1px solid var(--border-color); /* Added for consistency */
-}
-
-.poll-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
-}
-
-/* Dark mode specific hover adjustment */
-.dark-mode .poll-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* === POLL DETAILS === */
-.poll-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-}
-
-.poll-header h3 a {
-    color: var(--text-color); /* Use variable */
-    text-decoration: none;
-    font-size: 1.3rem;
-}
-
-.poll-header h3 a:hover {
-    text-decoration: underline;
-}
-
-.poll-stats {
-    font-size: 0.9rem;
-    color: var(--subtle-text); /* Use variable */
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.poll-meta {
-    font-size: 0.8rem;
-    color: var(--subtle-text); /* Use variable */
-    margin-bottom: 1rem;
-}
-
-.poll-description {
-    margin-bottom: 1rem;
-    color: var(--subtle-text); /* Use variable (slightly darker than main text) */
-}
-
-/* === PROGRESS BAR === */
-.vote-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-top: 1rem;
-}
-
-.vote-option span {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-color); /* Use variable */
-    margin-bottom: 0.25rem;
-}
-
-.progress-bar {
-    height: 8px;
-    background-color: var(--progress-bg); /* Use variable */
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    transition: width 0.4s ease-in-out;
-}
-
-.yes-fill {
-    background-color: var(--yes-fill-color); /* Use variable */
-}
-
-.no-fill {
-    background-color: var(--no-fill-color); /* Use variable */
-}
-
-/* === PAGINATION === */
-.pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2rem;
-    font-size: 0.95rem;
-}
-
-.page-link {
-    text-decoration: none;
-    color: var(--text-color); /* Use variable */
-    font-weight: 500;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.page-link:hover {
-    background-color: var(--border-color); /* Use border color for subtle hover */
-}
-
-.page-info {
-    color: var(--subtle-text); /* Use variable */
-}
-
-/* === NO POLLS === */
-.no-polls {
-    text-align: center;
-    padding: 2rem;
-    color: var(--subtle-text); /* Use variable */
-}
-
-.no-polls a {
-    color: var(--text-color); /* Use variable */
-    text-decoration: underline;
-}
-
-/* === FOOTER === */
-footer {
-    text-align: center;
-    padding: 1.5rem 0;
-    color: var(--subtle-text); /* Use variable */
-    font-size: 0.9rem;
-    margin-top: 4rem;
-}
-
-/* === COMMENTS & FORMS === */
-form {
-    margin-top: 1.5rem;
-}
-
-input,
-textarea,
-select {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1rem;
-    width: 100%;
-    resize: none;
-    padding: 0.7rem 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--border-color); /* Use variable */
-    border-radius: 8px;
-    background-color: var(--input-bg); /* Use variable */
-    color: var(--text-color) !important; /* Ensure text color is respected */
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: var(--text-color); /* Focus border to stand out */
-    box-shadow: 0 0 0 2px rgba(var(--text-color-rgb, 0, 0, 0), 0.05); /* Need to ensure a smooth shadow */
-}
-
-/* Dark mode focus shadow adjustment for visibility */
-.dark-mode input:focus,
-.dark-mode textarea:focus,
-.dark-mode select:focus {
-    border-color: #ffffff; /* Use a bright accent color for focus */
-    box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.3);
-}
-
-.comment-section {
-    margin-top: 2rem;
-}
-
-.comment {
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color); /* Use variable */
-    color: var(--text-color); /* Use variable */
-}
-
-.comment:last-child {
-    border-bottom: none;
+/* === LAYOUT UTILS === */
+/* This replaces your old "boxed div" rule. 
+   We only box specific things now. */
+.main-container {
+    max-width: 1000px;
+    margin: 80px auto 40px; /* Top margin accounts for fixed navbar */
+    padding: 0 20px;
+    min-height: 80vh;
 }
 
 /* === NAVBAR === */
 .navbar {
-    background-color: var(--navbar-bg);
-    padding: 10px 30px;
-    box-shadow: var(--shadow-light); /* Use variable */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--bg-nav);
+    backdrop-filter: blur(10px); /* Modern glass effect */
+    border-bottom: 1px solid var(--border-subtle);
+    z-index: 1000;
 }
 
 .navcontainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .navbar-brand {
     display: flex;
     align-items: center;
-    text-decoration: none;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text-main);
 }
 
 .logoimage {
-    height: 70px;
-    width: 90px;
-}
-/* CSS */
-.top-bar {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: flex-end;
-    background-color: var(--navbar-bg); /* Use variable */
-    box-shadow: var(--shadow-light); /* Use variable */
-    z-index: 1000;
+    height: 40px; /* Smaller, cleaner logo */
+    width: auto;
 }
 
-/* CSS for floating top-right bell */
-/* container for both buttons */
-/* floating buttons */
-.notif-btn,
-.theme-btn,
-.settings-btn {
-    position: fixed;
-    top: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-links a {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* === BUTTONS & ICONS === */
+.icon-btn {
+    background: transparent;
     border: none;
-    background-color: var(--card-bg); /* Use card background for floating buttons */
-    color: var(--text-color); /* Use text color for icon */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Keep light shadow for pop */
+    font-size: 1.2rem;
     cursor: pointer;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    z-index: 1000;
-}
-/* Dark mode specific shadow and text color for floating buttons */
-.dark-mode .notif-btn,
-.dark-mode .theme-btn,
-.dark-mode .settings-btn {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    color: var(--text-color);
-}
-
-
-/* spacing: settings button slightly left of notif */
-.settings-btn {
-    right: 80px;
-}
-.theme-btn {
-    right: 140px;
-}
-.notif-btn {
-    right: 20px;
-}
-
-.notif-btn:hover,
-.settings-btn:hover,
-.theme-btn:hover { /* Added theme-btn hover */
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    transform: translateY(-2px);
-}
-.dark-mode .notif-btn:hover,
-.dark-mode .settings-btn:hover,
-.dark-mode .theme-btn:hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.6); /* Deeper shadow on hover */
-}
-
-/* unread badge */
-.notif-badge {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 16px;
-    height: 16px;
-    background-color: #000000; /* Keep a vibrant red for contrast */
-    color: white;
+    padding: 8px;
     border-radius: 50%;
-    font-size: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-/* Container for all top-right buttons */
-.top-right-buttons {
-    display: flex; /* Aligns buttons horizontally */
-    align-items: center;
-    gap: 10px; /* Space between buttons */
-    position: absolute; /* Positions the buttons at the top right */
-    top: 15px;
-    right: 20px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    position: relative;
 }
 
-/* Specific container for the notification button and dropdown */
-.notification-dropdown-container {
-    position: relative; /* Essential for positioning the dropdown relative to the button */
+.icon-btn:hover {
+    background-color: var(--border-subtle);
+    color: var(--text-main);
+}
+
+.btn {
     display: inline-block;
-}
-
-/* Style for all top-right buttons */
-.theme-btn, .settings-btn, .notif-btn {
-    /* Add your common button styling here */
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
-    background-color: var(--button-background, #eee); /* Example light mode color */
-    color: var(--button-text, #333); /* Example light mode color */
-    font-size: 1.2em;
-    position: relative; /* For badge positioning */
+    border: none;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
-/* Badge styling */
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    border-color: var(--text-muted);
+}
+
+/* === NOTIFICATIONS === */
+.notification-dropdown-container {
+    position: relative;
+}
+
 .notif-badge {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    background-color: red; /* Highlight color for unread count */
+    top: 0px;
+    right: 0px;
+    background-color: #EF4444; /* Alert Red */
     color: white;
-    font-size: 0.7em;
-    line-height: 1;
+    font-size: 0.65rem;
+    font-weight: bold;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-card); /* White ring around badge */
 }
 
-/* The actual dropdown content box */
 .notification-dropdown-content {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
-    right: 0; /* Align to the right of the button */
-    top: 100%; /* Position below the button */
-    background-color: var(--dropdown-bg, white); /* Example background color */
-    min-width: 250px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 10; /* Ensure it appears above other content */
-    border-radius: 5px;
-    border: 1px solid var(--border-color, #ccc);
-    margin-top: 5px; /* Small gap between button and dropdown */
-    padding: 10px;
+    right: 0;
+    top: 50px;
+    width: 300px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 1rem;
+    z-index: 1001;
 }
 
-/* Class added by JavaScript to show the dropdown */
 .notification-dropdown-content.show {
     display: block;
+    animation: fadeIn 0.2s ease;
 }
 
-/* Style for the header */
-.notification-dropdown-content h4 {
-    margin-top: 0;
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--border-color-light, #eee);
-    font-size: 1em;
-    text-align: center;
-}
-
-/* Style for individual notification items */
 .notification-item {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color-light, #f0f0f0);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.9rem;
 }
 
-.notification-item p {
-    margin: 0;
-    font-size: 0.9em;
+.notification-item:last-child {
+    border-bottom: none;
 }
 
-.notification-item a {
-    font-size: 0.8em;
-    color: var(--link-color, #007bff);
+/* === CARDS (The only things that should look "boxed") === */
+.poll-card, .card, .profile-container, .auth-box {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm); /* Subtle shadow, not harsh */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Style for the "View all" link */
-.view-all-link {
-    display: block;
+.poll-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary); /* Highlight border on hover */
+}
+
+/* === TYPOGRAPHY & HEADERS === */
+h1, h2, h3 {
+    color: var(--text-main);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em; /* Tighter tracking for modern feel */
+}
+
+p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+/* === FORMS === */
+input, textarea, select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-body); /* Slightly distinct from card bg */
+    color: var(--text-main);
+    font-size: 1rem;
+    transition: all 0.2s;
+    margin-bottom: 1rem;
+    font-family: inherit;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); /* Focus ring */
+    background-color: var(--bg-card);
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === ALERTS === */
+.flash-messages .alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius-md);
+    background-color: #DEF7EC;
+    color: #03543F;
+    border: 1px solid #BCF0DA;
+}
+
+/* === FOOTER === */
+footer {
     text-align: center;
-    padding-top: 10px;
-    font-size: 0.9em;
-}
-
-/* Optional: Dark mode styles for the dropdown */
-.dark-mode .notification-dropdown-content {
-    background-color: var(--dropdown-bg-dark, #333);
-    color: var(--text-color-dark, #eee);
-    border-color: #555;
-}
-.dark-mode .notification-dropdown-content h4 {
-    border-bottom-color: #555;
-}
-.dark-mode .notification-item {
-    border-bottom-color: #444;
-}
-.dark-mode .notification-item a {
-    color: var(--link-color-dark, #ffffff);
+    padding: 3rem 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: auto;
 }
