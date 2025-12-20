@@ -309,3 +309,228 @@ footer {
     border-top: 1px solid var(--border-subtle);
     margin-top: auto;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* === ADD THESE TO YOUR EXISTING CSS === */
+
+/* --- 1. DASHBOARD LAYOUT (The Sidebar Structure) --- */
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* On Desktop, make it side-by-side */
+@media (min-width: 992px) {
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 320px 1fr; /* 320px Sidebar, rest is Feed */
+        gap: 30px;
+        align-items: start; /* Prevents sidebar from stretching full height */
+    }
+}
+
+/* --- 2. SIDEBAR WIDGETS --- */
+.sidebar-widget {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.widget-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Mini Profile in Sidebar */
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.user-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--border-subtle);
+}
+
+/* --- 3. POLL CARD DESIGN (From Screenshot) --- */
+.poll-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1.5rem 0;
+}
+
+.poll-option-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    background-color: var(--bg-body); /* Slightly darker than card */
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-main);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.poll-option-btn:hover {
+    background-color: var(--border-subtle);
+    border-color: var(--text-muted);
+}
+
+.poll-meta-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* --- 4. PROFILE HEADER (From Screenshot 1) --- */
+.profile-header-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.profile-cover {
+    height: 120px;
+    background: linear-gradient(135deg, var(--primary), #8B5CF6); /* Gradient background */
+}
+
+.profile-content {
+    padding: 20px 30px;
+    position: relative;
+}
+
+.profile-avatar-lg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid var(--bg-card); /* Creates the cutout effect */
+    position: absolute;
+    top: -50px; /* Moves it up into the cover */
+    left: 30px;
+    background-color: #333;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-end; /* Pushes Edit button to right */
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    margin-top: 10px;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.stat-item b {
+    color: var(--text-main);
+}
+
+/* === LAYOUT ADJUSTMENTS === */
+
+/* 1. Widen the main container so elements don't feel cramped */
+.main-container {
+    max-width: 1150px; /* Increased from 1000px */
+    margin: 90px auto 40px; /* Increased top margin to clear navbar */
+    padding: 0 20px;
+}
+
+/* 2. Adjust Grid Proportions */
+@media (min-width: 992px) {
+    .dashboard-layout {
+        display: grid;
+        /* Sidebar = 280px, Content = Remaining space */
+        grid-template-columns: 280px 1fr; 
+        gap: 25px; /* Reduced gap slightly for better connection */
+        align-items: start;
+    }
+}
+
+/* 3. Make the Create Poll Widget pop more */
+.sidebar-widget input[type="text"] {
+    background-color: var(--bg-body); /* Distinct from card bg */
+    border: 1px solid var(--border-subtle);
+    padding: 12px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar-widget input[type="text"]:hover {
+    border-color: var(--primary);
+    background-color: var(--bg-card); /* Lighten on hover */
+}
+
+/* 4. Fix Vertical Alignment of Titles */
+.dashboard-layout h2 {
+    margin-top: 0; /* Ensures 'Recent Polls' aligns with Sidebar top */
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}

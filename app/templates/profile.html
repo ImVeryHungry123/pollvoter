@@ -3,20 +3,57 @@
 {% block title %}Your Profile - Pollvoter{% endblock %}
 
 {% block content %}
-<h1>Welcome to your Profile</h1>
+<div class="profile-header-card">
+    <div class="profile-cover"></div>
+    
+    <div class="profile-content">
+        <div class="profile-actions">
+            <a href="{{ url_for('main.edit_profile') }}" class="btn btn-sm btn-outline">Edit Profile</a>
+        </div>
 
-<img src="{{ current_user.getpfp() }}" alt="Profile Picture" width="150" height="150">
+        <img src="{{ current_user.getpfp() }}" alt="Profile Picture" class="profile-avatar-lg">
+        
+        <div class="profile-info">
+            <h1>{{ current_user.username }}</h1>
+            <p style="margin: 0;">@{{ current_user.username|lower }}</p>
+            
+            <div class="profile-stats">
+                <span class="stat-item"><b>{{ polls_count }}</b> Polls</span>
+                <span class="stat-item"><b>{{ total_votes }}</b> Votes</span>
+                <span class="stat-item"><b>{{ total_comments }}</b> Comments</span>
+                <span class="stat-item">📅 Joined Dec 2025</span>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>Total Polls: {{ polls_count }}</p>
-<p>Total Votes: {{ total_votes }}</p>
-<p>Total Comments: {{ total_comments }}</p>
+<div class="dashboard-layout">
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">About</h3>
+            <p>Just exploring and creating polls!</p>
+        </div>
+    </aside>
 
-<h2>Your Polls</h2>
-<ul>
-    {% for poll in user_polls %}
-        <li>{{ poll.title }} - Created on {{ poll.created_at }}</li>
-    {% endfor %}
-</ul>
-
-<a href="{{ url_for('main.edit_profile') }}">Edit Profile</a>
+    <main class="feed">
+        <h2>Your Polls</h2>
+        {% if user_polls %}
+            <ul>
+                {% for poll in user_polls %}
+                    <div class="poll-card">
+                        <h3>{{ poll.title }}</h3>
+                        <div class="poll-meta-footer">
+                            <span>{{ poll.created_at.strftime('%Y-%m-%d') }}</span>
+                            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">View</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="card">
+                <p>You haven't created any polls yet.</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
 {% endblock %}

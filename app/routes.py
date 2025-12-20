@@ -504,6 +504,8 @@ def dropdown_notifications():
         latest_notifs = Notification.query.filter_by(recipient_id = current_user.id).order_by(Notification.created_at.desc()).limit(5).all()
         return dict(unread_count = unread_count, latest_notifs = latest_notifs)
     return dict(unread_count = 0, latest_notifs = [])
+from sqlalchemy.sql.expression import func
+
 
 @main.route("/")
 @main.route("/home")
@@ -513,7 +515,12 @@ def home():
 
     if q:
         query = query.filter(Poll.title.ilike(f'%{q}%'))
+    polls = Poll.query.order_by(Poll.created_at.desc()).all()
 
-    polls = query.order_by(Poll.created_at.desc()).all()
-
-    return render_template("home.html", polls=polls, q=q)
+    suggestions = []
+    if current_user.is_authenticated:
+        suggestions = User.query.filter(
+            User.id != current_user.id
+        ).order_by(func.random()).limit(3).all()
+        
+    return render_template("home.html", polls=polls, suggestions=suggestions,q=q)
