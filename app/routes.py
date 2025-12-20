@@ -117,10 +117,7 @@ def add_comment(poll_id):
     db.session.commit()
     return redirect(url_for("polls.poll_detail", poll_id = poll_id))
 
-@main.route("/")
-def home():
-    latest_polls = Poll.query.order_by(Poll.created_at.desc()).limit(5).all()
-    return render_template("home.html", polls = latest_polls)
+
 @polls.route("/my_polls")
 @login_required
 def my_polls():
@@ -499,3 +496,24 @@ def unfollow(username):
 
     flash(f'You unfollowed {username}')
     return redirect(url_for('main.user_profile', username=username))
+
+@main.app_context_processor
+def dropdown_notifications():
+    if current_user.is_authenticated:
+        unread_count = Notification.query.filter_by(recipient_id = current_user.id, is_read = False).count()
+        latest_notifs = Notification.query.filter_by(recipient_id = current_user.id).order_by(Notification.created_at.desc()).limit(5).all()
+        return dict(unread_count = unread_count, latest_notifs = latest_notifs)
+    return dict(unread_count = 0, latest_notifs = [])
+
+@main.route("/")
+@main.route("/home")
+def home():
+    q = request.args.get('q')
+    query = Poll.query
+
+    if q:
+        query = query.filter(Poll.title.ilike(f'%{q}%'))
+
+    polls = query.order_by(Poll.created_at.desc()).all()
+
+    return render_template("home.html", polls=polls, q=q)

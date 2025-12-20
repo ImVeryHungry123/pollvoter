@@ -35,17 +35,38 @@
         </div>
     </nav>
 
-    <div class="top-right-buttons">
-        <button id="toggledarkmode" class="theme-btn">🌙</button>
-        
-        <button class="settings-btn">⚙️</button>
-        
-        <button class="notif-btn">
+
+<div class="top-right-buttons">
+    <button id="toggledarkmode" class="theme-btn">🌙</button>
+    <button class="settings-btn">⚙️</button>
+    
+    <div class="notification-dropdown-container"> 
+        <button class="notif-btn" id="notification-toggle">
             🔔
             {% if unread_count > 0 %}
                 <span class="notif-badge">{{ unread_count }}</span>
             {% endif %}
         </button>
+        
+        <div class="notification-dropdown-content" id="notification-dropdown">
+            <h4>Recent Notifications</h4>
+            {%if latest_notifs%}
+                {%for i in latest_notifs%}
+                <div class="notification-item">
+                    <p>{{i.message}}</p>
+                    {%if i.poll_id%}
+                    <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View poll</a>
+                    {%else%}
+                    <span class="text-muted"></span>
+                    {% endif %}
+                </div>
+                {%endfor%}
+                <a href="{{url_for('main.notifications')}}" class="view-all-link">View all</a>
+            {%else%}
+            <div class="notification-item"><p>No notifications</p></div>
+            {%endif%}
+        </div>
+    </div>
     </div>
 
     <div class="main-container">
@@ -91,6 +112,23 @@
                 button.textContent = "🌙";
             }
             localStorage.setItem("theme", theme);
+        });
+        const notifToggle = document.getElementById('notification-toggle');
+        const notifDropdown = document.getElementById('notification-dropdown');
+
+        // Function to toggle the display of the dropdown
+        notifToggle.addEventListener('click', function() {
+            notifDropdown.classList.toggle('show');
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener('click', function(event) {
+            // Check if the click is outside both the button AND the dropdown content
+            if (!notifToggle.contains(event.target) && !notifDropdown.contains(event.target)) {
+                if (notifDropdown.classList.contains('show')) {
+                    notifDropdown.classList.remove('show');
+                }
+            }
         });
     </script>
 </body>

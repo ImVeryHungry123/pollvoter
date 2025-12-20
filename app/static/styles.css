@@ -490,3 +490,114 @@ select:focus {
     align-items: center;
     justify-content: center;
 }
+/* Container for all top-right buttons */
+.top-right-buttons {
+    display: flex; /* Aligns buttons horizontally */
+    align-items: center;
+    gap: 10px; /* Space between buttons */
+    position: absolute; /* Positions the buttons at the top right */
+    top: 15px;
+    right: 20px;
+}
+
+/* Specific container for the notification button and dropdown */
+.notification-dropdown-container {
+    position: relative; /* Essential for positioning the dropdown relative to the button */
+    display: inline-block;
+}
+
+/* Style for all top-right buttons */
+.theme-btn, .settings-btn, .notif-btn {
+    /* Add your common button styling here */
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--button-background, #eee); /* Example light mode color */
+    color: var(--button-text, #333); /* Example light mode color */
+    font-size: 1.2em;
+    position: relative; /* For badge positioning */
+}
+
+/* Badge styling */
+.notif-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    background-color: red; /* Highlight color for unread count */
+    color: white;
+    font-size: 0.7em;
+    line-height: 1;
+}
+
+/* The actual dropdown content box */
+.notification-dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0; /* Align to the right of the button */
+    top: 100%; /* Position below the button */
+    background-color: var(--dropdown-bg, white); /* Example background color */
+    min-width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10; /* Ensure it appears above other content */
+    border-radius: 5px;
+    border: 1px solid var(--border-color, #ccc);
+    margin-top: 5px; /* Small gap between button and dropdown */
+    padding: 10px;
+}
+
+/* Class added by JavaScript to show the dropdown */
+.notification-dropdown-content.show {
+    display: block;
+}
+
+/* Style for the header */
+.notification-dropdown-content h4 {
+    margin-top: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color-light, #eee);
+    font-size: 1em;
+    text-align: center;
+}
+
+/* Style for individual notification items */
+.notification-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color-light, #f0f0f0);
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.notification-item a {
+    font-size: 0.8em;
+    color: var(--link-color, #007bff);
+}
+
+/* Style for the "View all" link */
+.view-all-link {
+    display: block;
+    text-align: center;
+    padding-top: 10px;
+    font-size: 0.9em;
+}
+
+/* Optional: Dark mode styles for the dropdown */
+.dark-mode .notification-dropdown-content {
+    background-color: var(--dropdown-bg-dark, #333);
+    color: var(--text-color-dark, #eee);
+    border-color: #555;
+}
+.dark-mode .notification-dropdown-content h4 {
+    border-bottom-color: #555;
+}
+.dark-mode .notification-item {
+    border-bottom-color: #444;
+}
+.dark-mode .notification-item a {
+    color: var(--link-color-dark, #ffffff);
+}
