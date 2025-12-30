@@ -3,50 +3,116 @@
 {% block title %}Create a New Poll{% endblock %}
 
 {% block content %}
-<h2>Create a New Poll</h2>
-<form method="POST" id="poll-form">
-    <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" class="form-control" required maxlength="40"">
-    </div>
-    <div class="form-group">
-        <label for="description">Description (Optional)</label>
-        <textarea name="description" id="description" class="form-control"maxlength = 70></textarea>
-    </div>
+<div class="dashboard-layout">
 
-    <hr>
-    
-    <h4>Options</h4>
-    <div id="options-container">
-        <div class="form-group">
-            <input type="text" name="options" class="form-control" placeholder="Option 1" required maxlength="25">
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">Posting Tips</h3>
+            <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-muted);">
+                <li style="margin-bottom: 12px;">
+                    <strong style="color: var(--text-main);">Keep it short</strong><br>
+                    Short titles get more votes.
+                </li>
+                <li style="margin-bottom: 12px;">
+                    <strong style="color: var(--text-main);">Be clear</strong><br>
+                    Make sure your options cover all bases.
+                </li>
+                <li style="margin-bottom: 12px;">
+                    <strong style="color: var(--text-main);">Engage</strong><br>
+                    Ask questions that spark debate!
+                </li>
+            </ul>
         </div>
-        <div class="form-group">
-            <input type="text" name="options" class="form-control" placeholder="Option 2" required maxlength="25">
+        
+
+    </aside>
+
+    <main class="feed">
+        <div class="card">
+            <h2 style="margin-bottom: 20px;">Create a New Poll</h2>
+            
+            <form method="POST" id="poll-form">
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="title" style="display:block; margin-bottom: 8px; font-weight: 600;">Question / Title</label>
+                    <input type="text" name="title" id="title" required maxlength="40" 
+                           placeholder="e.g., What is the best winter game?" 
+                           style="font-size: 1.1rem; padding: 14px;">
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <label for="description" style="display:block; margin-bottom: 8px; font-weight: 600;">Description (Optional)</label>
+                    <textarea name="description" id="description" maxlength="70" rows="3" 
+                              placeholder="Add a little context..." 
+                              style="resize: none;"></textarea>
+                    <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">Max 70 characters</div>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 25px 0;">
+                
+                <h4 style="margin-bottom: 15px;">Poll Options</h4>
+                
+                <div id="options-container">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <input type="text" name="options" placeholder="Option 1" required maxlength="25">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <input type="text" name="options" placeholder="Option 2" required maxlength="25">
+                    </div>
+                </div>
+                
+                <button type="button" id="add-option-btn" class="btn btn-outline" style="width: 100%; border-style: dashed; margin-top: 10px;">
+                    + Add Another Option
+                </button>
+
+                <br><br>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
+                    🚀 Publish Poll
+                </button>
+            </form>
         </div>
-    </div>
-    
-    <button type="button" id="add-option-btn" class="btn btn-secondary">Add Option</button>
-    <br><br>
-    <button type="submit" class="btn btn-primary">Create Poll</button>
-</form>
+    </main>
+
+</div>
 
 <script>
     document.getElementById('add-option-btn').addEventListener('click', function() {
         const container = document.getElementById('options-container');
-        const optionCount = container.getElementsByTagName('input').length + 1;
+        const currentCount = container.querySelectorAll('input').length;
+        
+        // Safety limit (optional, to stop spam)
+        if (currentCount >= 10) {
+            alert("Maximum 10 options allowed!");
+            return;
+        }
+
+        const optionCount = currentCount + 1;
 
         const newOptionDiv = document.createElement('div');
         newOptionDiv.className = 'form-group';
+        newOptionDiv.style.marginBottom = '12px'; // Keep spacing consistent
         
         const newOptionInput = document.createElement('input');
         newOptionInput.type = 'text';
         newOptionInput.name = 'options';
-        newOptionInput.className = 'form-control';
         newOptionInput.placeholder = 'Option ' + optionCount;
         newOptionInput.maxLength = 25;
+        newOptionInput.required = true; // Make sure they don't submit empty blanks
+        
+        // Add a nice fade-in animation
+        newOptionInput.style.animation = "fadeIn 0.3s ease";
+        
         newOptionDiv.appendChild(newOptionInput);
         container.appendChild(newOptionDiv);
     });
 </script>
+
+<style>
+    /* Small animation for adding new options */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 {% endblock %}

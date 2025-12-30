@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{%block title%}Pollvoter{%endblock%}</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}"> 
+    
 </head>
 <body>
     {% set unread_count = unread_count if unread_count is defined else 0 %}
@@ -33,6 +34,7 @@
             {%endif%}
         </div>
 
+        
         <div class="nav-controls">
             <button id="toggledarkmode" class="icon-btn" title="Toggle Theme">🌙</button>
             

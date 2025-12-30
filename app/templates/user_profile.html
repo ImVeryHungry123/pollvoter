@@ -3,42 +3,135 @@
 {% block title %}{{ user.username }}'s Profile - Pollvoter{% endblock %}
 
 {% block content %}
-<h1>{{ user.full_name }}'s Profile</h1>
-<span style="background-color: {{user.get_rank_color()}}; color: white;">
-    {{user.get_rank()}}
-</span>
 
-{%if current_user.is_authenticated and user != current_user%}
-    {%if current_user.is_following(user)%}
-    <a href="{{url_for('main.unfollow', username = user.username)}}">Unfollow</a>
-    {%else%}
-    <a href="{{url_for('main.follow', username = user.username)}}">Follow</a>
-    {%endif%}
-{%endif%}
-{% if user != current_user %}
-    <div class="user-actions mt-3">
-        {% if current_user.is_blocking(user) %}
-            <form action="{{ url_for('main.unblock', username=user.username) }}" method="POST">
-                <button type="submit" class="btn btn-secondary">Unblock User</button>
-            </form>
-        {% else %}
-            <form action="{{ url_for('main.block', username=user.username) }}" method="POST">
-                <button type="submit" class="btn btn-danger">Block User</button>
-            </form>
-        {% endif %}
+<div class="profile-header-card">
+    <div class="profile-cover"></div>
+    
+    <div class="profile-content">
+        <img src="{{ user.getpfp() }}" 
+             alt="{{ user.username }}" 
+             class="profile-avatar-lg"
+             style="object-fit: cover;">
+        
+        <div class="profile-actions">
+            {% if current_user.is_authenticated and user != current_user %}
+                
+                {% if current_user.is_following(user) %}
+                    <a href="{{ url_for('main.unfollow', username=user.username) }}" class="btn btn-outline">
+                        Unfollow
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('main.follow', username=user.username) }}" class="btn btn-primary">
+                        + Follow
+                    </a>
+                {% endif %}
+
+                <div style="margin-left: 10px; display: inline-block;">
+                    {% if current_user.is_blocking(user) %}
+                        <form action="{{ url_for('main.unblock', username=user.username) }}" method="POST">
+                            <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem;">Unblock</button>
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('main.block', username=user.username) }}" method="POST">
+                            <button type="submit" class="btn btn-outline" 
+                                    style="color: #EF4444; border-color: #EF4444; font-size: 0.8rem; padding: 6px 12px;">
+                                <i class="fas fa-ban"></i> Block
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
+            
+            {% if user == current_user %}
+                <a href="#" class="btn btn-outline">✎ Edit Profile</a>
+            {% endif %}
+        </div>
+
+        <div class="profile-info">
+            <h1 style="margin-bottom: 5px;">
+                {{ user.full_name }}
+                <small style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">@{{ user.username }}</small>
+            </h1>
+            
+            <span style="
+                background-color: {{ user.get_rank_color() }}; 
+                color: white; 
+                padding: 4px 12px; 
+                border-radius: 20px; 
+                font-size: 0.75rem; 
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            ">
+                {{ user.get_rank() }}
+            </span>
+        </div>
     </div>
-{% endif %}
-<img src="{{ user.getpfp() }}" alt="{{ user.username }}'s Profile Picture" width="150" height="150">
+</div>
 
-<p>Bio: {{ user.bio }}</p>
-<p>Total Polls: {{ polls_count }}</p>
-<p>Total Votes: {{ total_votes }}</p>
-<p>Total Comments: {{ total_comments }}</p>
+<div class="dashboard-layout">
 
-<h2>{{ user.username }}'s Polls</h2>
-<ul>
-    {% for poll in user_polls %}
-        <li>{{ poll.title }} - Created on {{ poll.created_at }}</li>
-    {% endfor %}
-</ul>
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">About</h3>
+            
+            {% if user.bio %}
+                <p style="color: var(--text-main); margin-bottom: 20px;">{{ user.bio }}</p>
+            {% else %}
+                <p style="color: var(--text-muted); font-style: italic;">This user hasn't written a bio yet.</p>
+            {% endif %}
+
+            <hr style="border:0; border-top:1px solid var(--border-subtle); margin: 15px 0;">
+            
+            <div class="stat-item" style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span style="color:var(--text-muted);">Polls Created</span>
+                <b>{{ polls_count }}</b>
+            </div>
+            <div class="stat-item" style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span style="color:var(--text-muted);">Votes Cast</span>
+                <b>{{ total_votes }}</b>
+            </div>
+            <div class="stat-item" style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Comments</span>
+                <b>{{ total_comments }}</b>
+            </div>
+        </div>
+    </aside>
+
+    <main class="feed">
+        <h3 style="margin-bottom: 20px;">{{ user.username }}'s Polls</h3>
+        
+        {% if user_polls %}
+            <ul style="list-style: none; padding: 0;">
+                {% for poll in user_polls %}
+                <li class="poll-card">
+                    <div style="margin-bottom: 10px;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">
+                            {{ poll.created_at.strftime('%B %d, %Y') }}
+                        </span>
+                    </div>
+
+                    <h3 class="poll-question">
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a>
+                    </h3>
+                    
+                    <div class="poll-meta-footer">
+                        <div class="stats">
+                            <span style="margin-right: 15px;"><i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes</span>
+                        </div>
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 6px 15px;">
+                            View
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 30px; opacity: 0.7;">
+                <p>This user hasn't posted any polls yet.</p>
+            </div>
+        {% endif %}
+    </main>
+
+</div>
 {% endblock %}

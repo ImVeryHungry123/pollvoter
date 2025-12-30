@@ -1,62 +1,100 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}Home - Pollvoter{% endblock %}
 
 {% block content %}
-
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="dashboard-layout">
     
     <aside class="sidebar">
+        
         <div class="sidebar-widget">
-            <h3 class="widget-title">✨ Create a Poll</h3>
-            <form action="{{ url_for('polls.create_poll') }}" method="GET">
-                <div style="margin-bottom: 15px;">
-                    <input type="text" placeholder="What's your question?" readonly style="cursor: pointer;">
+            <h3 class="widget-title">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> Create a Poll
+            </h3>
+            
+            <form action="{{ url_for('polls.create_poll') }}" method="POST" id="sidebar-poll-form">
+                
+                <div style="margin-bottom: 10px;">
+                    <input type="text" name="title" placeholder="What's your question?" required maxlength="40" 
+                           style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 10px; border-radius: 8px; color: var(--text-main);">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Poll</button>
+
+                <div style="margin-bottom: 15px;">
+                    <textarea name="description" placeholder="Description (optional)" rows="2" maxlength="70"
+                              style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 10px; border-radius: 8px; color: var(--text-main); resize: none;"></textarea>
+                </div>
+
+                <div id="sidebar-options">
+                    <div style="position: relative; margin-bottom: 8px;">
+                        <span style="position: absolute; left: 10px; top: 10px; font-size: 0.8rem; color: var(--text-muted);">1</span>
+                        <input type="text" name="options" placeholder="Option 1" required maxlength="25"
+                               style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 8px 8px 8px 30px; border-radius: 8px; color: var(--text-main);">
+                    </div>
+                    <div style="position: relative; margin-bottom: 8px;">
+                        <span style="position: absolute; left: 10px; top: 10px; font-size: 0.8rem; color: var(--text-muted);">2</span>
+                        <input type="text" name="options" placeholder="Option 2" required maxlength="25"
+                               style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 8px 8px 8px 30px; border-radius: 8px; color: var(--text-main);">
+                    </div>
+                </div>
+
+                <button type="button" id="sidebar-add-btn" class="btn btn-outline" 
+                        style="width: 100%; border-style: dashed; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-muted);">
+                    + Add Option
+                </button>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-weight: bold;">Create Poll</button>
             </form>
         </div>
 
-<div class="sidebar-widget">
-    <h3 class="widget-title">People to Follow</h3>
-    
-    {% if suggestions %}
-        {% for user in suggestions %}
-        <div class="user-row">
-            <img src="{{ user.getpfp() }}" alt="{{ user.username }}" class="avatar-sm">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">People to Follow</h3>
             
-            <div style="flex-grow: 1; margin-left: 10px;">
-                <a href="{{ url_for('main.profile', username=user.username) }}" style="font-weight: bold; font-size: 0.9rem; display: block;">
-                    {{ user.username }}
-                </a>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">
-                    @{{ user.username|lower }}
+            {% if suggestions %}
+                {% for user in suggestions %}
+                <div class="user-row" style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);">
+                    <img src="{{ user.getpfp() }}" alt="{{ user.username }}" class="avatar-sm">
+                    
+                    <div style="flex-grow: 1; margin-left: 10px; overflow: hidden;">
+                        <a href="{{ url_for('main.profile', username=user.username) }}" style="font-weight: bold; font-size: 0.9rem; display: block; text-overflow: ellipsis; overflow: hidden;">
+                            {{ user.username }}
+                        </a>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">
+                            @{{ user.username|lower }}
+                        </div>
+                    </div>
+                    
+                    <a href="{{ url_for('main.follow', username=user.username) }}" class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">
+                        Follow
+                    </a>
                 </div>
-            </div>
-            
-            <a href="{{ url_for('main.follow', username=user.username) }}" class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.8rem;">
-                Follow
-            </a>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--text-muted); font-size: 0.9rem;">No new users to follow.</p>
+            {% endif %}
         </div>
-        {% endfor %}
-    {% else %}
-        <p style="color: var(--text-muted); font-size: 0.9rem;">No new users to follow.</p>
-    {% endif %}
-</div>
     </aside>
 
     <main class="feed">
+        <div class="search-container" style="margin-bottom: 20px;">
+    <form method="GET" action="{{ url_for('main.home') }}" style="display: flex; gap: 10px;">
+        <input type="text" name="q" placeholder="Search polls..." value="{{ q if q else '' }}" class="form-control" style="flex: 1;">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if q %}
+            <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+    {% if polls %}
+        {% for poll in polls %}
+            {# The loop content starts here but is cut off in the image #}
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; margin-top: 50px; color: gray;">
+            <h3>Nothing found for "{{ q }}"</h3>
+            <p>Try searching for something else.</p>
+        </div>
+    {% endif %}
         {% if current_user.is_authenticated %}
             <div style="margin-bottom: 20px;">
                 <h2>Recent Polls</h2>
@@ -65,49 +103,109 @@
             {% if polls %}
                 {% for poll in polls %}
                 <div class="poll-card">
-                    <div class="user-row" style="border:none; margin-bottom: 10px;">
-                        <div class="avatar-sm" style="background-color: #333; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
-                            {{ poll.author.username[0]|upper }}
-                        </div>
-                        <div>
-                            <div style="font-weight: bold;">{{ poll.author.username }}</div>
+                    <div class="user-row" style="border:none; margin-bottom: 15px; padding: 0;">
+                        <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="Author">
+                        <div style="margin-left: 10px;">
+                            <div style="font-weight: bold; font-size: 0.95rem;">
+                                <a href="{{ url_for('main.profile', username=poll.author.username) }}">{{ poll.author.username }}</a>
+                            </div>
                             <div style="font-size: 0.8rem; color: var(--text-muted);">{{ poll.created_at.strftime('%b %d') }}</div>
                         </div>
                     </div>
 
-                    <h3><a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" style="text-decoration: none;">{{ poll.title }}</a></h3>
+                    <h3 style="margin-bottom: 10px;">
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" style="text-decoration: none; color: var(--text-main);">
+                            {{ poll.title }}
+                        </a>
+                    </h3>
                     
                     {% if poll.description %}
-                        <p>{{ poll.description }}</p>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">{{ poll.description }}</p>
                     {% endif %}
 
-                    <div class="poll-options-list">
-                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="poll-option-btn">View Options & Vote</a>
+                    <div class="poll-options-list" style="opacity: 0.9;">
+                        {% for option in poll.options[:2] %}
+                        <div style="border: 1px solid var(--border-subtle); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; background: var(--bg-body); font-size: 0.9rem;">
+                            {{ option.text }}
+                        </div>
+                        {% endfor %}
+                        {% if poll.options|length > 2 %}
+                            <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">+ {{ poll.options|length - 2 }} more options</div>
+                        {% endif %}
                     </div>
 
                     <div class="poll-meta-footer">
-                        <span>📊 {{ poll.getvotecount() }} votes</span>
-                        <span>💬 {{ poll.comments|length }} comments</span>
+                        <div style="display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-muted);">
+                            <span><i class="fa-solid fa-chart-simple"></i> {{ poll.getvotecount() }} votes</span>
+                            <span><i class="fa-regular fa-comment"></i> {{ poll.comments|length }} comments</span>
+                        </div>
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem;">Vote</a>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
                 <div class="poll-card" style="text-align: center; padding: 3rem;">
+                    <i class="fa-solid fa-layer-group" style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"></i>
                     <p>No polls found.</p>
-                    <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Create the first one!</a>
                 </div>
             {% endif %}
 
         {% else %}
             <div class="card" style="text-align: center; padding: 4rem 2rem;">
-                <h1>Welcome to Pollvoter!</h1>
-                <p>Join the community to create polls and vote on trending topics.</p>
-                <div style="margin-top: 2rem;">
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Login</a>
-                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
+                <h1 style="margin-bottom: 10px;">Welcome to Pollvoter!</h1>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Join the community to create polls and vote on trending topics.</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline" style="min-width: 120px;">Login</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="min-width: 120px;">Register</a>
                 </div>
             </div>
         {% endif %}
     </main>
 </div>
+
+<script>
+    document.getElementById('sidebar-add-btn').addEventListener('click', function() {
+        const container = document.getElementById('sidebar-options');
+        const count = container.querySelectorAll('input').length + 1;
+        
+        if (count > 5) {
+            alert("Limit reached for quick poll. Use full creator for more.");
+            return;
+        }
+
+        const div = document.createElement('div');
+        div.style.position = 'relative';
+        div.style.marginBottom = '8px';
+        
+        // This is the number (1, 2, 3...)
+        const span = document.createElement('span');
+        span.style.position = 'absolute';
+        span.style.left = '10px';
+        span.style.top = '10px';
+        span.style.fontSize = '0.8rem';
+        span.style.color = 'var(--text-muted)';
+        span.innerText = count;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'options';
+        input.placeholder = 'Option ' + count;
+        input.required = true;
+        input.maxLength = 25;
+        // Copy exact styles from above
+        input.style.background = 'var(--bg-body)';
+        input.style.border = '1px solid var(--border-subtle)';
+        input.style.width = '100%';
+        input.style.padding = '8px 8px 8px 30px'; // padding-left accommodates the number
+        input.style.borderRadius = '8px';
+        input.style.color = 'var(--text-main)';
+        
+        div.appendChild(span);
+        div.appendChild(input);
+        container.appendChild(div);
+
+
+    });
+</script>
+
 {% endblock %}

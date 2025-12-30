@@ -1,21 +1,75 @@
 {% extends "base.html" %}
 
-{% block title %}Notifications{% endblock %}
+{% block title %}Notifications - Pollvoter{% endblock %}
 
 {% block content %}
-<h2>Notifications</h2>
+<div class="dashboard-layout">
 
-<div>
-    {%for i in notifications%}
-    <p>{{i.message}}</p>
-        {%if i.poll_id%}
-        <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View poll</a>
-        {%else%}
-        <span class="text-muted"></span>
-        {% endif %}
-    {%else%}
-    <p>You currently have no notifications.</p>
-    {%endfor%}
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">Manage</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
+                Stay updated with the latest votes and comments on your polls.
+            </p>
+            <button class="btn btn-outline" style="width: 100%; text-align: left; margin-bottom: 8px;">
+                ✓ Mark all as read
+            </button>
+            <button class="btn btn-outline" style="width: 100%; text-align: left;">
+                ⚙️ Notification Settings
+            </button>
+        </div>
+    </aside>
+
+    <main class="feed">
+        <div class="card">
+            <h2 style="margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 15px;">
+                Notifications
+            </h2>
+
+            <div class="notification-list">
+                {% for i in notifications %}
+                
+                <div class="user-row" style="padding: 15px 0; border-bottom: 1px solid var(--border-subtle);">
+                    
+                    <div style="display: flex; align-items: flex-start; gap: 15px;">
+                        <div style="
+                            width: 40px; height: 40px; 
+                            background: var(--bg-body); 
+                            border-radius: 50%; 
+                            display: flex; align-items: center; justify-content: center;
+                            color: var(--primary);
+                            flex-shrink: 0;
+                        ">
+                            <i class="fas fa-bell"></i>
+                        </div>
+
+                        <div>
+                            <p style="margin: 0; font-size: 0.95rem; color: var(--text-main);">
+                                {{ i.message }}
+                            </p>
+                            <small style="color: var(--text-muted);">Just now</small>
+                        </div>
+                    </div>
+
+                    {% if i.poll_id %}
+                    <a href="{{ url_for('polls.poll_detail', poll_id=i.poll_id) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 12px;">
+                        View Poll
+                    </a>
+                    {% endif %}
+                    
+                </div>
+
+                {% else %}
+                
+                <div style="text-align: center; padding: 40px 0;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🔕</div>
+                    <h3 style="font-size: 1.1rem; color: var(--text-main);">All caught up!</h3>
+                    <p style="color: var(--text-muted);">You have no new notifications.</p>
+                </div>
+                
+                {% endfor %}
+            </div>
+        </div>
+    </main>
 </div>
-
-{%endblock%}
+{% endblock %}

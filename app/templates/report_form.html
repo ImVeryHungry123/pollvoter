@@ -1,27 +1,92 @@
 {% extends "base.html" %}
 
-{% block title %}Report {{ type }}{% endblock %}
+{% block title %}Report {{ type }} - Pollvoter{% endblock %}
 
 {% block content %}
-<h2>Report a {{ type }}</h2>
+<div class="dashboard-layout">
 
-<div class="report-item">
-    {% if type == "Poll" %}
-        <h4>{{ item.title }}</h4>
-        <p>{{ item.description }}</p>
-        <small>by {{ item.author.username }}</small>
-    {% else %}
-        <p>"{{ item.content }}"</p>
-        <small>by {{ item.author.username }} on poll "{{ item.poll.title }}"</small>
-    {% endif %}
+    <aside class="sidebar">
+        <div class="sidebar-widget" style="border-top: 4px solid #EF4444;">
+            <h3 class="widget-title" style="color: #EF4444;">
+                <i class="fa-solid fa-shield-halved"></i> Safety First
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
+                Thanks for helping keep Pollvoter safe! Please report content that includes:
+            </p>
+            <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-main);">
+                <li style="margin-bottom: 10px; display: flex; gap: 10px;">
+                    <i class="fa-solid fa-ban" style="color: #EF4444;"></i> Harassment or bullying
+                </li>
+                <li style="margin-bottom: 10px; display: flex; gap: 10px;">
+                    <i class="fa-solid fa-ban" style="color: #EF4444;"></i> Spam or scams
+                </li>
+                <li style="margin-bottom: 10px; display: flex; gap: 10px;">
+                    <i class="fa-solid fa-ban" style="color: #EF4444;"></i> Inappropriate content
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="feed">
+        <div class="card">
+            
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <div style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #EF4444;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h2 style="margin: 0;">Report {{ type }}</h2>
+            </div>
+
+            <p style="color: var(--text-muted); margin-bottom: 20px;">
+                You are about to report the following content. This will be sent to the admin team for review.
+            </p>
+
+            <div style="background-color: var(--bg-body); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+                {% if type == "Poll" %}
+                    <span style="font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold;">Poll</span>
+                    <h3 style="margin-top: 10px; margin-bottom: 5px; font-size: 1.1rem;">{{ item.title }}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">{{ item.description }}</p>
+                    
+                    <div class="user-row" style="border: none; padding: 0; margin: 0;">
+                        <img src="{{ item.author.getpfp() }}" class="avatar-sm" style="width: 25px; height: 25px;">
+                        <small style="color: var(--text-main);"><strong>{{ item.author.username }}</strong></small>
+                    </div>
+
+                {% else %}
+                    <span style="font-size: 0.7rem; background: var(--text-muted); color: white; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold;">Comment</span>
+                    
+                    <blockquote style="margin: 15px 0; padding-left: 15px; border-left: 3px solid var(--border-subtle); font-style: italic; color: var(--text-main);">
+                        "{{ item.content }}"
+                    </blockquote>
+                    
+                    <small style="color: var(--text-muted);">
+                        Posted by <strong>{{ item.author.username }}</strong> on poll 
+                        <a href="{{ url_for('polls.poll_detail', poll_id=item.poll.id) }}" style="color: var(--primary);">"{{ item.poll.title }}"</a>
+                    </small>
+                {% endif %}
+            </div>
+
+            <form method="POST">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="reason" style="display: block; font-weight: 600; margin-bottom: 8px;">
+                        Why are you reporting this?
+                    </label>
+                    <textarea name="reason" id="reason" rows="4" required 
+                              placeholder="Please provide specific details..." 
+                              style="resize: none;"></textarea>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="{{ url_for('polls.poll_detail', poll_id=(item.id if type=='Poll' else item.poll_id)) }}" class="btn btn-outline">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn" style="background-color: #EF4444; color: white; border: none;">
+                        <i class="fa-regular fa-paper-plane"></i> Submit Report
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </main>
 </div>
-
-<form method="POST" class="mt-3">
-    <div class="form-group">
-        <label for="reason">Why are you worried about this content?</label>
-        <textarea name="reason" id="reason" class="form-control" rows="4" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-danger">Submit Report</button>
-    <a href="{{ url_for('polls.poll_detail', poll_id=(item.id if type=='Poll' else item.poll_id)) }}" class="btn btn-secondary">Cancel</a>
-</form>
 {% endblock %}

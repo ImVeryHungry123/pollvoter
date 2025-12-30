@@ -1,65 +1,116 @@
-
-
 {% extends "base.html" %}
 
-{% block title %}All Polls - Polling{% endblock %}
+{% block title %}All Polls - Pollvoter{% endblock %}
 
 {% block content %}
-<div class="polls-header">
-    <h2>All Polls</h2>
-    <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Create Poll</a>
-</div>
-<div class="sort-options"> 
-    <a href="{{url_for('polls.listpolls', sort_by = 'newest')}}">Newest</a>
-    <a href="{{url_for('polls.listpolls', sort_by = 'popular')}}">Popular</a>
-    <a href="{{url_for('polls.listpolls', sort_by = 'discussed')}}">Discussed</a>
-</div>
-{% if polls.items %}
-    {% for poll in polls.items %}
-    <div class="poll-card">
-        <div class="poll-header">
-            <h3><a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a></h3>
-            <span class="poll-stats">
-                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes
-                <i class="fas fa-comments"></i> {{ poll.comments|length }} comments
-            </span>
-        </div>
-        
-        <div class="poll-author">
-            <div class="user-avatar"><img src="{{ current_user.getpfp() }}" alt="Profile Picture" width="150" height="150"></div>
-            <div>
-                <div class="author-name">{{ poll.author.full_name if poll.author.full_name else poll.author.username }}</div>
-                <small class="poll-date">{{ poll.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">Feed Filters</h3>
+            <div class="filter-menu" style="display: flex; flex-direction: column; gap: 8px;">
+                <a href="{{ url_for('polls.listpolls', sort_by='newest') }}" 
+                   class="btn btn-outline" 
+                   style="text-align: left; border-color: transparent; background: {{ 'var(--border-subtle)' if request.args.get('sort_by') == 'newest' or not request.args.get('sort_by') else 'transparent' }};">
+                   🕐 Newest
+                </a>
+                <a href="{{ url_for('polls.listpolls', sort_by='popular') }}" 
+                   class="btn btn-outline" 
+                   style="text-align: left; border-color: transparent; background: {{ 'var(--border-subtle)' if request.args.get('sort_by') == 'popular' else 'transparent' }};">
+                   🔥 Popular
+                </a>
+                <a href="{{ url_for('polls.listpolls', sort_by='discussed') }}" 
+                   class="btn btn-outline" 
+                   style="text-align: left; border-color: transparent; background: {{ 'var(--border-subtle)' if request.args.get('sort_by') == 'discussed' else 'transparent' }};">
+                   💬 Most Discussed
+                </a>
             </div>
         </div>
-        
-        {% if poll.description %}
-        <p class="poll-description">{{ poll.description }}</p>
-        {% endif %}
-        
 
-        
-        <div class="poll-actions">
-            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary">Vote</a>
+        <div class="sidebar-widget">
+            <h3 class="widget-title">Got a question?</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 15px;">Ask the community and get instant feedback.</p>
+            <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary" style="display:block; text-align: center;">
+                + Create Poll
+            </a>
         </div>
-    </div>
-    {% endfor %}
+    </aside>
 
-    <!-- Pagination -->
-    <div class="pagination">
-        {% if polls.has_prev %}
-            <a href="{{ url_for('polls.listpolls', page=polls.prev_num) }}" class="page-link">← Previous</a>
+    <main class="feed">
+        <h2 style="margin-bottom: 20px;">
+            {% if request.args.get('sort_by') == 'popular' %}
+                Popular Polls
+            {% elif request.args.get('sort_by') == 'discussed' %}
+                Discussed Polls
+            {% else %}
+                Latest Polls
+            {% endif %}
+        </h2>
+
+        {% if polls.items %}
+            {% for poll in polls.items %}
+            <div class="poll-card">
+                
+                <div class="user-row" style="margin-bottom: 15px; border-bottom: none; padding-bottom: 0;">
+                    <img src="{{ poll.author.getpfp() if poll.author.getpfp else url_for('static', filename='default.png') }}" 
+                         class="avatar-sm" alt="Author">
+                    <div class="user-info">
+                        <strong style="color: var(--text-main);">
+                            {{ poll.author.full_name if poll.author.full_name else poll.author.username }}
+                        </strong>
+                        <br>
+                        <small style="color: var(--text-muted);">{{ poll.created_at.strftime('%b %d at %H:%M') }}</small>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 class="poll-question" style="font-size: 1.25rem;">
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a>
+                    </h3>
+                    
+                    {% if poll.description %}
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">{{ poll.description }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="poll-meta-footer">
+                    <div class="stats">
+                        <span style="margin-right: 15px;">
+                            <i class="fas fa-vote-yea"></i> <strong>{{ poll.getvotecount() }}</strong> votes
+                        </span>
+                        <span>
+                            <i class="fas fa-comments"></i> <strong>{{ poll.comments|length }}</strong> comments
+                        </span>
+                    </div>
+                    
+                    <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 8px 20px;">
+                        Vote Now
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
+                {% if polls.has_prev %}
+                    <a href="{{ url_for('polls.listpolls', page=polls.prev_num, sort_by=request.args.get('sort_by')) }}" class="btn btn-outline">← Previous</a>
+                {% endif %}
+                
+                <span style="display: flex; align-items: center; padding: 0 10px; color: var(--text-muted);">
+                    Page {{ polls.page }} of {{ polls.pages }}
+                </span>
+                
+                {% if polls.has_next %}
+                    <a href="{{ url_for('polls.listpolls', page=polls.next_num, sort_by=request.args.get('sort_by')) }}" class="btn btn-outline">Next →</a>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <div class="card" style="text-align: center; padding: 50px;">
+                <h3 style="color: var(--text-muted);">No polls found...</h3>
+                <p>Be the first one to start a conversation!</p>
+                <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary">Create Poll</a>
+            </div>
         {% endif %}
-        
-        <span class="page-info">Page {{ polls.page }} of {{ polls.pages }}</span>
-        
-        {% if polls.has_next %}
-            <a href="{{ url_for('polls.listpolls', page=polls.next_num) }}" class="page-link">Next →</a>
-        {% endif %}
-    </div>
-{% else %}
-    <div class="no-polls">
-        <p>There are no polls yet. <a href="{{ url_for('polls.create_poll') }}">Create the first one!</a></p>
-    </div>
-{% endif %}
+    </main>
+</div>
 {% endblock %}

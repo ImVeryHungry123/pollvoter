@@ -1,139 +1,190 @@
 {% extends "base.html" %}
 
-{% block title %}{{ poll.title }} - Poll{% endblock %}
+{% block title %}{{ poll.title }} - Pollvoter{% endblock %}
 
 {% block content %}
-<div class="poll-detail">
-    <div class="poll-card">
-        <div class="poll-header">
-            <h2>{{ poll.title }}</h2>
-            {%if poll.author != current_user%}
-                <a href="{{url_for('polls.report_poll' , poll_id = poll.id)}}">Report</a>
-            {%endif%}
-            <span class="poll-stats">
-                <i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes
-                <i class="fas fa-comments"></i> {{ poll.comments|length }} comments
-            </span>
-        </div>
-        
-        <div class="poll-author">
-            <div class="user-avatar"><img src="{{ current_user.getpfp() }}" alt="Profile Picture" width="150" height="150"></div>
-            <div>
-                <div class="author-name">{{ poll.author.full_name if poll.author.full_name else poll.author.username  }}</div>
-                <small class="poll-date">{{ poll.created_at.strftime('%d.%m.%Y  %H:%M') }}</small>
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">Poll Stats</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; margin-bottom: 20px;">
+                <div style="background: var(--bg-body); padding: 15px; border-radius: 8px;">
+                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">{{ poll.getvotecount() }}</div>
+                    <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Votes</small>
+                </div>
+                <div style="background: var(--bg-body); padding: 15px; border-radius: 8px;">
+                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">{{ poll.comments|length }}</div>
+                    <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Comments</small>
+                </div>
+            </div>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted);">
+                Posted: {{ poll.created_at.strftime('%B %d, %Y') }}<br>
+                Status: <span style="color: #10B981; font-weight: bold;">Active</span>
             </div>
         </div>
-        
-        {% if poll.description %}
-        <p class="poll-description">{{ poll.description }}</p>
+
+        {% if poll.author != current_user %}
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="{{ url_for('polls.report_poll', poll_id=poll.id) }}" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: underline;">
+                    <i class="fas fa-flag"></i> Report this poll
+                </a>
+            </div>
         {% endif %}
+    </aside>
+
+
+    <main class="feed">
         
-        <!-- Voting -->
-        {% if user_vote %}
-            <div class="voted-message">
-                <p>You have already voted. Your choice was: <strong>{{ user_vote.option.text }}</strong></p>
+        <div class="card">
+            
+            <div class="user-row" style="margin-bottom: 20px;">
+                <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="Author">
+                <div class="user-info">
+                    <strong style="color: var(--text-main); font-size: 1.1rem;">
+                        <a href="{{ url_for('main.user_profile', username=poll.author.username) }}">{{ poll.author.username }}</a>
+                    </strong>
+                    <br>
+                    <small style="color: var(--text-muted);">Asked a question</small>
+                </div>
             </div>
-        {% else %}
-            <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}" class="vote-form">
-                <div class="vote-options">
+
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3;">{{ poll.title }}</h1>
+            
+            {% if poll.description %}
+                <p style="color: var(--text-muted); margin-bottom: 25px; padding-left: 15px; border-left: 3px solid var(--border-subtle);">
+                    {{ poll.description }}
+                </p>
+            {% endif %}
+
+            <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 25px 0;">
+
+            {% if user_vote %}
+                <div class="voted-message" style="background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem;">
+                    <i class="fas fa-check-circle"></i> You voted for: <strong>{{ user_vote.option.text }}</strong>
+                </div>
+
+                <div class="vote-results">
+                    {% set total_votes = poll.getvotecount() %}
                     {% for option in poll.options %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="option_id" id="option{{ option.id }}" value="{{ option.id }}" required>
-                        <label class="form-check-label" for="option{{ option.id }}">
-                            {{ option.text }}
-                        </label>
-                    </div>
+                        {% set vote_count = option.votes|length %}
+                        {% set percentage = (vote_count / total_votes * 100) if total_votes > 0 else 0 %}
+                        
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 5px;">
+                                <span style="font-weight: 500;">{{ option.text }}</span>
+                                <span style="color: var(--text-muted);">{{ "%.0f"|format(percentage) }}%</span>
+                            </div>
+                            
+                            <div style="width: 100%; height: 10px; background: var(--bg-body); border-radius: 20px; overflow: hidden;">
+                                <div style="width: {{ percentage }}%; height: 100%; background: var(--primary); border-radius: 20px; transition: width 0.5s ease;"></div>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">Submit Vote</button>
-            </form>
-        {% endif %}
 
-        <div class="vote-results">
-            <h4>Results:</h4>
-            {% set total_votes = poll.getvotecount() %}
-            
-            {% for option in poll.options %}
-                {% set vote_count = option.votes|length %}
-                {% set percentage = (vote_count / total_votes * 100) if total_votes > 0 else 0 %}
-                
-                <div class="vote-option">
-                    <span>{{ option.text }}: {{ vote_count }} ({{ "%.1f"|format(percentage) }}%)</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: {{ percentage }}%"></div>
+            {% else %}
+                <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}">
+                    <div class="vote-options" style="display: flex; flex-direction: column; gap: 10px;">
+                        {% for option in poll.options %}
+                        <label class="poll-option-btn" style="display: flex; align-items: center; gap: 10px;">
+                            <input type="radio" name="option_id" value="{{ option.id }}" required style="width: auto; margin: 0;"> 
+                            {{ option.text }}
+                        </label>
+                        {% endfor %}
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    
-    <div class="comments-section">
-        <h3>Comments ({{ poll.comments|length }})</h3>
-        
-        <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" class="comment-form">
-            <div class="form-group">
-                <textarea name="content" placeholder="Leave a comment..." required maxlength="60"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Comment</button>
-        </form>
-        
-<div class="comments-list">
-    {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %}
-    
-    {% if comment.author == current_user or (not current_user.is_blocking(comment.author) and not comment.author.is_blocking(current_user)) %}
-    
-    <div class="comment">
-        <div class="comment-header">
-            <div class="comment-author">
-                <div class="user-avatar small"><img src="{{ comment.author.getpfp() }}" alt="PFP"></div>
-                <strong><a href="{{ url_for('main.user_profile', username=comment.author.username) }}">{{ comment.author.username }}</a></strong>
-            </div>
-            <small class="comment-date">{{ comment.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
-        </div>
-
-        <div id="comment-view-{{ comment.id }}">
-            <div class="comment-content">
-                {{ comment.content }}
-            </div>
-        </div>
-
-        <div id="comment-edit-{{ comment.id }}" style="display: none;">
-            <form method="POST" action="{{ url_for('polls.edit_comment', comment_id=comment.id) }}" class="comment-edit-form">
-                <textarea name="content" class="form-control" required maxlength="120">{{ comment.content }}</textarea>
-                <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                <button type="button" class="btn btn-sm btn-light" onclick="toggleEdit({{ comment.id }})">Cancel</button>
-            </form>
-        </div>
-
-        <div class="comment-actions">
-            {%if comment.author != current_user%}
-            <form method="GET" action="{{ url_for('polls.report_comment', comment_id=comment.id) }}" style="display: inline;">
-                <button type="submit" class="btn btn-sm btn-warning">Report</button>
-            </form>
-            {%endif%}
-            <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: inline;">
-                <button type="submit" name="reaction" value="like" class="btn btn-sm btn-light">👍 {{ comment.get_likes_count() }}</button>
-                <button type="submit" name="reaction" value="dislike" class="btn btn-sm btn-light">👎 {{ comment.get_dislikes_count() }}</button>
-            </form>
-            
-            {% if comment.author == current_user %}
-                <button class="btn btn-sm btn-secondary" onclick="toggleEdit({{ comment.id }})">Edit</button>
-
-                <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this comment?');">
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%; padding: 12px;">
+                        Submit Vote
+                    </button>
                 </form>
             {% endif %}
         </div>
-    </div> {% endif %} {% else %}
-    <p class="no-comments">Still no comments. Be the first!</p>
-    {% endfor %}
-</div>
-    </div>
-</div>
-<script>
-    function toggleEdit(commentId){
-        const viewDiv = document.getElementById('comment-view-' + commentId)
-        const editDiv = document.getElementById('comment-edit-' + commentId)
 
+        <div class="card">
+            <h3 style="margin-bottom: 20px;">Discussion ({{ poll.comments|length }})</h3>
+
+            <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" style="margin-bottom: 30px; display: flex; gap: 10px;">
+                <img src="{{ current_user.getpfp() }}" class="avatar-sm" style="width: 35px; height: 35px;">
+                <div style="flex-grow: 1;">
+                    <textarea name="content" placeholder="Share your thoughts..." required maxlength="60" 
+                              style="width: 100%; resize: none; height: 50px; border-radius: 8px;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 8px; float: right; font-size: 0.85rem;">Post Comment</button>
+                </div>
+            </form>
+
+            <div class="comments-list">
+                {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %}
+                    
+                    {% if comment.author == current_user or (not current_user.is_blocking(comment.author) and not comment.author.is_blocking(current_user)) %}
+                    
+                    <div class="comment-item" style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;">
+                        <a href="{{ url_for('main.user_profile', username=comment.author.username) }}">
+                            <img src="{{ comment.author.getpfp() }}" class="avatar-sm" alt="PFP">
+                        </a>
+
+                        <div style="flex-grow: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <strong>{{ comment.author.username }}</strong>
+                                <small style="color: var(--text-muted); font-size: 0.75rem;">{{ comment.created_at.strftime('%d.%m %H:%M') }}</small>
+                            </div>
+
+                            <div id="comment-view-{{ comment.id }}">
+                                <p style="margin: 0; color: var(--text-main); font-size: 0.95rem;">{{ comment.content }}</p>
+                            </div>
+
+                            <div id="comment-edit-{{ comment.id }}" style="display: none; margin-top: 10px;">
+                                <form method="POST" action="{{ url_for('polls.edit_comment', comment_id=comment.id) }}">
+                                    <textarea name="content" class="form-control" required maxlength="120" style="margin-bottom: 5px;">{{ comment.content }}</textarea>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                    <button type="button" class="btn btn-sm btn-outline" onclick="toggleEdit({{ comment.id }})">Cancel</button>
+                                </form>
+                            </div>
+
+                            <div style="display: flex; gap: 10px; margin-top: 8px; align-items: center;">
+                                
+                                <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: flex; gap: 5px;">
+                                    <button type="submit" name="reaction" value="like" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
+                                        👍 <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
+                                    </button>
+                                    <button type="submit" name="reaction" value="dislike" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
+                                        👎 <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
+                                    </button>
+                                </form>
+
+                                {% if comment.author == current_user %}
+                                    <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">Edit</button>
+                                    
+                                    <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
+                                        <button type="submit" style="border: none; background: none; color: #EF4444; font-size: 0.75rem; cursor: pointer;">Delete</button>
+                                    </form>
+                                {% endif %}
+
+                                {% if comment.author != current_user %}
+                                    <form method="GET" action="{{ url_for('polls.report_comment', comment_id=comment.id) }}">
+                                        <button type="submit" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">Report</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                
+                {% else %}
+                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No comments yet. Be the first to say something!</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    function toggleEdit(commentId) {
+        const viewDiv = document.getElementById('comment-view-' + commentId);
+        const editDiv = document.getElementById('comment-edit-' + commentId);
+        
         if (viewDiv.style.display === 'none') {
             viewDiv.style.display = 'block';
             editDiv.style.display = 'none';
