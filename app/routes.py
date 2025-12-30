@@ -515,7 +515,7 @@ def home():
 
     if q:
         query = query.filter(Poll.title.ilike(f'%{q}%'))
-    polls = Poll.query.order_by(Poll.created_at.desc()).all()
+    polls = query.order_by(Poll.created_at.desc()).all()
 
     suggestions = []
     if current_user.is_authenticated:

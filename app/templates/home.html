@@ -107,7 +107,7 @@
                         <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="Author">
                         <div style="margin-left: 10px;">
                             <div style="font-weight: bold; font-size: 0.95rem;">
-                                <a href="{{ url_for('main.profile', username=poll.author.username) }}">{{ poll.author.username }}</a>
+                                <a href="{{ url_for('main.user_profile', username=poll.author.username) }}">{{ poll.author.username }}</a>
                             </div>
                             <div style="font-size: 0.8rem; color: var(--text-muted);">{{ poll.created_at.strftime('%b %d') }}</div>
                         </div>
