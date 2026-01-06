@@ -65,6 +65,11 @@ def poll_detail(poll_id):
 @login_required
 def vote(poll_id):
     poll = Poll.query.get_or_404(poll_id)
+    # 👇 NEW CHECK
+    if not poll.is_active():
+        flash("Time is up! This poll is closed. ◴", category="error")
+        return redirect(url_for("polls.poll_detail", poll_id=poll_id))
+
 
     option_id = request.form.get("option_id")
     if not option_id:
@@ -311,12 +316,14 @@ def create_poll():
         title = request.form.get("title")
         description = request.form.get("description")
         options_texts = request.form.getlist("options")
-
+        end_datestr = request.form.get("end_date")
         if not title or len(options_texts) < 2:
             flash("Please provide a title and at least two options.")
             return render_template("create_poll.html")
-
-        new_poll = Poll(title=title, description=description, author=current_user)
+        end_date = None 
+        if end_datestr:
+            end_date = datetime.strptime(end_datestr, "%Y-%m-%dT%H:%M")
+        new_poll = Poll(title=title, description=description, author=current_user, end_date = end_date)
         db.session.add(new_poll)
 
         for option_text in options_texts:
@@ -524,3 +531,4 @@ def home():
         ).order_by(func.random()).limit(3).all()
         
     return render_template("home.html", polls=polls, suggestions=suggestions,q=q)
+

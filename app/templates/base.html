@@ -36,13 +36,13 @@
 
         
         <div class="nav-controls">
-            <button id="toggledarkmode" class="icon-btn" title="Toggle Theme">🌙</button>
+            <button id="toggledarkmode" class="icon-btn" title="Toggle Theme">⏾</button>
             
-            <button class="icon-btn" title="Settings">⚙️</button>
+            <button class="icon-btn" title="Settings">⚙</button>
 
             <div class="notification-dropdown-container">
                 <button class="icon-btn" id="notification-toggle">
-                    🔔
+                    ✉
                     {% if unread_count > 0 %}
                         <span class="notif-badge">{{ unread_count }}</span>
                     {% endif %}
@@ -105,7 +105,7 @@
         const current_theme = localStorage.getItem("theme");
         if (current_theme === "dark"){
             body.classList.add("dark-mode");
-            button.textContent = "☀️";
+            button.textContent = "☀";
         }
 
         button.addEventListener("click", function(){
@@ -114,9 +114,9 @@
             let theme = "light";
             if (body.classList.contains("dark-mode")){
                 theme = "dark";
-                button.textContent = "☀️";
+                button.textContent = "☀";
             } else {
-                button.textContent = "🌙";
+                button.textContent = "⏾";
             }
             localStorage.setItem("theme", theme);
         });

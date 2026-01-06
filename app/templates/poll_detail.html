@@ -22,7 +22,7 @@
 
             <div style="font-size: 0.85rem; color: var(--text-muted);">
                 Posted: {{ poll.created_at.strftime('%B %d, %Y') }}<br>
-                Status: <span style="color: #10B981; font-weight: bold;">Active</span>
+                Status: <span style="color: #10B981; font-weight: bold;">{%if poll.is_active() %}Closed {%else%} Active {%endif%}</span>
             </div>
         </div>
 
@@ -146,24 +146,24 @@
                                 
                                 <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: flex; gap: 5px;">
                                     <button type="submit" name="reaction" value="like" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
-                                        👍 <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
+                                        ❤︎ <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
                                     </button>
                                     <button type="submit" name="reaction" value="dislike" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
-                                        👎 <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
+                                        ⛌   <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
                                     </button>
                                 </form>
 
                                 {% if comment.author == current_user %}
-                                    <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">Edit</button>
+                                    <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">✎</button>
                                     
                                     <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
-                                        <button type="submit" style="border: none; background: none; color: #EF4444; font-size: 0.75rem; cursor: pointer;">Delete</button>
+                                        <button type="submit" style="border: none; background: none; color: #b3b3b3; font-size: 0.75rem; cursor: pointer;">⌫</button>
                                     </form>
                                 {% endif %}
 
                                 {% if comment.author != current_user %}
                                     <form method="GET" action="{{ url_for('polls.report_comment', comment_id=comment.id) }}">
-                                        <button type="submit" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">Report</button>
+                                        <button type="submit" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">⚑</button>
                                     </form>
                                 {% endif %}
                             </div>

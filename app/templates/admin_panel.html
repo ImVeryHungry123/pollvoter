@@ -91,7 +91,7 @@
                         </form>
 
                         <form method="POST" action="{{ url_for('admin.admin_delete_comment', comment_id=report.comment.id, report_id=report.id) }}" 
-                              onsubmit="return confirm('⚠️ WARNING: You are about to DELETE this comment.');">
+                              onsubmit="return confirm('⚠︎ WARNING: You are about to DELETE this comment.');">
                             <button type="submit" class="btn" style="background-color: #EF4444; color: white; border: none; font-size: 0.9rem;">
                                 Delete Comment
                             </button>
@@ -104,7 +104,7 @@
         </div>
         {% else %}
             <div class="card" style="text-align: center; padding: 50px;">
-                <div style="font-size: 3rem; margin-bottom: 20px;">✅</div>
+                <div style="font-size: 3rem; margin-bottom: 20px;">✔</div>
                 <h3>All Clear!</h3>
                 <p style="color: var(--text-muted);">There are no pending reports. Great job keeping things safe.</p>
                 <a href="{{ url_for('polls.listpolls') }}" class="btn btn-primary">Go to Feed</a>

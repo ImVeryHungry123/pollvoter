@@ -47,7 +47,10 @@
                               style="resize: none;"></textarea>
                     <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">Max 70 characters</div>
                 </div>
-
+                <div class="form-group">
+                <label for="end_date">Poll Ends At (Optional):</label>
+                <input type="datetime-local" class="form-control" id="end_date" name="end_date">
+            </div>
                 <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 25px 0;">
                 
                 <h4 style="margin-bottom: 15px;">Poll Options</h4>
@@ -113,6 +116,8 @@
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-5px); }
         to { opacity: 1; transform: translateY(0); }
+
+        
     }
 </style>
 {% endblock %}

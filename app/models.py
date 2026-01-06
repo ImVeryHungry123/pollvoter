@@ -172,11 +172,15 @@ class Poll(db.Model):
     description = Column(String(120))
     created_at = Column(DateTime, default=datetime.now)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-
+    end_date = Column(DateTime, nullable=True)
     author = relationship("User", back_populates="polls")
     comments = relationship("Comment", back_populates="poll", cascade="all, delete-orphan")
     options = relationship("PollOption", back_populates="poll", cascade="all, delete-orphan")
     votes = relationship("Vote", back_populates="poll", cascade="all, delete-orphan")
+    def is_active(self):
+        if self.end_date is None:
+            return True
+        return datetime.now() > self.end_date
 
     def getvotecount(self):
         return len(self.votes)
