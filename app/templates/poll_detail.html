@@ -22,7 +22,7 @@
 
             <div style="font-size: 0.85rem; color: var(--text-muted);">
                 Posted: {{ poll.created_at.strftime('%B %d, %Y') }}<br>
-                Status: <span style="color: #10B981; font-weight: bold;">{%if poll.is_active() %}Closed {%else%} Active {%endif%}</span>
+                Status: <span style="color: #10B981; font-weight: bold;">{%if poll.is_active() %} Active {%else%} Closed {%endif%}</span>
             </div>
         </div>
 
@@ -50,6 +50,52 @@
                     <small style="color: var(--text-muted);">Asked a question</small>
                 </div>
             </div>
+
+            {% if poll.end_date %}
+<div class="poll-timer" style="margin-bottom: 15px;">
+    {% if poll.is_active() %}
+        <span class="badge badge-warning">
+            ⏳ Ends in: <span id="countdown-{{ poll.id }}">Calculating...</span>
+        </span>            
+        
+        <script>
+            (function() {
+             
+                var countDownDate = {{ poll.end_date.timestamp() * 1000 }};
+
+                var x = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = countDownDate - now;
+
+
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000); 
+
+       
+                    document.getElementById("countdown-{{ poll.id }}").innerHTML = 
+                        days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+         
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("countdown-{{ poll.id }}").innerHTML = "EXPIRED";
+                        
+        
+                        var buttons = document.querySelector('.vote-buttons-container'); 
+                        if (buttons) {
+                            buttons.style.display = 'none';
+                        }
+                    }
+                }, 1000);
+            })();
+        </script>
+    {% else %}
+        <span class="badge badge-danger">🔒 Poll Closed</span>
+    {% endif %}
+</div>
+{% endif %}
 
             <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3;">{{ poll.title }}</h1>
             
@@ -84,8 +130,9 @@
                         </div>
                     {% endfor %}
                 </div>
-
+            
             {% else %}
+            {% if poll.is_active() %}
                 <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}">
                     <div class="vote-options" style="display: flex; flex-direction: column; gap: 10px;">
                         {% for option in poll.options %}
@@ -99,6 +146,9 @@
                         Submit Vote
                     </button>
                 </form>
+            {% else %}
+            <p class="text-muted">Voting is disabled because the poll has ended.</p>
+            {% endif %}
             {% endif %}
         </div>
 

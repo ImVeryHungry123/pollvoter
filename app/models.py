@@ -180,7 +180,7 @@ class Poll(db.Model):
     def is_active(self):
         if self.end_date is None:
             return True
-        return datetime.now() > self.end_date
+        return datetime.now() < self.end_date
 
     def getvotecount(self):
         return len(self.votes)
