@@ -106,6 +106,41 @@
             {% endif %}
 
             <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 25px 0;">
+            {% if poll.uploads %}
+                <div class="poll-attachments mt-4">
+                    <h5>Attachments:</h5>
+                    <div class="attachments-grid">
+                        {% for file in poll.uploads %}
+                            
+                            {% if file.file_type == 'image' %}
+                                <div class="attachment-item">
+                                    <img src="{{ url_for('static', filename='uploads/files/' + file.filename) }}" 
+                                        alt="Attachment" 
+                                        style="max-width: 100%; border-radius: 8px; margin-bottom: 10px;">
+                                </div>
+
+                            {% elif file.file_type == 'audio' %}
+                                <div class="attachment-item">
+                                    <audio controls style="width: 100%; margin-bottom: 10px;">
+                                        <source src="{{ url_for('static', filename='uploads/files/' + file.filename) }}">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+
+                            {% else %}
+                                <div class="attachment-item mb-2">
+                                    <a href="{{ url_for('static', filename='uploads/files/' + file.filename) }}" 
+                                    class="btn btn-outline-secondary btn-sm" 
+                                    target="_blank" download>
+                                        📄 Download {{ file.filename }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
 
             {% if user_vote %}
                 <div class="voted-message" style="background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem;">

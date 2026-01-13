@@ -31,7 +31,7 @@
         <div class="card">
             <h2 style="margin-bottom: 20px;">Create a New Poll</h2>
             
-            <form method="POST" id="poll-form">
+            <form method="POST" id="poll-form" enctype="multipart/form-data">
                 
                 <div style="margin-bottom: 20px;">
                     <label for="title" style="display:block; margin-bottom: 8px; font-weight: 600;">Question / Title</label>
@@ -127,9 +127,8 @@
         newOptionDiv.appendChild(newOptionInput);
         container.appendChild(newOptionDiv);
     });
-</script>
-<script>
-function handleFileSelect(input) {
+
+    function handleFileSelect(input) {
     const fileLabel = document.getElementById('file-label');
     const badge = document.getElementById('file-preview-count');
     const count = input.files.length;
@@ -145,24 +144,25 @@ function handleFileSelect(input) {
         fileLabel.style.color = "var(--text-main)";
         badge.style.display = "none";
     }
-}
+    }
 
-// Optional: Add drag & drop visual feedback
-const dropzone = document.getElementById('dropzone');
-['dragenter', 'dragover'].forEach(eventName => {
-    dropzone.addEventListener(eventName, e => {
-        dropzone.style.borderColor = "var(--primary)";
-        dropzone.style.backgroundColor = "var(--bg-card)";
-    }, false);
-});
+    // Optional: Add drag & drop visual feedback
+    const dropzone = document.getElementById('dropzone');
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, e => {
+            dropzone.style.borderColor = "var(--primary)";
+            dropzone.style.backgroundColor = "var(--bg-card)";
+        }, false);
+    });
 
-['dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, e => {
-        dropzone.style.borderColor = "var(--border-subtle)";
-        dropzone.style.backgroundColor = "var(--bg-body)";
-    }, false);
-});
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, e => {
+            dropzone.style.borderColor = "var(--border-subtle)";
+            dropzone.style.backgroundColor = "var(--bg-body)";
+        }, false);
+    });
 </script>
+
 <style>
     /* Small animation for adding new options */
     @keyframes fadeIn {

@@ -229,6 +229,6 @@ class PollUploads(db.Model):
     filename = Column(Text, nullable=False)
     file_type = Column(Text, nullable=False)
     poll_id = Column(Integer, ForeignKey('poll.id'))
-    poll = relationship("Poll", backref= db.backref( "uploads", cascade="all, delete-orphan"))
+    poll = relationship("Poll", backref= db.backref("uploads", cascade="all, delete-orphan"))
 
     
