@@ -2,15 +2,37 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_user, logout_user, login_required, current_user
 import click
 from functools import wraps
-from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption, Report, Notification
+from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption, Report, Notification, PollUploads
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import uuid
 
 auth = Blueprint("auth", __name__)
 main = Blueprint("main", __name__)
 polls = Blueprint("polls", __name__)
 admin = Blueprint("admin", __name__)
+
+
+upload_folder = os.path.join("app", "static", "uploads", "files")
+allow_extensions = {"png", "jpg", "jpeg", "wav", "mp3", "mp4", "mov", "avi", "webm", "wmv", "ogg", "svg", "pdf", "txt", "gif"}
+os.makedirs(upload_folder, exist_ok=True)
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in allow_extensions
+
+def get_file_type(filename):
+    ext = filename.rsplit('.', 1)[1].lower()
+    if ext in ['png', 'jpg', 'jpeg', 'gif']:
+        return 'image'
+    elif ext in ['mp3', 'wav','ogg']:
+        return 'audio'
+    elif ext in ['mp4', 'mov', 'avi', 'webm']:
+        return 'video'
+    
+    return 'other'
+
+
 @main.context_processor
 def notifications_count():
     if current_user.is_authenticated:
@@ -325,6 +347,15 @@ def create_poll():
             end_date = datetime.strptime(end_datestr, "%Y-%m-%dT%H:%M")
         new_poll = Poll(title=title, description=description, author=current_user, end_date = end_date)
         db.session.add(new_poll)
+        uploaded_files = request.files.getlist("files")
+        for file in uploaded_files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(upload_folder, filename))
+                extension = get_file_type(filename)
+                upload = PollUploads(filename=filename, file_type=extension, poll = new_poll)
+                db.session.add(upload)
+
 
         for option_text in options_texts:
             if option_text:
@@ -531,4 +562,6 @@ def home():
         ).order_by(func.random()).limit(3).all()
         
     return render_template("home.html", polls=polls, suggestions=suggestions,q=q)
+
+
 

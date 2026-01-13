@@ -77,15 +77,7 @@
 </nav>
 
     <div class="main-container">
-        {% with messages = get_flashed_messages()%}
-            {%if messages%}
-                <div class="flash-messages">
-                    {%for message in messages%}
-                        <div class="alert">{{message}}</div>
-                    {%endfor%}
-                </div>
-            {%endif%}
-        {%endwith%}
+
 
         {%block content%}{%endblock%}
     </div>
@@ -96,7 +88,44 @@
 
     <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/11/15/09/20251115093148-HGRHJZHT.js" defer></script>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script> 
+{% with messages = get_flashed_messages(with_categories = true) %}
+    {% if messages %}
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const toast = Swal.mixin({
+                    toast: true,
+                    position: "top",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    // Match the website styling
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-main)',
+                    customClass: {
+                        popup: 'swal-custom-border'
+                    }
+                });
+
+                {% for category, message in messages %}
+                    var icon_type = "{{ category }}";
+                    if (icon_type === "message") { icon_type = "info" };
+                    if (icon_type === "danger") { icon_type = "error" };
+
+                    toast.fire({
+                        icon: icon_type,
+                        title: "{{ message }}",
+                        // Using your primary blue for the progress bar
+                        iconColor: icon_type === 'success' ? '#10B981' : (icon_type === 'error' ? '#EF4444' : 'var(--primary)'),
+                    });
+                {% endfor %}
+            });
+
+    {% endif %}
+{% endwith %}
+</script>
     <script>
         const button = document.getElementById("toggledarkmode");
         const body = document.body;

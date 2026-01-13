@@ -453,7 +453,7 @@ footer {
 
 .profile-cover {
     height: 120px;
-    background: linear-gradient(135deg, var(--primary), #8B5CF6); /* Gradient background */
+    background: linear-gradient(135deg, var(--primary), #505050); /* Gradient background */
 }
 
 .profile-content {
@@ -533,4 +533,200 @@ footer {
     margin-top: 0; /* Ensures 'Recent Polls' aligns with Sidebar top */
     margin-bottom: 20px;
     font-size: 1.5rem;
+}
+
+/* === AUTH PAGES (Login & Register) === */
+
+/* 1. The Container
+   This centers the form on the screen but keeps the navbar visible. 
+   Use <div class="auth-container"> around your form in the HTML. */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Takes up most of the screen height */
+    width: 100%;
+    padding: 20px;
+}
+
+/* 2. The Auth Card
+   Replaces the generic 'form' style with your themed variables */
+.auth-box {
+    background-color: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 420px; /* Slightly wider for modern feel */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Title Styling */
+.auth-box h2 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+    font-size: 1.8rem;
+}
+
+.auth-box p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* 3. Inputs (Specific to Auth to look extra clean) */
+.auth-box label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+}
+
+.auth-box input[type="text"],
+.auth-box input[type="password"],
+.auth-box input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--bg-body); /* Slightly distinct from card bg */
+    color: var(--text-main);
+    transition: all 0.2s ease;
+}
+
+.auth-box input:focus {
+    border-color: var(--primary);
+    background-color: var(--bg-card);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(49, 49, 49, 0.1); /* Soft glow */
+}
+
+/* 4. The Action Button
+   Uses 'text-main' as background to create a high-contrast monochrome look.
+   Light Mode: Black Button / Dark Mode: White Button */
+.auth-box button {
+    padding: 12px;
+    background-color: var(--text-main); 
+    color: var(--bg-card); /* Text color is opposite of button color */
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    margin-top: 10px;
+}
+
+.auth-box button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(78, 78, 78, 0.2);
+}
+
+/* 5. Bottom Links (Register/Login toggle) */
+.auth-links {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.auth-links a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+/* === LOGIN & REGISTER INPUT FIX === */
+.auth-box input[type="text"],
+.auth-box input[type="password"],
+.auth-box input[type="email"] {
+    /* Removes the blue tint */
+    background-color: var(--bg-body) !important; 
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-main) !important;
+    
+    /* Matches the Edit Profile modal style */
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Ensure focus doesn't turn blue either */
+.auth-box input:focus {
+    background-color: var(--bg-card) !important;
+    border-color: var(--text-main) !important; /* Neutral black/white border */
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05) !important;
+    outline: none !important;
+}
+
+/* Fix for browser autofill (the most common cause of the "blue box") */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--text-main) !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg-body) inset !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+}
+
+
+/* Styling for the Upload Area */
+.upload-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: var(--bg-body); /* Neutral gray */
+    border: 2px dashed var(--border-subtle); /* Dashed style */
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    color: var(--text-main);
+}
+
+.upload-dropzone:hover {
+    border-color: var(--primary);
+    background-color: var(--bg-card);
+    transform: translateY(-2px);
+}
+
+.upload-dropzone i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.upload-dropzone span {
+    font-weight: 600;
+    font-size: 1rem;
+    display: block;
+}
+
+.upload-dropzone small {
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* Badge for file count */
+.file-badge {
+    margin-top: 15px;
+    background-color: var(--primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: bold;
 }

@@ -55,7 +55,7 @@
 <div class="poll-timer" style="margin-bottom: 15px;">
     {% if poll.is_active() %}
         <span class="badge badge-warning">
-            ⏳ Ends in: <span id="countdown-{{ poll.id }}">Calculating...</span>
+            ⧗ Ends in: <span id="countdown-{{ poll.id }}">Calculating...</span>
         </span>            
         
         <script>
@@ -92,7 +92,7 @@
             })();
         </script>
     {% else %}
-        <span class="badge badge-danger">🔒 Poll Closed</span>
+        <span class="badge badge-danger">ꗃ Poll Closed</span>
     {% endif %}
 </div>
 {% endif %}

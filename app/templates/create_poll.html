@@ -47,6 +47,24 @@
                               style="resize: none;"></textarea>
                     <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">Max 70 characters</div>
                 </div>
+                <div class="form-group" style="margin-top: 20px;">
+    <label for="files" style="display: block; font-weight: 600; margin-bottom: 10px;">Upload your files</label>
+    
+    <div class="upload-container">
+        <label for="files" class="upload-dropzone" id="dropzone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span id="file-label">Drag & drop or click to upload</span>
+            <small>Images, Videos, Audio, or Text files</small>
+            <div id="file-preview-count" class="file-badge" style="display: none;"></div>
+        </label>
+        <input type="file" id="files" name="files" multiple hidden onchange="handleFileSelect(this)">
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+        <small style="color: var(--text-muted);">Max size: 10MB per file</small>
+        <small style="color: var(--text-muted); font-weight: 600;">Multiple files allowed</small>
+    </div>
+</div>
                 <div class="form-group">
                 <label for="end_date">Poll Ends At (Optional):</label>
                 <input type="datetime-local" class="form-control" id="end_date" name="end_date">
@@ -71,7 +89,7 @@
                 <br><br>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
-                    🚀 Publish Poll
+                    ✈ Publish Poll
                 </button>
             </form>
         </div>
@@ -110,7 +128,41 @@
         container.appendChild(newOptionDiv);
     });
 </script>
+<script>
+function handleFileSelect(input) {
+    const fileLabel = document.getElementById('file-label');
+    const badge = document.getElementById('file-preview-count');
+    const count = input.files.length;
 
+    if (count > 0) {
+        fileLabel.textContent = "Files selected!";
+        fileLabel.style.color = "var(--primary)";
+        
+        badge.textContent = count + (count === 1 ? " file" : " files") + " ready";
+        badge.style.display = "inline-block";
+    } else {
+        fileLabel.textContent = "Drag & drop or click to upload";
+        fileLabel.style.color = "var(--text-main)";
+        badge.style.display = "none";
+    }
+}
+
+// Optional: Add drag & drop visual feedback
+const dropzone = document.getElementById('dropzone');
+['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, e => {
+        dropzone.style.borderColor = "var(--primary)";
+        dropzone.style.backgroundColor = "var(--bg-card)";
+    }, false);
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, e => {
+        dropzone.style.borderColor = "var(--border-subtle)";
+        dropzone.style.backgroundColor = "var(--bg-body)";
+    }, false);
+});
+</script>
 <style>
     /* Small animation for adding new options */
     @keyframes fadeIn {

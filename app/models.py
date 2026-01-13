@@ -222,3 +222,13 @@ class Notification(db.Model):
     recipient = relationship("User", backref="notifications", foreign_keys=[recipient_id])
     poll_id = Column(Integer, ForeignKey('poll.id'))
     
+class PollUploads(db.Model):
+    __tablename__ = 'poll_uploads'
+
+    id = Column(Integer, primary_key=True)
+    filename = Column(Text, nullable=False)
+    file_type = Column(Text, nullable=False)
+    poll_id = Column(Integer, ForeignKey('poll.id'))
+    poll = relationship("Poll", backref= db.backref( "uploads", cascade="all, delete-orphan"))
+
+    
