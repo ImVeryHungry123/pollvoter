@@ -730,3 +730,43 @@ input:-webkit-autofill:focus {
     font-size: 0.8rem;
     font-weight: bold;
 }
+/* Ensure arrows are ALWAYS visible over media */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Background fix: use a dark semi-transparent circle */
+    background-color: rgba(18, 18, 18, 0.75) !important; 
+    backdrop-filter: blur(8px); /* Cloudy winter effect */
+    
+    /* Icon fix: pure white and centered */
+    color: #FFFFFF !important;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    cursor: pointer;
+    z-index: 100; /* Keeps it above the image */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Make icons bigger and sharper */
+.slider-arrow i {
+    font-size: 1.1rem;
+    pointer-events: none; /* Prevents click issues */
+}
+
+/* Hover effect from your main theme */
+.slider-arrow:hover {
+    background-color: var(--primary) !important;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev { left: 15px; }
+.next { right: 15px; }

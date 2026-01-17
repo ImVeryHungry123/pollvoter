@@ -147,6 +147,9 @@ class Comment(db.Model):
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     author = relationship("User", back_populates="comments")
     poll = relationship("Poll", back_populates="comments")
+    is_pinned =  Column(Boolean, default=False)
+    is_authorliked = Column(Boolean, default=False)
+    
     def get_likes_count(self):
         return CommentReaction.query.filter_by(comment_id = self.id, reaction_type = "like").count()
     def get_dislikes_count(self):

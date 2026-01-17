@@ -564,4 +564,40 @@ def home():
     return render_template("home.html", polls=polls, suggestions=suggestions,q=q)
 
 
+@polls.route("/comment/<int:comment_id>/pin")
+@login_required
 
+def pincomment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    poll = comment.poll
+    if current_user != poll.author:
+        flash("Only Authors of the poll can pin!", category="error")
+        return 
+    if not comment.is_pinned:
+        Comment.query.filter_by(poll_id = poll.id).update({"is_pinned":False})
+        comment.is_pinned = True
+        flash("You pinned a comment!")
+    else:
+        comment.is_pinned = False
+        flash("You unpinned a comment!")
+    db.session.commit()
+    return redirect(url_for("polls.poll_detail", poll_id = poll.id))
+
+@polls.route("/comment/<int:comment_id>/heart")
+@login_required
+
+def heartcomment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    poll = comment.poll
+    if current_user != poll.author:
+        flash("Only Authors of the poll can heart!", category="error")
+        return 
+    comment.is_authorliked = not comment.is_authorliked
+    db.session.commit()
+    return redirect(url_for("polls.poll_detail", poll_id = poll.id))
+
+
+
+
+
+    
