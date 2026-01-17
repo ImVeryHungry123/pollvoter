@@ -167,7 +167,7 @@
 {% endif %}
 
 <script>
-let currentSlide = 0;
+var currentSlide = 0;
 
 function updateSlider() {
     const slides = document.querySelectorAll('.slide');
@@ -313,67 +313,85 @@ function setSlide(index) {
                 </div>
             </form>
 
-            <div class="comments-list">
-                {% for comment in poll.comments|sort(attribute='created_at', reverse=true) %}
-                    
-                    {% if comment.author == current_user or (not current_user.is_blocking(comment.author) and not comment.author.is_blocking(current_user)) %}
-                    
-                    <div class="comment-item" style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;">
-                        <a href="{{ url_for('main.user_profile', username=comment.author.username) }}">
-                            <img src="{{ comment.author.getpfp() }}" class="avatar-sm" alt="PFP">
-                        </a>
+        <div class="comments-list">
+            {% for comment in poll.comments|sort(attribute='is_pinned', reverse=True) %}
+                
+                <div class="comment-item" style="
+                    display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;
+                    {% if comment.is_pinned %} background: rgba(var(--primary-rgb, 37, 99, 235), 0.05); padding: 15px; border-radius: 8px; border: 1px solid var(--primary); {% endif %}
+                ">
+                    <a href="{{ url_for('main.user_profile', username=comment.author.username) }}">
+                        <img src="{{ comment.author.getpfp() }}" class="avatar-sm" alt="PFP">
+                    </a>
 
-                        <div style="flex-grow: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="flex-grow: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <div>
                                 <strong>{{ comment.author.username }}</strong>
                                 <small style="color: var(--text-muted); font-size: 0.75rem;">{{ comment.created_at.strftime('%d.%m %H:%M') }}</small>
-                            </div>
-
-                            <div id="comment-view-{{ comment.id }}">
-                                <p style="margin: 0; color: var(--text-main); font-size: 0.95rem;">{{ comment.content }}</p>
-                            </div>
-
-                            <div id="comment-edit-{{ comment.id }}" style="display: none; margin-top: 10px;">
-                                <form method="POST" action="{{ url_for('polls.edit_comment', comment_id=comment.id) }}">
-                                    <textarea name="content" class="form-control" required maxlength="120" style="margin-bottom: 5px;">{{ comment.content }}</textarea>
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                    <button type="button" class="btn btn-sm btn-outline" onclick="toggleEdit({{ comment.id }})">Cancel</button>
-                                </form>
-                            </div>
-
-                            <div style="display: flex; gap: 10px; margin-top: 8px; align-items: center;">
                                 
-                                <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: flex; gap: 5px;">
-                                    <button type="submit" name="reaction" value="like" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
-                                        ❤︎ <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
-                                    </button>
-                                    <button type="submit" name="reaction" value="dislike" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
-                                        ⛌   <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
-                                    </button>
-                                </form>
-
-                                {% if comment.author == current_user %}
-                                    <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">✎</button>
-                                    
-                                    <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
-                                        <button type="submit" style="border: none; background: none; color: #b3b3b3; font-size: 0.75rem; cursor: pointer;">⌫</button>
-                                    </form>
-                                {% endif %}
-
-                                {% if comment.author != current_user %}
-                                    <form method="GET" action="{{ url_for('polls.report_comment', comment_id=comment.id) }}">
-                                        <button type="submit" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">⚑</button>
-                                    </form>
+                                {% if comment.is_pinned %}
+                                    <span style="font-size: 0.7rem; color: var(--primary); font-weight: bold; margin-left: 8px;">
+                                        <i class="fas fa-thumbtack"></i> Pinned by Author
+                                    </span>
                                 {% endif %}
                             </div>
+
+                            {% if current_user == poll.author %}
+                                <div class="dropdown" style="position: relative; display: inline-block;">
+                                        <button class="btn-link" style="border: none; background: none; cursor: pointer;" type="button" onclick="toggleDropdown('menu-{{ comment.id }}')">
+                                            <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted);"></i>
+                                        </button>
+                                    <div id="menu-{{ comment.id }}" style="display: none; position: absolute; right: 0; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 9999; min-width: 120px;">
+                                        
+                                        <a href="{{ url_for('polls.pincomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
+                                            <i class="fas fa-thumbtack"></i> {{ 'Unpin' if comment.is_pinned else 'Pin' }}
+                                        </a>
+                                        
+                                        <a href="{{ url_for('polls.heartcomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
+                                            <i class="fas fa-heart"></i> {{ 'Remove Heart' if comment.is_authorliked else 'Give Heart' }}
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div id="comment-view-{{ comment.id }}">
+                            <p style="margin: 0; color: var(--text-main); font-size: 0.95rem;">{{ comment.content }}</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 8px; align-items: center;">
+                            
+                            <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: flex; gap: 5px;">
+                                <button type="submit" name="reaction" value="like" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
+                                    ❤︎ <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
+                                </button>
+                                <button type="submit" name="reaction" value="dislike" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
+                                    ⛌   <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
+                                </button>
+                            </form>
+
+                            {% if comment.is_authorliked %}
+                                <div style="display: flex; align-items: center; background: rgba(255, 0, 0, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255,0,0,0.2);" title="Liked by the author">
+                                    <img src="{{ poll.author.getpfp() }}" style="width: 16px; height: 16px; border-radius: 50%; margin-right: 5px;">
+                                    <i class="fas fa-heart" style="color: red; font-size: 0.8rem;"></i>
+                                </div>
+                            {% endif %}
+                            
+                            {% if comment.author == current_user %}
+                                <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">✎</button>
+                                <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
+                                    <button type="submit" style="border: none; background: none; color: #b3b3b3; font-size: 0.75rem; cursor: pointer;">⌫</button>
+                                </form>
+                            {% endif %}
+
                         </div>
                     </div>
-                    {% endif %}
-                
-                {% else %}
-                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No comments yet. Be the first to say something!</p>
-                {% endfor %}
-            </div>
+                </div>
+            {% else %}
+                <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No comments yet. Be the first to say something!</p>
+            {% endfor %}
+        </div>
         </div>
 
     </main>
@@ -392,10 +410,9 @@ function setSlide(index) {
             editDiv.style.display = 'block';
         }
     }
-</script>
-<script>
-    // Keep track of the current slide
-    let currentSlide = 0;
+
+
+
 
     /**
      * Updates the visibility of slides and active state of dots
@@ -471,5 +488,17 @@ function setSlide(index) {
 
     // Initialize the slider on page load
     document.addEventListener('DOMContentLoaded', updateSlider);
+
+
+    function toggleDropdown(id) {
+        var menu = document.getElementById(id);
+        if (menu.style.display === "block") {
+            menu.style.display = "none";
+        } else {
+            document.querySelectorAll('[id^="menu-"]').forEach(el => el.style.display = 'none');
+            menu.style.display = "block";
+        }
+    }
 </script>
+
 {% endblock %}
