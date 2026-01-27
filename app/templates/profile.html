@@ -15,6 +15,19 @@
         
         <div class="profile-info">
             <h1>{{ current_user.full_name if current_user.full_name else current_user.username }}</h1>
+                    <div class="profile-badges" style="margin: 5px 0 15px 0;">
+                <span class="badge" style="
+                    background-color: {{ current_user.get_rank_color() }}; 
+                    color: white; 
+                    padding: 5px 12px; 
+                    border-radius: 15px; 
+                    font-size: 0.85rem; 
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                     ">
+                    <i class="fa-solid fa-crown"></i> 
+                    {{ current_user.get_rank() }}
+                </span>
+            </div>
             <h5>{{current_user.bio}}</h2>
             <p style="margin: 0;">@{{ current_user.username|lower }}</p>
             

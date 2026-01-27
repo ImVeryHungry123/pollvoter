@@ -78,7 +78,7 @@
         <div class="search-container" style="margin-bottom: 20px;">
     <form method="GET" action="{{ url_for('main.home') }}" style="display: flex; gap: 10px;">
         <input type="text" name="q" placeholder="Search polls..." value="{{ q if q else '' }}" class="form-control" style="flex: 1;">
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> </button>
         {% if q %}
             <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Clear</a>
         {% endif %}
@@ -92,12 +92,12 @@
     {% else %}
         <div style="text-align: center; margin-top: 50px; color: gray;">
             <h3>Nothing found for "{{ q }}"</h3>
-            <p>Try searching for something else.</p>
+            <p>Try searching for something else. <i class="fa-solid fa-magnifying-glass"></i> </p>
         </div>
     {% endif %}
         {% if current_user.is_authenticated %}
             <div style="margin-bottom: 20px;">
-                <h2>Recent Polls</h2>
+                <h2>Recent Polls <i class="fa-solid fa-clock"></i> </h2>
             </div>
 
             {% if polls %}
@@ -118,8 +118,17 @@
                             {{ poll.title }}
                         </a>
                     </h3>
-                    
+                    {% if poll.tags %}
+                    <div class="poll-tags-container" style="margin-top: 15px; margin-bottom: 10px;">
+                        {% for tag in poll.tags %}
+                            <a href="{{ url_for('main.home', tag=tag.name) }}" class="tag-pill">
+                                <i class="fa-solid fa-hashtag"></i> {{ tag.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                        {% endif %}
                     {% if poll.description %}
+                        
                         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">{{ poll.description }}</p>
                     {% endif %}
 
@@ -133,11 +142,17 @@
                             <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">+ {{ poll.options|length - 2 }} more options</div>
                         {% endif %}
                     </div>
-
+                                {% if poll.uploads %}
+                    <div class="poll-attachments" style="margin-top: 25px;">
+                        <h5 class="widget-title" style="margin-bottom: 15px;">
+                            <i class="fa-solid fa-paperclip"></i> Contains Attachments
+                        </h5>
+                    </div>
+                    {%endif%}
                     <div class="poll-meta-footer">
                         <div style="display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-muted);">
-                            <span><i class="fa-solid fa-chart-simple"></i> {{ poll.getvotecount() }} votes</span>
-                            <span><i class="fa-regular fa-comment"></i> {{ poll.comments|length }} comments</span>
+                            <span><i class="fa-solid fa-square-poll-vertical"></i></i> {{ poll.getvotecount() }} votes</span>
+                            <span><i class="fa-solid fa-message"></i></i> {{ poll.comments|length }} comments</span>
                         </div>
                         <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem;">Vote</a>
                     </div>

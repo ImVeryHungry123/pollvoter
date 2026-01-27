@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_user, logout_user, login_required, current_user
 import click
 from functools import wraps
-from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption, Report, Notification, PollUploads
+from .models import User, db, Poll, Comment, Vote, CommentReaction, PollOption, Report, Notification, PollUploads, Tag
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -339,6 +339,7 @@ def create_poll():
         description = request.form.get("description")
         options_texts = request.form.getlist("options")
         end_datestr = request.form.get("end_date")
+        tags = request.form.get("tags")
         if not title or len(options_texts) < 2:
             flash("Please provide a title and at least two options.")
             return render_template("create_poll.html")
@@ -346,6 +347,8 @@ def create_poll():
         if end_datestr:
             end_date = datetime.strptime(end_datestr, "%Y-%m-%dT%H:%M")
         new_poll = Poll(title=title, description=description, author=current_user, end_date = end_date)
+        if tags:
+            new_poll.tags = process_tags(tags)
         db.session.add(new_poll)
         uploaded_files = request.files.getlist("files")
         for file in uploaded_files:
@@ -549,10 +552,14 @@ from sqlalchemy.sql.expression import func
 @main.route("/home")
 def home():
     q = request.args.get('q')
+    tag = request.args.get('tag')
     query = Poll.query
 
     if q:
         query = query.filter(Poll.title.ilike(f'%{q}%'))
+    if tag:
+        query = query.filter(Poll.tags.any(Tag.name == tag))
+
     polls = query.order_by(Poll.created_at.desc()).all()
 
     suggestions = []
@@ -561,7 +568,8 @@ def home():
             User.id != current_user.id
         ).order_by(func.random()).limit(3).all()
         
-    return render_template("home.html", polls=polls, suggestions=suggestions,q=q)
+    return render_template("home.html", polls=polls, suggestions=suggestions,q=q, tag=tag) 
+
 
 
 @polls.route("/comment/<int:comment_id>/pin")
@@ -597,6 +605,24 @@ def heartcomment(comment_id):
     return redirect(url_for("polls.poll_detail", poll_id = poll.id))
 
 
+
+def process_tags(tag_string):
+    
+    if not tag_string:
+        return []
+    
+    tag_objects = []
+    tag_names = [t.strip() for t in tag_string.split(',') if t.strip()]
+    
+    for name in tag_names:
+        tag = Tag.query.filter_by(name=name).first()
+        if not tag:
+            
+            tag = Tag(name=name)
+            db.session.add(tag)
+        tag_objects.append(tag)
+        
+    return tag_objects
 
 
 

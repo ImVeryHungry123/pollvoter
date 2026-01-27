@@ -18,24 +18,24 @@
                 
                 {% if current_user.is_following(user) %}
                     <a href="{{ url_for('main.unfollow', username=user.username) }}" class="btn btn-outline">
-                        Unfollow
+                        <i class="fa-solid fa-user-slash"></i> Unfollow
                     </a>
                 {% else %}
                     <a href="{{ url_for('main.follow', username=user.username) }}" class="btn btn-primary">
-                        + Follow
+                        <i class="fa-solid fa-user-plus"></i> Follow
                     </a>
                 {% endif %}
 
                 <div style="margin-left: 10px; display: inline-block;">
                     {% if current_user.is_blocking(user) %}
                         <form action="{{ url_for('main.unblock', username=user.username) }}" method="POST">
-                            <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem;">Unblock</button>
+                            <button type="submit" class="btn btn-primary" style="font-size: 0.8rem;"><i class="fa-solid fa-lock-open"></i> Unblock</button>
                         </form>
                     {% else %}
                         <form action="{{ url_for('main.block', username=user.username) }}" method="POST">
-                            <button type="submit" class="btn btn-outline" 
-                                    style="color: #EF4444; border-color: #EF4444; font-size: 0.8rem; padding: 6px 12px;">
-                                <i class="fas fa-ban"></i> Block
+                            <button type="submit" class="btn btn-primary" 
+                                    style="font-size: 0.8rem; padding: 6px 12px;">
+                                <i class="fa-solid fa-lock"></i> Block
                             </button>
                         </form>
                     {% endif %}

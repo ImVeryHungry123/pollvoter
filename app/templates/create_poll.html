@@ -66,10 +66,17 @@
     </div>
 </div>
                 <div class="form-group">
-                <label for="end_date">Poll Ends At (Optional):</label>
+                <label for="end_date">Poll End Date (Optional):</label>
                 <input type="datetime-local" class="form-control" id="end_date" name="end_date">
             </div>
                 <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 25px 0;">
+
+                 <div style="margin-bottom: 20px;">
+                    <label for="tags" style="display:block; margin-bottom: 8px; font-weight: 600;">Add Tags <i class="fa-solid fa-hashtag"></i> (Divide by Commas, don't use hashtags!) </label>
+                    <input type="text" name="tags" id="tags" required maxlength="90" 
+                           placeholder="Funny, Cool, etc" 
+                           style="font-size: 1.1rem; padding: 14px;">
+                </div>
                 
                 <h4 style="margin-bottom: 15px;">Poll Options</h4>
                 
@@ -89,7 +96,7 @@
                 <br><br>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
-                    ✈ Publish Poll
+                    <i class="fa-solid fa-upload"></i> Publish Poll
                 </button>
             </form>
         </div>

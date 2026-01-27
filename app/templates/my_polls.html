@@ -56,7 +56,15 @@
                     <h3 class="poll-question">
                         <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a>
                     </h3>
-                    
+                                        {% if poll.tags %}
+                    <div class="poll-tags-container" style="margin-top: 15px; margin-bottom: 10px;">
+                        {% for tag in poll.tags %}
+                            <a href="{{ url_for('main.home', tag=tag.name) }}" class="tag-pill">
+                                <i class="fa-solid fa-hashtag"></i> {{ tag.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                        {% endif %}
                     {% if poll.description %}
                         <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px;">
                             {{ poll.description }}
@@ -67,10 +75,10 @@
                 <div class="poll-meta-footer">
                     <div class="stats">
                         <span style="margin-right: 15px;">
-                            <i class="fas fa-vote-yea"></i> <strong>{{ poll.getvotecount() }}</strong> votes
+                            <i class="fa-solid fa-square-poll-vertical"></i> <strong>{{ poll.getvotecount() }}</strong> votes
                         </span>
                         <span>
-                            <i class="fas fa-comments"></i> <strong>{{ poll.comments|length }}</strong> comments
+                            <i class="fa-solid fa-message"></i> <strong>{{ poll.comments|length }}</strong> comments
                         </span>
                     </div>
 

@@ -12,17 +12,17 @@
                 <a href="{{ url_for('polls.listpolls', sort_by='newest') }}" 
                    class="btn btn-outline" 
                    style="text-align: left; border-color: transparent; background: {{ 'var(--border-subtle)' if request.args.get('sort_by') == 'newest' or not request.args.get('sort_by') else 'transparent' }};">
-                   🕐 Newest
+                   <i class="fa-solid fa-clock"></i> Newest
                 </a>
                 <a href="{{ url_for('polls.listpolls', sort_by='popular') }}" 
                    class="btn btn-outline" 
                    style="text-align: left; border-color: transparent; background: {{ 'var(--border-subtle)' if request.args.get('sort_by') == 'popular' else 'transparent' }};">
-                   🔥 Popular
+                   <i class="fa-solid fa-fire"></i> Popular
                 </a>
                 <a href="{{ url_for('polls.listpolls', sort_by='discussed') }}" 
                    class="btn btn-outline" 
                    style="text-align: left; border-color: transparent; background: {{ 'var(--border-subtle)' if request.args.get('sort_by') == 'discussed' else 'transparent' }};">
-                   💬 Most Discussed
+                   <i class="fa-solid fa-message"></i> Most Discussed
                 </a>
             </div>
         </div>
@@ -67,7 +67,15 @@
                     <h3 class="poll-question" style="font-size: 1.25rem;">
                         <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a>
                     </h3>
-                    
+                                        {% if poll.tags %}
+                    <div class="poll-tags-container" style="margin-top: 15px; margin-bottom: 10px;">
+                        {% for tag in poll.tags %}
+                            <a href="{{ url_for('main.home', tag=tag.name) }}" class="tag-pill">
+                                <i class="fa-solid fa-hashtag"></i> {{ tag.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                        {% endif %}
                     {% if poll.description %}
                         <p style="color: var(--text-muted); font-size: 0.95rem;">{{ poll.description }}</p>
                     {% endif %}
@@ -76,10 +84,10 @@
                 <div class="poll-meta-footer">
                     <div class="stats">
                         <span style="margin-right: 15px;">
-                            <i class="fas fa-vote-yea"></i> <strong>{{ poll.getvotecount() }}</strong> votes
+                           <i class="fa-solid fa-square-poll-vertical"></i></i> <strong>{{ poll.getvotecount() }}</strong> votes
                         </span>
                         <span>
-                            <i class="fas fa-comments"></i> <strong>{{ poll.comments|length }}</strong> comments
+                            <i class="fa-solid fa-message"></i></i> <strong>{{ poll.comments|length }}</strong> comments
                         </span>
                     </div>
                     

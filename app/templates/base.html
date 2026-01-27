@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+       
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{%block title%}Pollvoter{%endblock%}</title>
@@ -13,7 +15,7 @@
 <nav class="navbar">
     <div class="navcontainer">
         <a href="{{url_for('main.home')}}" class="navbar-brand">
-            <img src="{{url_for('static', filename = 'Pollvoter.png')}}" alt="Logo" class="logoimage">
+            <i class="fa-solid fa-bars-progress"></i>
             <span class="brand-text">Pollvoter</span>
         </a>
 
@@ -42,14 +44,14 @@
 
             <div class="notification-dropdown-container">
                 <button class="icon-btn" id="notification-toggle">
-                    ✉
+                    <i class="fa-solid fa-bell"></i>
                     {% if unread_count > 0 %}
                         <span class="notif-badge">{{ unread_count }}</span>
                     {% endif %}
                 </button>
                 
                 <div class="notification-dropdown-content" id="notification-dropdown">
-                    <h4>Notifications</h4>
+                    <h4>Notifications <i class="fa-solid fa-bell"></i></h4>
                     {%if latest_notifs%}
                         {%for i in latest_notifs%}
                         <div class="notification-item">
@@ -135,7 +137,7 @@
         const current_theme = localStorage.getItem("theme");
         if (current_theme === "dark"){
             body.classList.add("dark-mode");
-            button.textContent = "☀";
+            button.innerHTML = "<i class='fa-solid fa-sun'></i>";
         }
 
         button.addEventListener("click", function(){
@@ -144,9 +146,9 @@
             let theme = "light";
             if (body.classList.contains("dark-mode")){
                 theme = "dark";
-                button.textContent = "☀";
+                button.innerHTML = "<i class='fa-solid fa-sun'></i>";
             } else {
-                button.textContent = "⏾";
+                button.innerHTML = "<i class='fa-solid fa-moon'></i>";
             }
             localStorage.setItem("theme", theme);
         });

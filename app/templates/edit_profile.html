@@ -9,7 +9,7 @@
         
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
             <h2 style="margin: 0; font-size: 1.25rem;">Edit Profile</h2>
-            <a href="{{ url_for('main.user_profile', username=current_user.username) }}" style="color: var(--text-muted); font-size: 1.2rem;">&times;</a>
+            <a href="{{ url_for('main.profile', username=current_user.username) }}" style="color: var(--text-muted); font-size: 1.2rem;">&times;</a>
         </div>
 
         <form method="POST" enctype="multipart/form-data">

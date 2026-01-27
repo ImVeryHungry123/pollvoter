@@ -17,6 +17,18 @@ blocklist = Table("blocklist",
 followers = db.Table("followers", 
                   Column("follower_id", Integer, ForeignKey("user.id")), 
                   Column("followed_id", Integer, ForeignKey("user.id")))
+
+poll_tags = db.Table("poll_tags",
+                     
+                     Column("poll_id", Integer, ForeignKey("poll.id"), primary_key=True),
+                     Column("tag_id", Integer, ForeignKey("tag.id"), primary_key=True)
+
+)
+class Tag(db.Model):
+    __tablename__ = "tag"
+    id = Column(Integer, primary_key=True)
+    name = Column(Text, unique=True)
+
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
@@ -180,6 +192,7 @@ class Poll(db.Model):
     comments = relationship("Comment", back_populates="poll", cascade="all, delete-orphan")
     options = relationship("PollOption", back_populates="poll", cascade="all, delete-orphan")
     votes = relationship("Vote", back_populates="poll", cascade="all, delete-orphan")
+    tags = relationship("Tag", secondary=poll_tags, backref=db.backref("polls", lazy = "dynamic"))
     def is_active(self):
         if self.end_date is None:
             return True
@@ -233,5 +246,8 @@ class PollUploads(db.Model):
     file_type = Column(Text, nullable=False)
     poll_id = Column(Integer, ForeignKey('poll.id'))
     poll = relationship("Poll", backref= db.backref("uploads", cascade="all, delete-orphan"))
+
+
+
 
     

@@ -6,7 +6,7 @@
     --bg-nav: rgba(255, 255, 255, 0.9); /* Slight transparency for glass effect */
     
     --text-main: #111827;      /* Almost black for sharpness */
-    --text-muted: #6B7280;     /* Cool gray for secondary text */
+    --text-muted: #070707;     /* Cool gray for secondary text */
     
     --primary: #222222;        /* Modern Blue */
     --primary-hover: #2b2b2b;
@@ -28,7 +28,7 @@
     --bg-nav: rgba(22, 22, 22, 0.9);
     
     --text-main: #F3F4F6;
-    --text-muted: #aeafaf;
+    --text-muted: #e7e7e7;
     
     --primary: #363636;
     --primary-hover: #303030;
@@ -770,3 +770,131 @@ input:-webkit-autofill:focus {
 
 .prev { left: 15px; }
 .next { right: 15px; }
+
+/* Styling for Poll Tags */
+.poll-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Space between tags */
+}
+
+.tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    background-color: var(--bg-body); /* Subtle gray background */
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full); /* Clean pill shape */
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.tag-pill i {
+    font-size: 0.7rem;
+    color: var(--primary); /* The hashtag gets your accent color */
+}
+
+/* Hover effect to match your other interactive elements */
+.tag-pill:hover {
+    background-color: var(--primary);
+    color: #FFFFFF;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.tag-pill:hover i {
+    color: #FFFFFF; /* Icon turns white on hover */
+}
+
+/* === NOTIFICATION DROPDOWN OVERHAUL === */
+.notification-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 60px; /* Adjust based on navbar height to prevent floating icons */
+    width: 320px;
+    background-color: var(--bg-card); /* Rich dark gray */
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md); /* Smooth 12px corners */
+    box-shadow: var(--shadow-lg);
+    z-index: 1100;
+    overflow: hidden; /* Ensures the 'View all' button follows the corner radius */
+}
+
+/* FIX: Removes the bulky white scrollbar */
+.notification-dropdown-content::-webkit-scrollbar {
+    width: 6px;
+}
+.notification-dropdown-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.notification-dropdown-content::-webkit-scrollbar-thumb {
+    background: var(--border-subtle); /* Muted gray to match your theme */
+    border-radius: 10px;
+}
+
+/* Header inside dropdown */
+.notification-dropdown-content h4 {
+    padding: 16px 20px;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Notification Items */
+.notification-item {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+    background-color: rgba(255, 255, 255, 0.03); /* Subtle dark-mode highlight */
+}
+
+.notification-item p {
+    margin: 0 0 6px 0;
+    font-size: 0.88rem;
+    color: var(--text-main); /* High contrast text */
+    line-height: 1.4;
+}
+
+/* The 'View' link styling */
+.notification-item a {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary); /* Accent color */
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+/* Footer Link */
+.view-all-link {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background-color: var(--bg-body);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.view-all-link:hover {
+    color: var(--text-main);
+}
+
+/* FIX: Center the nav icons so they don't float */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
