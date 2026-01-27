@@ -114,10 +114,16 @@
                     </div>
 
                     <h3 style="margin-bottom: 10px;">
-                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" style="text-decoration: none; color: var(--text-main);">
-                            {{ poll.title }}
-                        </a>
-                    </h3>
+    <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" style="text-decoration: none; color: var(--text-main);">
+        {{ poll.title }}
+    </a>
+
+    {% if poll.options | selectattr('is_correct') | list | length > 0 %}
+        <span class="quiz-badge" title="This is a Quiz">
+            <i class="fa-solid fa-brain"></i> Quiz
+        </span>
+    {% endif %}
+    </h3>
                     {% if poll.tags %}
                     <div class="poll-tags-container" style="margin-top: 15px; margin-bottom: 10px;">
                         {% for tag in poll.tags %}

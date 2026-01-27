@@ -898,3 +898,15 @@ input:-webkit-autofill:focus {
 }
 
 
+.quiz-badge {
+    background-color: #8B5CF6; /* Фіолетовий */
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    font-weight: 600;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid rgba(255,255,255,0.2);
+}

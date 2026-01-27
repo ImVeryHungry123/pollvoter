@@ -339,37 +339,73 @@ def create_poll():
         description = request.form.get("description")
         options_texts = request.form.getlist("options")
         end_datestr = request.form.get("end_date")
-        tags = request.form.get("tags")
+        tags_str = request.form.get("tags")
+
         if not title or len(options_texts) < 2:
             flash("Please provide a title and at least two options.")
             return render_template("create_poll.html")
+            
         end_date = None 
         if end_datestr:
-            end_date = datetime.strptime(end_datestr, "%Y-%m-%dT%H:%M")
-        new_poll = Poll(title=title, description=description, author=current_user, end_date = end_date)
-        if tags:
-            new_poll.tags = process_tags(tags)
+            try:
+                end_date = datetime.strptime(end_datestr, "%Y-%m-%dT%H:%M")
+            except ValueError:
+                pass
+
+        new_poll = Poll(
+            title=title, 
+            description=description, 
+            author=current_user, 
+            end_date=end_date
+        )
+
+        if tags_str:
+            new_poll.tags = process_tags(tags_str)
+
         db.session.add(new_poll)
+        db.session.flush()
+
+        upload_folder = os.path.join(current_app.root_path, 'static', 'uploads', 'files')
+        os.makedirs(upload_folder, exist_ok=True)
+
         uploaded_files = request.files.getlist("files")
+        
         for file in uploaded_files:
-            if file and allowed_file(file.filename):
+            if file and file.filename != '' and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(upload_folder, filename))
-                extension = get_file_type(filename)
-                upload = PollUploads(filename=filename, file_type=extension, poll = new_poll)
+                unique_filename = f"{uuid.uuid4().hex}_{filename}"
+                file.save(os.path.join(upload_folder, unique_filename))
+                extension = get_file_type(unique_filename)
+                upload = PollUploads(
+                    filename=unique_filename, 
+                    file_type=extension, 
+                    poll=new_poll
+                )
                 db.session.add(upload)
 
+        correct_index_str = request.form.get("correct_option_index")
 
-        for option_text in options_texts:
+        for index, option_text in enumerate(options_texts):
             if option_text:
-                option = PollOption(text=option_text, poll=new_poll)
+                is_right = False
+                if correct_index_str is not None and str(index) == correct_index_str:
+                    is_right = True
+
+                option = PollOption(text=option_text, poll=new_poll, is_correct=is_right)
                 db.session.add(option)
 
         db.session.commit()
+        
         for follower in current_user.followers:
-            notification = Notification(message = f"Your channel {current_user.username} created a new poll! {new_poll.title }", recipient_id = follower.id, poll_id = new_poll.id)
+            notification = Notification(
+                message=f"Your channel {current_user.username} created a new poll! {new_poll.title}", 
+                recipient_id=follower.id, 
+                poll_id=new_poll.id
+            )
             db.session.add(notification)
+            
         db.session.commit()
+        
         flash("Poll created successfully!")
         return redirect(url_for("polls.poll_detail", poll_id=new_poll.id))
 

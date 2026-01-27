@@ -3,6 +3,25 @@
 {% block title %}Create a New Poll{% endblock %}
 
 {% block content %}
+
+
+
+<style>
+    .correct-answer-radio {
+        accent-color: #10B981;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+    .option-wrapper {
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        margin-bottom: 12px;
+    }
+</style>
+
+
+
 <div class="dashboard-layout">
 
     <aside class="sidebar">
@@ -78,16 +97,22 @@
                            style="font-size: 1.1rem; padding: 14px;">
                 </div>
                 
-                <h4 style="margin-bottom: 15px;">Poll Options</h4>
-                
-                <div id="options-container">
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <input type="text" name="options" placeholder="Option 1" required maxlength="25">
+                <h4 style="margin-bottom: 5px;">Poll Options</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                        Select the radio button <input type="radio" checked disabled> to mark the <strong>correct answer</strong> (for Quiz mode). Leave blank for a regular poll.
+                    </p>
+
+                    <div id="options-container">
+                        <div class="option-wrapper">
+                            <input type="radio" name="correct_option_index" value="0" class="correct-answer-radio" title="Mark as correct answer">
+                            <input type="text" name="options" placeholder="Option 1" required maxlength="25" style="flex-grow: 1;">
+                        </div>
+                        
+                        <div class="option-wrapper">
+                            <input type="radio" name="correct_option_index" value="1" class="correct-answer-radio" title="Mark as correct answer">
+                            <input type="text" name="options" placeholder="Option 2" required maxlength="25" style="flex-grow: 1;">
+                        </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <input type="text" name="options" placeholder="Option 2" required maxlength="25">
-                    </div>
-                </div>
                 
                 <button type="button" id="add-option-btn" class="btn btn-outline" style="width: 100%; border-style: dashed; margin-top: 10px;">
                     + Add Another Option
@@ -107,32 +132,36 @@
 <script>
     document.getElementById('add-option-btn').addEventListener('click', function() {
         const container = document.getElementById('options-container');
-        const currentCount = container.querySelectorAll('input').length;
+        const currentCount = container.querySelectorAll('input[type="text"]').length;
         
-        // Safety limit (optional, to stop spam)
         if (currentCount >= 10) {
             alert("Maximum 10 options allowed!");
             return;
         }
 
-        const optionCount = currentCount + 1;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'option-wrapper';
+        
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'correct_option_index';
+        radio.value = currentCount;
+        radio.className = 'correct-answer-radio';
+        radio.title = "Mark as correct answer";
 
-        const newOptionDiv = document.createElement('div');
-        newOptionDiv.className = 'form-group';
-        newOptionDiv.style.marginBottom = '12px'; // Keep spacing consistent
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'options';
+        input.placeholder = 'Option ' + (currentCount + 1);
+        input.maxLength = 25;
+        input.required = true;
+        input.style.flexGrow = '1';
         
-        const newOptionInput = document.createElement('input');
-        newOptionInput.type = 'text';
-        newOptionInput.name = 'options';
-        newOptionInput.placeholder = 'Option ' + optionCount;
-        newOptionInput.maxLength = 25;
-        newOptionInput.required = true; // Make sure they don't submit empty blanks
+        wrapper.style.animation = "fadeIn 0.3s ease";
         
-        // Add a nice fade-in animation
-        newOptionInput.style.animation = "fadeIn 0.3s ease";
-        
-        newOptionDiv.appendChild(newOptionInput);
-        container.appendChild(newOptionDiv);
+        wrapper.appendChild(radio);
+        wrapper.appendChild(input);
+        container.appendChild(wrapper);
     });
 
     function handleFileSelect(input) {
@@ -168,6 +197,10 @@
             dropzone.style.backgroundColor = "var(--bg-body)";
         }, false);
     });
+
+
+
+    
 </script>
 
 <style>

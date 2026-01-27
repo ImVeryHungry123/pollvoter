@@ -3,12 +3,54 @@
 {% block title %}{{ poll.title }} - Pollvoter{% endblock %}
 
 {% block content %}
+
+<style>
+    /* Анімація перемоги (пульсація) */
+    @keyframes win-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .quiz-win {
+        border: 2px solid #10B981 !important;
+        background-color: rgba(16, 185, 129, 0.1);
+        animation: win-pulse 2s infinite;
+    }
+
+    /* Анімація поразки (тряска) */
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+    .quiz-loss {
+        border: 2px solid #EF4444 !important;
+        background-color: rgba(239, 68, 68, 0.1);
+        animation: shake 0.5s;
+    }
+
+    /* Стилі для слайдера */
+    .image-slider-container { position: relative; width: 100%; background-color: var(--bg-body); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
+    .slider-wrapper { display: flex; width: 100%; }
+    .slide { display: none; width: 100%; justify-content: center; align-items: center; background: #000; }
+    .slide.active { display: flex; animation: fadeIn 0.3s ease; }
+    .slide img { max-width: 100%; max-height: 500px; object-fit: contain; }
+    .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; transition: 0.2s; backdrop-filter: blur(4px); }
+    .slider-arrow:hover { background: var(--primary); }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .slider-dots { position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; gap: 6px; }
+    .dot { height: 4px; width: 12px; background: rgba(255,255,255,0.3); border-radius: 10px; cursor: pointer; }
+    .dot.active { background: #fff; width: 24px; }
+</style>
+
 <div class="dashboard-layout">
 
     <aside class="sidebar">
         <div class="sidebar-widget">
             <h3 class="widget-title">Poll Stats</h3>
-            
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; margin-bottom: 20px;">
                 <div style="background: var(--bg-body); padding: 15px; border-radius: 8px;">
                     <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">{{ poll.getvotecount() }}</div>
@@ -19,7 +61,6 @@
                     <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Comments</small>
                 </div>
             </div>
-
             <div style="font-size: 0.85rem; color: var(--text-muted);">
                 Posted: {{ poll.created_at.strftime('%B %d, %Y') }}<br>
                 Status: <span style="color: #10B981; font-weight: bold;">{%if poll.is_active() %} Active {%else%} Closed {%endif%}</span>
@@ -35,9 +76,7 @@
         {% endif %}
     </aside>
 
-
     <main class="feed">
-        
         <div class="card">
             
             <div class="user-row" style="margin-bottom: 20px;">
@@ -48,256 +87,200 @@
                     </strong>
                     <br>
                     <small style="color: var(--text-muted);">Asked a question</small>
+                    {% if poll.options | selectattr('is_correct') | list | length > 0 %}
+                    <span class="quiz-badge" style="margin-left: 5px;">
+                        <i class="fa-solid fa-brain"></i> Quiz Mode
+                    </span>
+               
+        {% endif %}
+         </small>
                 </div>
             </div>
 
             {% if poll.end_date %}
-<div class="poll-timer" style="margin-bottom: 15px;">
-    {% if poll.is_active() %}
-        <span class="badge badge-warning">
-            <i class="fa-solid fa-hourglass-start"></i> Ends in: <span id="countdown-{{ poll.id }}">Calculating...</span>
-        </span>            
-        
-        <script>
-            (function() {
-             
-                var countDownDate = {{ poll.end_date.timestamp() * 1000 }};
-
-                var x = setInterval(function() {
-                    var now = new Date().getTime();
-                    var distance = countDownDate - now;
-
-
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000); 
-
-       
-                    document.getElementById("countdown-{{ poll.id }}").innerHTML = 
-                        days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-
-         
-                    if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("countdown-{{ poll.id }}").innerHTML = "EXPIRED";
-                        
-        
-                        var buttons = document.querySelector('.vote-buttons-container'); 
-                        if (buttons) {
-                            buttons.style.display = 'none';
-                        }
-                    }
-                }, 1000);
-            })();
-        </script>
-    {% else %}
-        <span class="badge badge-danger">ꗃ Poll Closed</span>
-    {% endif %}
-</div>
-{% endif %}
-
-{% if poll.uploads %}
-    <div class="poll-attachments" style="margin-top: 25px;">
-        <h5 class="widget-title" style="margin-bottom: 15px;">
-            <i class="fa-solid fa-paperclip"></i> Attachments
-        </h5>
-        
-        <div class="media-players-list">
-            {% for file in poll.uploads %}
-                {% if file.file_type == 'video' %}
-                    <div class="attachment-item" style="margin-bottom: 20px;">
-                        <video controls class="modern-video" style="width: 100%; border-radius: var(--radius-md); background: #000; box-shadow: var(--shadow-sm);">
-                            <source src="{{ url_for('static', filename='uploads/files/' + file.filename) }}">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                {% elif file.file_type == 'audio' %}
-                    <div class="attachment-item" style="margin-bottom: 20px;">
-                        <audio controls style="width: 100%; filter: invert(0.1);">
-                            <source src="{{ url_for('static', filename='uploads/files/' + file.filename) }}">
-                        </audio>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        {% set images = poll.uploads | selectattr('file_type', 'equalto', 'image') | list %}
-        {% if images %}
-            <div class="image-slider-container">
-                <div class="slider-wrapper">
-                    {% for img in images %}
-                        <div class="slide {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}">
-                            <img src="{{ url_for('static', filename='uploads/files/' + img.filename) }}" alt="Poll Image">
-                        </div>
-                    {% endfor %}
+                <div class="poll-timer" style="margin-bottom: 15px;">
+                    {% if poll.is_active() %}
+                        <span class="badge badge-warning">
+                            <i class="fa-solid fa-hourglass-start"></i> Ends in: <span id="countdown-{{ poll.id }}">Calculating...</span>
+                        </span>            
+                        <script>
+                            (function() {
+                                var countDownDate = {{ poll.end_date.timestamp() * 1000 }};
+                                var x = setInterval(function() {
+                                    var now = new Date().getTime();
+                                    var distance = countDownDate - now;
+                                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                    var seconds = Math.floor((distance % (1000 * 60)) / 1000); 
+                                    document.getElementById("countdown-{{ poll.id }}").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                                    if (distance < 0) {
+                                        clearInterval(x);
+                                        document.getElementById("countdown-{{ poll.id }}").innerHTML = "EXPIRED";
+                                        var buttons = document.querySelector('.vote-buttons-container'); 
+                                        if (buttons) buttons.style.display = 'none';
+                                    }
+                                }, 1000);
+                            })();
+                        </script>
+                    {% else %}
+                        <span class="badge badge-danger">ꗃ Poll Closed</span>
+                    {% endif %}
                 </div>
+            {% endif %}
 
-                {% if images|length > 1 %}
-                    <button class="slider-arrow prev" onclick="changeSlide(-1)">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <button class="slider-arrow next" onclick="changeSlide(1)">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-
-                    <div class="slider-dots">
-                        {% for img in images %}
-                            <span class="dot {% if loop.first %}active{% endif %}" onclick="setSlide({{ loop.index0 }})"></span>
+            {% if poll.uploads %}
+                <div class="poll-attachments" style="margin-top: 25px;">
+                    <h5 class="widget-title" style="margin-bottom: 15px;"><i class="fa-solid fa-paperclip"></i> Attachments</h5>
+                    
+                    <div class="media-players-list">
+                        {% for file in poll.uploads %}
+                            {% if file.file_type == 'video' %}
+                                <div class="attachment-item" style="margin-bottom: 20px;">
+                                    <video controls class="modern-video" style="width: 100%; border-radius: var(--radius-md); background: #000; box-shadow: var(--shadow-sm);">
+                                        <source src="{{ url_for('static', filename='uploads/files/' + file.filename) }}">
+                                    </video>
+                                </div>
+                            {% elif file.file_type == 'audio' %}
+                                <div class="attachment-item" style="margin-bottom: 20px;">
+                                    <audio controls style="width: 100%; filter: invert(0.1);">
+                                        <source src="{{ url_for('static', filename='uploads/files/' + file.filename) }}">
+                                    </audio>
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
-                {% endif %}
-            </div>
-        {% endif %}
 
-        <div class="other-files-list" style="margin-top: 15px;">
-            {% for file in poll.uploads %}
-                {% if file.file_type == 'other' %}
-                    <div class="attachment-item" style="margin-bottom: 10px;">
-                        <a href="{{ url_for('static', filename='uploads/files/' + file.filename) }}" 
-                           class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem;" 
-                           target="_blank" download>
-                           <i class="fa-solid fa-file-arrow-down"></i> Download {{ file.filename }}
-                        </a>
+                    {% set images = poll.uploads | selectattr('file_type', 'equalto', 'image') | list %}
+                    {% if images %}
+                        <div class="image-slider-container">
+                            <div class="slider-wrapper">
+                                {% for img in images %}
+                                    <div class="slide {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}">
+                                        <img src="{{ url_for('static', filename='uploads/files/' + img.filename) }}" alt="Poll Image">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if images|length > 1 %}
+                                <button class="slider-arrow prev" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <button class="slider-arrow next" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                                <div class="slider-dots">
+                                    {% for img in images %}
+                                        <span class="dot {% if loop.first %}active{% endif %}" onclick="setSlide({{ loop.index0 }})"></span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div class="other-files-list" style="margin-top: 15px;">
+                        {% for file in poll.uploads %}
+                            {% if file.file_type == 'other' %}
+                                <div class="attachment-item" style="margin-bottom: 10px;">
+                                    <a href="{{ url_for('static', filename='uploads/files/' + file.filename) }}" class="btn btn-outline" target="_blank" download>
+                                        <i class="fa-solid fa-file-arrow-down"></i> Download {{ file.filename }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-{% endif %}
-
-<script>
-var currentSlide = 0;
-
-function updateSlider() {
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    
-    if (slides.length === 0) return;
-
-    slides.forEach((slide, index) => {
-        slide.classList.toggle('active', index === currentSlide);
-    });
-    
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-    });
-}
-
-function changeSlide(direction) {
-    const slides = document.querySelectorAll('.slide');
-    if (slides.length <= 1) return;
-    currentSlide = (currentSlide + direction + slides.length) % slides.length;
-    updateSlider();
-}
-
-function setSlide(index) {
-    currentSlide = index;
-    updateSlider();
-}
-</script>
-
-<style>
-.image-slider-container {
-    position: relative;
-    width: 100%;
-    background-color: var(--bg-body);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-}
-.slider-wrapper { display: flex; width: 100%; }
-.slide { 
-    display: none; 
-    width: 100%; 
-    justify-content: center; 
-    align-items: center; 
-    background: #000;
-}
-.slide.active { display: flex; animation: fadeIn 0.3s ease; }
-.slide img { max-width: 100%; max-height: 500px; object-fit: contain; }
-
-.slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    color: white;
-    border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-    backdrop-filter: blur(4px);
-}
-.slider-arrow:hover { background: var(--primary); }
-.prev { left: 10px; }
-.next { right: 10px; }
-
-.slider-dots {
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-}
-.dot {
-    height: 4px; width: 12px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 10px;
-    cursor: pointer;
-}
-.dot.active { background: #fff; width: 24px; }
-</style>
+                </div>
+            {% endif %}
 
             {% if user_vote %}
-                <div class="voted-message" style="background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem;">
-                    <i class="fas fa-check-circle"></i> You voted for: <strong>{{ user_vote.option.text }}</strong>
-                </div>
+                
+                {% set correct_options = poll.options | selectattr('is_correct') | list %}
+                {% set is_quiz = correct_options | length > 0 %}
+
+                {% if is_quiz %}
+                        {% if user_vote.option.is_correct %}
+                            <div style="background: #D1FAE5; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid #10B981;">
+                                <h2 style="margin:0; font-size: 1.5rem; color: #065F46 !important;">🎉 Correct! 🎉</h2>
+                                <p style="margin:5px 0 0; color: #065F46 !important;">You got the right answer.</p>
+                            </div>
+                        {% else %}
+                            <div style="background: #FEE2E2; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid #EF4444;">
+                                <h2 style="margin:0; font-size: 1.5rem; color: #991B1B !important;">😢 Oops! Wrong.</h2>
+                                <p style="margin:5px 0 0; color: #991B1B !important;">Better luck next time.</p>
+                            </div>
+                        {% endif %}
+                {% else %}
+                    <div class="voted-message" style="background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <i class="fas fa-check-circle"></i> You voted for: <strong>{{ user_vote.option.text }}</strong>
+                    </div>
+                {% endif %}
 
                 <div class="vote-results">
                     {% set total_votes = poll.getvotecount() %}
+                    
                     {% for option in poll.options %}
                         {% set vote_count = option.votes|length %}
                         {% set percentage = (vote_count / total_votes * 100) if total_votes > 0 else 0 %}
                         
-                        <div style="margin-bottom: 15px;">
-                            <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 5px;">
-                                <span style="font-weight: 500;">{{ option.text }}</span>
-                                <span style="color: var(--text-muted);">{{ "%.0f"|format(percentage) }}%</span>
+                        {% set row_class = "" %}
+                        {% set bar_color = "var(--primary)" %}
+                        {% set icon = "" %}
+
+                        {% if is_quiz %}
+                            {% if option.is_correct %}
+                                {% set bar_color = "#10B981" %} {% set icon = "✅" %}
+                                {% if user_vote.option_id == option.id %}
+                                    {% set row_class = "quiz-win" %}
+                                {% endif %}
+                            {% else %}
+                                {% if user_vote.option_id == option.id %}
+                                    {% set bar_color = "#EF4444" %} {% set icon = "❌" %}
+                                    {% set row_class = "quiz-loss" %}
+                                {% else %}
+                                    {% set bar_color = "#9CA3AF" %} {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        <div class="{{ row_class }}" style="margin-bottom: 15px; padding: 10px; border-radius: 8px; transition: 0.3s;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="font-weight: 500;">
+                                    {{ option.text }} {{ icon }}
+                                </span>
+                                <span>{{ "%.0f"|format(percentage) }}%</span>
                             </div>
-                            
-                            <div style="width: 100%; height: 10px; background: var(--bg-body); border-radius: 20px; overflow: hidden;">
-                                <div style="width: {{ percentage }}%; height: 100%; background: var(--primary); border-radius: 20px; transition: width 0.5s ease;"></div>
+                            <div style="width: 100%; height: 10px; background: var(--bg-body); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-subtle);">
+                                <div style="width: {{ percentage }}%; height: 100%; background: {{ bar_color }};"></div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-            
+
             {% else %}
-            {% if poll.is_active() %}
-                <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}">
-                    <div class="vote-options" style="display: flex; flex-direction: column; gap: 10px;">
-                        {% for option in poll.options %}
-                        <label class="poll-option-btn" style="display: flex; align-items: center; gap: 10px;">
-                            <input type="radio" name="option_id" value="{{ option.id }}" required style="width: auto; margin: 0;"> 
-                            {{ option.text }}
-                        </label>
-                        {% endfor %}
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%; padding: 12px;">
-                        Submit Vote
-                    </button>
-                </form>
-            {% else %}
-            <p class="text-muted">Voting is disabled because the poll has ended.</p>
-            {% endif %}
+                {% if poll.is_active() %}
+                    <form method="POST" action="{{ url_for('polls.vote', poll_id=poll.id) }}">
+                        <div class="vote-options" style="display: flex; flex-direction: column; gap: 10px;">
+                            {% for option in poll.options %}
+                            
+                            <label class="poll-option-btn" style="
+                                display: flex; 
+                                justify-content: flex-start !important; /* Притискаємо все вліво */
+                                align-items: center; 
+                                gap: 0; /* Gap прибираємо, використовуємо margin */
+                                padding: 12px 15px; 
+                                border: 1px solid var(--border-subtle); 
+                                border-radius: 8px; 
+                                cursor: pointer; 
+                                width: 100%;
+                                text-align: left;
+                            ">
+                                <input type="radio" name="option_id" value="{{ option.id }}" required style="margin: 0 12px 0 0; width: auto;"> 
+                                <span style="flex-grow: 1; word-break: break-word;">{{ option.text }}</span>
+                            </label>
+
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%; padding: 12px;">
+                            Submit Vote
+                        </button>
+                    </form>
+                {% else %}
+                    <p class="text-muted">Voting is disabled because the poll has ended.</p>
+                {% endif %}
             {% endif %}
         </div>
 
@@ -307,101 +290,84 @@ function setSlide(index) {
             <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" style="margin-bottom: 30px; display: flex; gap: 10px;">
                 <img src="{{ current_user.getpfp() }}" class="avatar-sm" style="width: 35px; height: 35px;">
                 <div style="flex-grow: 1;">
-                    <textarea name="content" placeholder="Share your thoughts..." required maxlength="60" 
-                              style="width: 100%; resize: none; height: 50px; border-radius: 8px;"></textarea>
+                    <textarea name="content" placeholder="Share your thoughts..." required maxlength="60" style="width: 100%; resize: none; height: 50px; border-radius: 8px;"></textarea>
                     <button type="submit" class="btn btn-primary" style="margin-top: 8px; float: right; font-size: 0.85rem;">Post Comment</button>
                 </div>
             </form>
 
-        <div class="comments-list">
-            {% for comment in poll.comments|sort(attribute='is_pinned', reverse=True) %}
-                
-                <div class="comment-item" style="
-                    display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;
-                    {% if comment.is_pinned %} background: rgba(var(--primary-rgb, 37, 99, 235), 0.05); padding: 15px; border-radius: 8px; border: 1px solid var(--primary); {% endif %}
-                ">
-                    <a href="{{ url_for('main.user_profile', username=comment.author.username) }}">
-                        <img src="{{ comment.author.getpfp() }}" class="avatar-sm" alt="PFP">
-                    </a>
-
-                    <div style="flex-grow: 1;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-                            <div>
-                                <strong>{{ comment.author.username }}</strong>
-                                <small style="color: var(--text-muted); font-size: 0.75rem;">{{ comment.created_at.strftime('%d.%m %H:%M') }}</small>
-                                
-                                {% if comment.is_pinned %}
-                                    <span style="font-size: 0.7rem; color: var(--primary); font-weight: bold; margin-left: 8px;">
-                                        <i class="fas fa-thumbtack"></i> Pinned by Author
-                                    </span>
-                                {% endif %}
-                            </div>
-
-                            {% if current_user == poll.author %}
-                                <div class="dropdown" style="position: relative; display: inline-block;">
+            <div class="comments-list">
+                {% for comment in poll.comments|sort(attribute='is_pinned', reverse=True) %}
+                    <div class="comment-item" style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; {% if comment.is_pinned %} background: rgba(var(--primary-rgb, 37, 99, 235), 0.05); padding: 15px; border-radius: 8px; border: 1px solid var(--primary); {% endif %}">
+                        <a href="{{ url_for('main.user_profile', username=comment.author.username) }}">
+                            <img src="{{ comment.author.getpfp() }}" class="avatar-sm" alt="PFP">
+                        </a>
+                        <div style="flex-grow: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                                <div>
+                                    <strong>{{ comment.author.username }}</strong>
+                                    <small style="color: var(--text-muted); font-size: 0.75rem;">{{ comment.created_at.strftime('%d.%m %H:%M') }}</small>
+                                    {% if comment.is_pinned %}
+                                        <span style="font-size: 0.7rem; color: var(--primary); font-weight: bold; margin-left: 8px;">
+                                            <i class="fas fa-thumbtack"></i> Pinned by Author
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                {% if current_user == poll.author %}
+                                    <div class="dropdown" style="position: relative; display: inline-block;">
                                         <button class="btn-link" style="border: none; background: none; cursor: pointer;" type="button" onclick="toggleDropdown('menu-{{ comment.id }}')">
                                             <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted);"></i>
                                         </button>
-                                    <div id="menu-{{ comment.id }}" style="display: none; position: absolute; right: 0; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 9999; min-width: 120px;">
-                                        
-                                        <a href="{{ url_for('polls.pincomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
-                                            <i class="fas fa-thumbtack"></i> {{ 'Unpin' if comment.is_pinned else 'Pin' }}
-                                        </a>
-                                        
-                                        <a href="{{ url_for('polls.heartcomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
-                                            <i class="fa-solid fa-heart"></i></i> {{ 'Remove Heart' if comment.is_authorliked else 'Give Heart' }}
-                                        </a>
+                                        <div id="menu-{{ comment.id }}" style="display: none; position: absolute; right: 0; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999; min-width: 150px;">
+                                            <a href="{{ url_for('polls.pincomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
+                                                <i class="fas fa-thumbtack"></i> {{ 'Unpin' if comment.is_pinned else 'Pin' }}
+                                            </a>
+                                            <a href="{{ url_for('polls.heartcomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
+                                                <i class="fa-solid fa-heart"></i> {{ 'Remove Heart' if comment.is_authorliked else 'Give Heart' }}
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <div id="comment-view-{{ comment.id }}">
-                            <p style="margin: 0; color: var(--text-main); font-size: 0.95rem;">{{ comment.content }}</p>
-                        </div>
-                        
-                        <div style="display: flex; gap: 15px; margin-top: 8px; align-items: center;">
-                            
-                            <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: flex; gap: 5px;">
-                                <button type="submit" name="reaction" value="like" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
-                                    <i class="fa-solid fa-thumbs-up"></i> <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
-                                </button>
-                                <button type="submit" name="reaction" value="dislike" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
-                                    <i class="fa-solid fa-thumbs-down"></i>   <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
-                                </button>
-                            </form>
-
-                            {% if comment.is_authorliked %}
-                                <div style="display: flex; align-items: center; background: rgba(255, 0, 0, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255,0,0,0.2);" title="Liked by the author">
-                                    <img src="{{ poll.author.getpfp() }}" style="width: 16px; height: 16px; border-radius: 50%; margin-right: 5px;">
-                                    <i class="fas fa-heart" style="color: rgb(37, 37, 37); font-size: 0.8rem;"></i>
-                                </div>
-                            {% endif %}
-                            
-                            {% if comment.author == current_user %}
-                                <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">✎</button>
-                                <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
-                                    <button type="submit" style="border: none; background: none; color: #b3b3b3; font-size: 0.75rem; cursor: pointer;">⌫</button>
+                                {% endif %}
+                            </div>
+                            <div id="comment-view-{{ comment.id }}">
+                                <p style="margin: 0; color: var(--text-main); font-size: 0.95rem;">{{ comment.content }}</p>
+                            </div>
+                            <div style="display: flex; gap: 15px; margin-top: 8px; align-items: center;">
+                                <form method="POST" action="{{ url_for('polls.react_comment', comment_id=comment.id) }}" style="display: flex; gap: 5px;">
+                                    <button type="submit" name="reaction" value="like" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
+                                        <i class="fa-solid fa-thumbs-up"></i> <span style="margin-left: 2px;">{{ comment.get_likes_count() }}</span>
+                                    </button>
+                                    <button type="submit" name="reaction" value="dislike" class="icon-btn" style="font-size: 0.8rem; padding: 4px;">
+                                        <i class="fa-solid fa-thumbs-down"></i> <span style="margin-left: 2px;">{{ comment.get_dislikes_count() }}</span>
+                                    </button>
                                 </form>
-                            {% endif %}
-
+                                {% if comment.is_authorliked %}
+                                    <div style="display: flex; align-items: center; background: rgba(255, 0, 0, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255,0,0,0.2);" title="Liked by the author">
+                                        <img src="{{ poll.author.getpfp() }}" style="width: 16px; height: 16px; border-radius: 50%; margin-right: 5px;">
+                                        <i class="fas fa-heart" style="color: rgb(220, 38, 38); font-size: 0.8rem;"></i>
+                                    </div>
+                                {% endif %}
+                                {% if comment.author == current_user %}
+                                    <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">✎</button>
+                                    <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
+                                        <button type="submit" style="border: none; background: none; color: #b3b3b3; font-size: 0.75rem; cursor: pointer;">⌫</button>
+                                    </form>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% else %}
-                <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No comments yet. Be the first to say something!</p>
-            {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No comments yet. Be the first to say something!</p>
+                {% endfor %}
+            </div>
         </div>
-        </div>
-
     </main>
 </div>
 
 <script>
+    // --- 1. Редагування Коментарів ---
     function toggleEdit(commentId) {
         const viewDiv = document.getElementById('comment-view-' + commentId);
         const editDiv = document.getElementById('comment-edit-' + commentId);
-        
         if (viewDiv.style.display === 'none') {
             viewDiv.style.display = 'block';
             editDiv.style.display = 'none';
@@ -411,94 +377,55 @@ function setSlide(index) {
         }
     }
 
+    // --- 2. Меню (Dropdown) ---
+    function toggleDropdown(id) {
+        var menu = document.getElementById(id);
+        var isVisible = menu.style.display === "block";
+        document.querySelectorAll('[id^="menu-"]').forEach(el => el.style.display = 'none');
+        if (!isVisible) {
+            menu.style.display = "block";
+        }
+    }
 
+    window.onclick = function(event) {
+        if (!event.target.closest('.dropdown')) {
+            document.querySelectorAll('[id^="menu-"]').forEach(el => el.style.display = 'none');
+        }
+    }
 
-
-    /**
-     * Updates the visibility of slides and active state of dots
-     */
+    // --- 3. Слайдер ---
+    var currentSlide = 0; 
     function updateSlider() {
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
-        
         if (slides.length === 0) return;
-
-        // Loop through slides and toggle the 'active' class
         slides.forEach((slide, index) => {
-            if (index === currentSlide) {
-                slide.classList.add('active');
-            } else {
-                slide.classList.remove('active');
-            }
+            if (index === currentSlide) slide.classList.add('active');
+            else slide.classList.remove('active');
         });
-        
-        // Update the progress pills/dots
-        dots.forEach((dot, index) => {
-            if (index === currentSlide) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
+        if (dots.length > 0) {
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
     }
-
-    /**
-     * Moves the slider forward or backward
-     * @param {number} direction - 1 for next, -1 for previous
-     */
     function changeSlide(direction) {
         const slides = document.querySelectorAll('.slide');
         if (slides.length <= 1) return;
-
-        // Calculate the new index (loops back to start/end)
         currentSlide = (currentSlide + direction + slides.length) % slides.length;
         updateSlider();
     }
-
-    /**
-     * Jumps to a specific slide (used by the dots)
-     * @param {number} index - The slide index to jump to
-     */
     function setSlide(index) {
         currentSlide = index;
         updateSlider();
     }
 
-    // --- EXTRA POLISH ---
-
-    // 1. Keyboard Support: Use Arrow Keys to navigate
-    document.addEventListener('keydown', function(e) {
-        // Check if the slider exists on the current page
-        const sliderExists = document.querySelector('.image-slider-container');
-        if (!sliderExists) return;
-
-        if (e.key === "ArrowLeft") {
-            changeSlide(-1);
-        } else if (e.key === "ArrowRight") {
-            changeSlide(1);
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.querySelector('.image-slider-container')) {
+            updateSlider();
         }
     });
-
-    // 2. Optional: Auto-pause video when switching slides (if you decide to put videos in slides)
-    function pauseAllMedia() {
-        document.querySelectorAll('video, audio').forEach(media => {
-            media.pause();
-        });
-    }
-
-    // Initialize the slider on page load
-    document.addEventListener('DOMContentLoaded', updateSlider);
-
-
-    function toggleDropdown(id) {
-        var menu = document.getElementById(id);
-        if (menu.style.display === "block") {
-            menu.style.display = "none";
-        } else {
-            document.querySelectorAll('[id^="menu-"]').forEach(el => el.style.display = 'none');
-            menu.style.display = "block";
-        }
-    }
 </script>
 
 {% endblock %}
