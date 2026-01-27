@@ -174,6 +174,7 @@ class PollOption(db.Model):
 
     id = Column(Integer, primary_key=True)
     text = Column(String(50), nullable=False)
+    is_correct = Column(Boolean, default=False)
     poll_id = Column(Integer, ForeignKey("poll.id"), nullable=False)
     poll = relationship("Poll", back_populates="options")
     votes = relationship("Vote", back_populates="option", cascade="all, delete-orphan")
