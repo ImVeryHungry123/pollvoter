@@ -89,9 +89,28 @@
                     <small style="color: var(--text-muted);">Asked a question</small>
                     {% if poll.options | selectattr('is_correct') | list | length > 0 %}
                     <span class="quiz-badge" style="margin-left: 5px;">
-                        <i class="fa-solid fa-brain"></i> Quiz Mode
+                        <i class="fa-solid fa-circle-question"></i> Quiz Mode
                     </span>
-               
+                    <h3>Share</h3>
+                    <div>
+                        <a href="https://t.me/share/url?url={{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}&text=Check out this poll: {{ poll.title }}" 
+           target="_blank" 
+           class="btn-share telegram">
+            <i class="fa-brands fa-telegram"></i>
+
+        </a>
+        <a href="https://twitter.com/intent/tweet?text={{ poll.title }}&url={{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}" 
+           target="_blank" 
+           class="btn-share twitter">
+            <i class="fa-brands fa-twitter"></i>
+        </a>
+        <button onclick="copyLink('{{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}')" 
+                class="btn-share copy" 
+                title="Copy Link">
+            <i class="fa-solid fa-link"></i>
+        </button>
+                    </div>
+
         {% endif %}
          </small>
                 </div>
@@ -195,12 +214,12 @@
                 {% if is_quiz %}
                         {% if user_vote.option.is_correct %}
                             <div style="background: #D1FAE5; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid #10B981;">
-                                <h2 style="margin:0; font-size: 1.5rem; color: #065F46 !important;">🎉 Correct! 🎉</h2>
+                                <h2 style="margin:0; font-size: 1.5rem; color: #065F46 !important;"><i class="fa-solid fa-face-laugh-beam"></i> Correct!</h2>
                                 <p style="margin:5px 0 0; color: #065F46 !important;">You got the right answer.</p>
                             </div>
                         {% else %}
                             <div style="background: #FEE2E2; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid #EF4444;">
-                                <h2 style="margin:0; font-size: 1.5rem; color: #991B1B !important;">😢 Oops! Wrong.</h2>
+                                <h2 style="margin:0; font-size: 1.5rem; color: #991B1B !important;"><i class="fa-solid fa-face-sad-tear"></i> Oops! Wrong.</h2>
                                 <p style="margin:5px 0 0; color: #991B1B !important;">Better luck next time.</p>
                             </div>
                         {% endif %}
@@ -223,13 +242,13 @@
 
                         {% if is_quiz %}
                             {% if option.is_correct %}
-                                {% set bar_color = "#10B981" %} {% set icon = "✅" %}
+                                {% set bar_color = "#10B981" %} {% set icon = "<i class='fa-solid fa-circle-check'></i>" %}
                                 {% if user_vote.option_id == option.id %}
                                     {% set row_class = "quiz-win" %}
                                 {% endif %}
                             {% else %}
                                 {% if user_vote.option_id == option.id %}
-                                    {% set bar_color = "#EF4444" %} {% set icon = "❌" %}
+                                    {% set bar_color = "#EF4444" %} {% set icon = "<i class='fa-solid fa-circle-xmark'></i>" %}
                                     {% set row_class = "quiz-loss" %}
                                 {% else %}
                                     {% set bar_color = "#9CA3AF" %} {% endif %}
@@ -239,7 +258,7 @@
                         <div class="{{ row_class }}" style="margin-bottom: 15px; padding: 10px; border-radius: 8px; transition: 0.3s;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                                 <span style="font-weight: 500;">
-                                    {{ option.text }} {{ icon }}
+                                    {{ option.text }} {{ icon | safe}}
                                 </span>
                                 <span>{{ "%.0f"|format(percentage) }}%</span>
                             </div>
@@ -426,6 +445,36 @@
             updateSlider();
         }
     });
+
+
+    function copyLink(url) {
+    navigator.clipboard.writeText(url).then(function() {
+        showToast("Link copied to clipboard! 📋");
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+        alert("Failed to copy link.");
+    });
+}
+
+function showToast(message) {
+    let toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+
+    // Fade in
+    setTimeout(() => { 
+        toast.classList.add("show"); 
+    }, 100);
+
+    // Fade out and remove
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => { 
+            document.body.removeChild(toast); 
+        }, 300);
+    }, 3000);
+}
 </script>
 
 {% endblock %}
