@@ -88,6 +88,37 @@
         <p>Have a nice day!</p>
     </footer>
 
+
+
+
+
+    <div class="mobile-nav">
+    <a href="{{url_for('main.home')}}" class="nav-item">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+    
+    <a href="{{url_for('polls.listpolls')}}" class="nav-item">
+        <i class="fa-solid fa-list-ul"></i>
+        <span>Polls</span>
+    </a>
+
+    <a href="{{url_for('polls.create_poll')}}" class="nav-item">
+        <div class="nav-circle-btn">
+            <i class="fa-solid fa-plus"></i>
+        </div>
+    </a>
+
+    <a href="{{url_for('main.notifications')}}" class="nav-item">
+        <i class="fa-solid fa-bell"></i>
+        <span>Notifs</span>
+    </a>
+
+    <a href="{{url_for('main.profile')}}" class="nav-item">
+        <i class="fa-solid fa-user"></i>
+        <span>Profile</span>
+    </a>
+</div>
     <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2025/11/15/09/20251115093148-HGRHJZHT.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
