@@ -1047,3 +1047,41 @@ input:-webkit-autofill:focus {
         right: 15px !important;
     }
 }
+
+
+
+
+
+
+/* === AI CHAT BUTTON LOGIC === */
+
+/* 1. Desktop: Hide the top-nav trigger button by default */
+#mobile-ai-trigger {
+    display: none; /* KEY: This keeps it hidden on desktop */
+}
+
+/* 2. Mobile: Show top-nav button, Hide floating bubble */
+@media (max-width: 768px) {
+    /* Show the button in the top navbar */
+    #mobile-ai-trigger {
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+    }
+
+    /* Hide the default floating Botpress bubble */
+    #bp-web-widget-container {
+        visibility: hidden; 
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Show chat when active */
+    body.chat-active #bp-web-widget-container {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+        z-index: 10000;
+    }
+}

@@ -37,12 +37,17 @@
         </div>
 
         
-        <div class="nav-controls">
+                <div class="nav-controls">
             <button id="toggledarkmode" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
             
             <button class="icon-btn" title="Settings"><i class="fa-solid fa-gear"></i></button>
 
+            <button id="mobile-ai-trigger" class="icon-btn" title="AI Chat">
+                <i class="fa-solid fa-robot"></i>
+            </button>
+
             <div class="notification-dropdown-container">
+
                 <button class="icon-btn" id="notification-toggle">
                     <i class="fa-solid fa-bell"></i>
                     {% if unread_count > 0 %}
@@ -161,6 +166,35 @@
 {% endwith %}
 </script>
     <script>
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const aiTrigger = document.getElementById('mobile-ai-trigger');
+        
+        if(aiTrigger) {
+            aiTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 1. Add class to body so CSS can reveal the container
+                document.body.classList.add('chat-active');
+
+                // 2. Trigger Botpress to open
+                if (window.botpress) {
+                    window.botpress.open();
+                } else {
+                    console.error("Botpress not loaded yet");
+                }
+            });
+        }
+
+        // Optional: Listen for Botpress closing to hide the container again
+        // (This depends on Botpress V3 API support, but the visual toggle above is usually enough)
+        if (window.botpress) {
+            window.botpress.on('webchat:closed', () => {
+                document.body.classList.remove('chat-active');
+            });
+        }
+    });
         const button = document.getElementById("toggledarkmode");
         const body = document.body;
         
