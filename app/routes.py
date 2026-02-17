@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app, session
 from flask_login import login_user, logout_user, login_required, current_user
 import click
 from functools import wraps
@@ -16,10 +16,15 @@ admin = Blueprint("admin", __name__)
 
 upload_folder = os.path.join("app", "static", "uploads", "files")
 allow_extensions = {"png", "jpg", "jpeg", "wav", "mp3", "mp4", "mov", "avi", "webm", "wmv", "ogg", "svg", "pdf", "txt", "gif"}
+allow_pfps = {"png", "jpg", "jpeg", "gif"}
 os.makedirs(upload_folder, exist_ok=True)
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in allow_extensions
+
+def allowed_pfpfile(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in allow_pfps
 
 def get_file_type(filename):
     ext = filename.rsplit('.', 1)[1].lower()
@@ -196,18 +201,33 @@ def edit_profile():
             if file and file.filename:
                 pfp_folder = current_app.config['PFP_FOLDER']
                 os.makedirs(pfp_folder,exist_ok=True)
-                
-                if current_user.pfp:
-                    oldfilepath = os.path.join(current_app.config["PFP_FOLDER"], current_user.pfp)
-                    if os.path.exists(oldfilepath):
-                        os.remove(oldfilepath)
-                
-                filename = secure_filename(f"user_{current_user.id}_{file.filename}")
-                file.save(os.path.join(
-                        current_app.config['PFP_FOLDER'], 
-                        filename
-                    ))
-                current_user.pfp = filename
+                if not allowed_pfpfile(file.filename):
+                    flash("You cannot set any other filetype as a PFP!")
+                    return redirect(url_for("main.edit_profile"))
+                else:
+                    if current_user.pfp:
+                        oldfilepath = os.path.join(current_app.config["PFP_FOLDER"], current_user.pfp)
+                        if os.path.exists(oldfilepath):
+                            os.remove(oldfilepath)
+                    
+                    filename = secure_filename(f"user_{current_user.id}_{file.filename}")
+                    file.save(os.path.join(
+                            current_app.config['PFP_FOLDER'], 
+                            filename
+                        ))
+                    current_user.pfp = filename
+        if "bg_picture" in request.files:
+            bg_file = request.files["bg_picture"]
+            if bg_file and bg_file.filename:
+                bg_folder = os.path.join(current_app.root_path, "static", "uploads", "bg")
+                os.makedirs(bg_folder, exist_ok=True)
+                if current_user.bg_picture:
+                    old_picture = os.path.join(bg_folder, current_user.bg_picture)
+                    if os.path.exists(old_picture):
+                        os.remove(old_picture)
+                filename = secure_filename(f"bg_{current_user.id}_{bg_file.filename}")
+                bg_file.save(os.path.join(bg_folder, filename))
+                current_user.bg_picture = filename
         db.session.commit()
         flash("Profile updated!")
         return redirect(url_for("main.profile"))
@@ -584,28 +604,46 @@ def dropdown_notifications():
 from sqlalchemy.sql.expression import func
 
 
+
+
 @main.route("/")
 @main.route("/home")
 def home():
-    q = request.args.get('q')
-    tag = request.args.get('tag')
+    # 1. Get page number from URL (defaults to 1)
+    page = request.args.get('page', 1, type=int)
+    
+    # 2. Get Search Query
+    q = request.args.get('q', '').strip()
+
+    # 3. Build the Query
     query = Poll.query
 
+    # If user is searching, filter the query
     if q:
-        query = query.filter(Poll.title.ilike(f'%{q}%'))
-    if tag:
-        query = query.filter(Poll.tags.any(Tag.name == tag))
+        search_term = f"%{q}%"
+        query = query.filter(Poll.title.ilike(search_term) | Poll.description.ilike(search_term))
 
-    polls = query.order_by(Poll.created_at.desc()).all()
+    # 4. Order by Newest First
+    query = query.order_by(Poll.created_at.desc())
 
+    # 5. EXECUTE PAGINATION (10 polls per page)
+    # error_out=False prevents 404 errors if user goes to a page that doesn't exist
+    pagination = query.paginate(page=page, per_page=10, error_out=False)
+    
+    # 6. Extract the list of polls for the CURRENT page only
+    polls = pagination.items
+
+    # 7. Sidebar Suggestions logic (keep your existing logic here)
     suggestions = []
     if current_user.is_authenticated:
-        suggestions = User.query.filter(
-            User.id != current_user.id
-        ).order_by(func.random()).limit(3).all()
-        
-    return render_template("home.html", polls=polls, suggestions=suggestions,q=q, tag=tag) 
+        # Example: Get 3 users that aren't me
+        suggestions = User.query.filter(User.id != current_user.id).limit(3).all()
 
+    return render_template('home.html', 
+                           polls=polls, 
+                           pagination=pagination, # Pass the pagination object!
+                           q=q, 
+                           suggestions=suggestions)
 
 
 @polls.route("/comment/<int:comment_id>/pin")
@@ -662,4 +700,15 @@ def process_tags(tag_string):
 
 
 
+@main.route('/language/<code>')
+def set_language(code):
+    # List of languages you support (must match the codes in your HTML)
+    supported_languages = ['en', 'zh', 'es', 'fr', 'ru', 'hi', 'uk']
     
+    if code in supported_languages:
+        # Save the chosen language to the user's session
+        session['lang'] = code
+    
+    # Redirect the user back to the page they were on
+    # If 'referrer' is missing (e.g., direct link), go to 'home'
+    return redirect(request.referrer or url_for('main.home'))

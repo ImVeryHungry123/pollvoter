@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Your Profile - Pollvoter{% endblock %}
+{% block title %}{{ _('Your Profile') }} - Pollvoter{% endblock %}
 
 {% block content %}
 <div class="profile-header-card">
-    <div class="profile-cover"></div>
+    <div class="profile-cover" style="background-image: url('{{current_user.getbg()}}');"></div>
     
     <div class="profile-content">
         <div class="profile-actions">
-            <a href="{{ url_for('main.edit_profile') }}" class="btn btn-sm btn-outline">Edit Profile</a>
+            <a href="{{ url_for('main.edit_profile') }}" class="btn btn-sm btn-outline">{{ _('Edit Profile') }}</a>
         </div>
 
-        <img src="{{ current_user.getpfp() }}" alt="Profile Picture" class="profile-avatar-lg">
+        <img src="{{ current_user.getpfp() }}" alt="{{ _('Profile Picture') }}" class="profile-avatar-lg">
         
         <div class="profile-info">
             <h1>{{ current_user.full_name if current_user.full_name else current_user.username }}</h1>
@@ -23,19 +23,19 @@
                     border-radius: 15px; 
                     font-size: 0.85rem; 
                     border: 1px solid rgba(255, 255, 255, 0.2);
-                     ">
+                      ">
                     <i class="fa-solid fa-crown"></i> 
                     {{ current_user.get_rank() }}
                 </span>
             </div>
-            <h5>{{current_user.bio}}</h2>
+            <h5>{{current_user.bio}}</h5>
             <p style="margin: 0;">@{{ current_user.username|lower }}</p>
             
             <div class="profile-stats">
-                <span class="stat-item"><b>{{ polls_count }}</b> Polls</span>
-                <span class="stat-item"><b>{{ total_votes }}</b> Votes</span>
-                <span class="stat-item"><b>{{ total_comments }}</b> Comments</span>
-                <span class="stat-item">◴ Joined Dec 2025</span>
+                <span class="stat-item"><b>{{ polls_count }}</b> {{ _('Polls') }}</span>
+                <span class="stat-item"><b>{{ total_votes }}</b> {{ _('Votes') }}</span>
+                <span class="stat-item"><b>{{ total_comments }}</b> {{ _('Comments') }}</span>
+                <span class="stat-item">◴ {{ _('Joined') }} Dec 2025</span>
             </div>
         </div>
     </div>
@@ -44,13 +44,13 @@
 <div class="dashboard-layout">
     <aside class="sidebar">
         <div class="sidebar-widget">
-            <h3 class="widget-title">About</h3>
-            <p>Just exploring and creating polls!</p>
+            <h3 class="widget-title">{{ _('About') }}</h3>
+            <p>{{ _('Just exploring and creating polls!') }}</p>
         </div>
     </aside>
 
     <main class="feed">
-        <h2>Your Polls</h2>
+        <h2>{{ _('Your Polls') }}</h2>
         {% if user_polls %}
             <ul>
                 {% for poll in user_polls %}
@@ -58,14 +58,14 @@
                         <h3>{{ poll.title }}</h3>
                         <div class="poll-meta-footer">
                             <span>{{ poll.created_at.strftime('%Y-%m-%d') }}</span>
-                            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">View</a>
+                            <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ _('View') }}</a>
                         </div>
                     </div>
                 {% endfor %}
             </ul>
         {% else %}
             <div class="card">
-                <p>You haven't created any polls yet.</p>
+                <p>{{ _("You haven't created any polls yet.") }}</p>
             </div>
         {% endif %}
     </main>

@@ -1,0 +1,1053 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-02-14 11:22+0200\n"
+"PO-Revision-Date: 2026-02-14 11:36+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: app/templates/admin_panel.html:3
+msgid "Admin Dashboard"
+msgstr "Панель адміністратора"
+
+#: app/templates/admin_panel.html:9
+msgid "Admin Panel"
+msgstr "Адмін-панель"
+
+#: app/templates/admin_panel.html:11
+msgid "Pending Reports"
+msgstr "Скарги на розгляді"
+
+#: app/templates/admin_panel.html:15
+msgid "Review reports carefully. Deleting content cannot be undone."
+msgstr "Уважно переглядайте скарги. Видалення контенту неможливо скасувати."
+
+#: app/templates/admin_panel.html:22
+msgid "Reports Queue"
+msgstr "Черга скарг"
+
+#: app/templates/admin_panel.html:24
+msgid "Keep the community safe, Mango!"
+msgstr "Бережи безпеку спільноти, Mango!"
+
+#: app/templates/admin_panel.html:31
+msgid "Case #"
+msgstr "Справа №"
+
+#: app/templates/admin_panel.html:34
+msgid "Reported by"
+msgstr "Поскаржився"
+
+#: app/templates/admin_panel.html:39
+msgid "Reason"
+msgstr "Причина"
+
+#: app/templates/admin_panel.html:46
+msgid "Evidence"
+msgstr "Докази"
+
+#: app/templates/admin_panel.html:50 app/templates/report_form.html:46
+msgid "Poll"
+msgstr "Опитування"
+
+#: app/templates/admin_panel.html:55 app/templates/admin_panel.html:81
+msgid "Author:"
+msgstr "Автор:"
+
+#: app/templates/admin_panel.html:62 app/templates/admin_panel.html:89
+msgid "Dismiss Report"
+msgstr "Відхилити скаргу"
+
+#: app/templates/admin_panel.html:67
+msgid "WARNING: You are about to DELETE this poll. This cannot be undone."
+msgstr "УВАГА: Ви збираєтесь ВИДАЛИТИ це опитування. Цю дію неможливо скасувати."
+
+#: app/templates/admin_panel.html:69
+msgid "Delete Poll"
+msgstr "Видалити опитування"
+
+#: app/templates/admin_panel.html:76 app/templates/report_form.html:56
+msgid "Comment"
+msgstr "Коментар"
+
+#: app/templates/admin_panel.html:82
+msgid "Context: On poll"
+msgstr "Контекст: В опитуванні"
+
+#: app/templates/admin_panel.html:94
+msgid "WARNING: You are about to DELETE this comment."
+msgstr "УВАГА: Ви збираєтесь ВИДАЛИТИ цей коментар."
+
+#: app/templates/admin_panel.html:96
+msgid "Delete Comment"
+msgstr "Видалити коментар"
+
+#: app/templates/admin_panel.html:110
+msgid "All Clear!"
+msgstr "Все чисто!"
+
+#: app/templates/admin_panel.html:111
+msgid "There are no pending reports. Great job keeping things safe."
+msgstr "Немає скарг на розгляді. Чудова робота з підтримання безпеки."
+
+#: app/templates/admin_panel.html:112
+msgid "Go to Feed"
+msgstr "Перейти до стрічки"
+
+#: app/templates/base.html:23 app/templates/base.html:102
+#: app/templates/home.html:2
+msgid "Home"
+msgstr "Головна"
+
+#: app/templates/base.html:24 app/templates/my_polls.html:3
+#: app/templates/my_polls.html:41
+msgid "My Polls"
+msgstr "Мої опитування"
+
+#: app/templates/base.html:25
+msgid "Create"
+msgstr "Створити"
+
+#: app/templates/base.html:26 app/templates/base.html:107
+#: app/templates/profile.html:35
+msgid "Polls"
+msgstr "Опитування"
+
+#: app/templates/base.html:27 app/templates/base.html:58
+#: app/templates/notification.html:3 app/templates/notification.html:26
+msgid "Notifications"
+msgstr "Сповіщення"
+
+#: app/templates/base.html:31
+msgid "Admin"
+msgstr "Адмін"
+
+#: app/templates/base.html:34 app/templates/base.html:123
+msgid "Profile"
+msgstr "Профіль"
+
+#: app/templates/base.html:40
+msgid "Toggle Theme"
+msgstr "Змінити тему"
+
+#: app/templates/base.html:42
+msgid "Settings"
+msgstr "Налаштування"
+
+#: app/templates/base.html:44
+msgid "AI Chat"
+msgstr "AI Чат"
+
+#: app/templates/base.html:64 app/templates/profile.html:61
+#: app/templates/user_profile.html:123
+msgid "View"
+msgstr "Переглянути"
+
+#: app/templates/base.html:68
+msgid "View all"
+msgstr "Переглянути все"
+
+#: app/templates/base.html:70
+msgid "No notifications"
+msgstr "Немає сповіщень"
+
+#: app/templates/base.html:76
+msgid "Log out"
+msgstr "Вийти"
+
+#: app/templates/base.html:78 app/templates/home.html:200
+msgid "Login"
+msgstr "Увійти"
+
+#: app/templates/base.html:79 app/templates/home.html:201
+#: app/templates/register.html:3 app/templates/register.html:22
+msgid "Register"
+msgstr "Реєстрація"
+
+#: app/templates/base.html:92
+msgid "Have a nice day!"
+msgstr "Гарного дня!"
+
+#: app/templates/base.html:118
+msgid "Notifs"
+msgstr "Сповіщ."
+
+#: app/templates/create_poll.html:3 app/templates/create_poll.html:51
+msgid "Create a New Poll"
+msgstr "Створити нове опитування"
+
+#: app/templates/create_poll.html:29
+msgid "Posting Tips"
+msgstr "Поради щодо публікації"
+
+#: app/templates/create_poll.html:32
+msgid "Keep it short"
+msgstr "Стислість"
+
+#: app/templates/create_poll.html:33
+msgid "Short titles get more votes."
+msgstr "Короткі заголовки отримують більше голосів."
+
+#: app/templates/create_poll.html:36
+msgid "Be clear"
+msgstr "Будьте чіткими"
+
+#: app/templates/create_poll.html:37
+msgid "Make sure your options cover all bases."
+msgstr "Переконайтеся, що варіанти охоплюють всі аспекти."
+
+#: app/templates/create_poll.html:40
+msgid "Engage"
+msgstr "Залучайте"
+
+#: app/templates/create_poll.html:41
+msgid "Ask questions that spark debate!"
+msgstr "Задавайте питання, що викликають дискусію!"
+
+#: app/templates/create_poll.html:56
+msgid "Question / Title"
+msgstr "Питання / Заголовок"
+
+#: app/templates/create_poll.html:58
+msgid "e.g., What is the best winter game?"
+msgstr "напр., Яка найкраща зимова гра?"
+
+#: app/templates/create_poll.html:63
+msgid "Description (Optional)"
+msgstr "Опис (необов'язково)"
+
+#: app/templates/create_poll.html:65
+msgid "Add a little context..."
+msgstr "Додайте трохи контексту..."
+
+#: app/templates/create_poll.html:67
+msgid "Max 70 characters"
+msgstr "Макс. 70 символів"
+
+#: app/templates/create_poll.html:70
+msgid "Upload your files"
+msgstr "Завантажте файли"
+
+#: app/templates/create_poll.html:75 app/templates/create_poll.html:182
+msgid "Drag & drop or click to upload"
+msgstr "Перетягніть або натисніть для завантаження"
+
+#: app/templates/create_poll.html:76
+msgid "Images, Videos, Audio, or Text files"
+msgstr "Зображення, відео, аудіо або текстові файли"
+
+#: app/templates/create_poll.html:83
+msgid "Max size: 10MB per file"
+msgstr "Макс. розмір: 10 МБ на файл"
+
+#: app/templates/create_poll.html:84
+msgid "Multiple files allowed"
+msgstr "Можна кілька файлів"
+
+#: app/templates/create_poll.html:88
+msgid "Poll End Date (Optional):"
+msgstr "Дата завершення (необов'язково):"
+
+#: app/templates/create_poll.html:94
+msgid "Add Tags"
+msgstr "Додати теги"
+
+#: app/templates/create_poll.html:94
+msgid "(Divide by Commas, don't use hashtags!)"
+msgstr "(Розділяйте комами, не використовуйте хештеги!)"
+
+#: app/templates/create_poll.html:96
+msgid "Funny, Cool, etc"
+msgstr "Смішне, Круте тощо"
+
+#: app/templates/create_poll.html:100
+msgid "Poll Options"
+msgstr "Варіанти відповіді"
+
+#: app/templates/create_poll.html:102
+msgid "Select the radio button"
+msgstr "Оберіть перемикач"
+
+#: app/templates/create_poll.html:102
+msgid "to mark the"
+msgstr "щоб позначити"
+
+#: app/templates/create_poll.html:102
+msgid "correct answer"
+msgstr "правильну відповідь"
+
+#: app/templates/create_poll.html:102
+msgid "(for Quiz mode). Leave blank for a regular poll."
+msgstr "(для режиму Вікторини). Залиште порожнім для звичайного опитування."
+
+#: app/templates/create_poll.html:107 app/templates/create_poll.html:112
+#: app/templates/create_poll.html:150
+msgid "Mark as correct answer"
+msgstr "Позначити як правильну відповідь"
+
+#: app/templates/create_poll.html:108 app/templates/home.html:29
+msgid "Option 1"
+msgstr "Варіант 1"
+
+#: app/templates/create_poll.html:113 app/templates/home.html:34
+msgid "Option 2"
+msgstr "Варіант 2"
+
+#: app/templates/create_poll.html:118
+msgid "+ Add Another Option"
+msgstr "+ Додати ще варіант"
+
+#: app/templates/create_poll.html:124
+msgid "Publish Poll"
+msgstr "Опублікувати опитування"
+
+#: app/templates/create_poll.html:138
+msgid "Maximum 10 options allowed!"
+msgstr "Дозволено максимум 10 варіантів!"
+
+#: app/templates/create_poll.html:156 app/templates/home.html:235
+msgid "Option"
+msgstr "Варіант"
+
+#: app/templates/create_poll.html:174
+msgid "Files selected!"
+msgstr "Файли вибрано!"
+
+#: app/templates/create_poll.html:178
+msgid " file"
+msgstr " файл"
+
+#: app/templates/create_poll.html:178
+msgid " files"
+msgstr " файли"
+
+#: app/templates/create_poll.html:179
+msgid " ready"
+msgstr " готово"
+
+#: app/templates/edit_poll.html:3 app/templates/edit_poll.html:37
+msgid "Edit Poll"
+msgstr "Редагувати опитування"
+
+#: app/templates/edit_poll.html:11
+msgid "Current Stats"
+msgstr "Поточна статистика"
+
+#: app/templates/edit_poll.html:14
+msgid "You are editing"
+msgstr "Ви редагуєте"
+
+#: app/templates/edit_poll.html:18
+msgid "Votes:"
+msgstr "Голосів:"
+
+#: app/templates/edit_poll.html:22
+msgid "Comments:"
+msgstr "Коментарів:"
+
+#: app/templates/edit_poll.html:29
+msgid "Back to Poll"
+msgstr "Повернутися до опитування"
+
+#: app/templates/edit_poll.html:39
+msgid "ID:"
+msgstr "ID:"
+
+#: app/templates/edit_poll.html:47
+msgid "Title"
+msgstr "Заголовок"
+
+#: app/templates/edit_poll.html:55
+msgid "Description"
+msgstr "Опис"
+
+#: app/templates/edit_poll.html:60
+msgid "Max 100 characters"
+msgstr "Макс. 100 символів"
+
+#: app/templates/edit_poll.html:66
+msgid "Save Changes"
+msgstr "Зберегти зміни"
+
+#: app/templates/edit_poll.html:70 app/templates/edit_profile.html:63
+#: app/templates/report_form.html:81
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: app/templates/edit_profile.html:3 app/templates/edit_profile.html:11
+#: app/templates/profile.html:11 app/templates/user_profile.html:46
+msgid "Edit Profile"
+msgstr "Редагувати профіль"
+
+#: app/templates/edit_profile.html:19
+msgid "Current Profile"
+msgstr "Поточний профіль"
+
+#: app/templates/edit_profile.html:29
+msgid "Profile Banner"
+msgstr "Банер профілю"
+
+#: app/templates/edit_profile.html:32
+msgid "Current Banner"
+msgstr "Поточний банер"
+
+#: app/templates/edit_profile.html:38
+msgid "Change Cover"
+msgstr "Змінити обкладинку"
+
+#: app/templates/edit_profile.html:43
+msgid "Recommended size: 1200x300px"
+msgstr "Рекомендований розмір: 1200x300px"
+
+#: app/templates/edit_profile.html:47
+msgid "Display Name"
+msgstr "Відображуване ім'я"
+
+#: app/templates/edit_profile.html:54
+msgid "Bio"
+msgstr "Про себе"
+
+#: app/templates/edit_profile.html:64
+msgid "Save"
+msgstr "Зберегти"
+
+#: app/templates/home.html:12
+msgid "Create a Poll"
+msgstr "Створити опитування"
+
+#: app/templates/home.html:17
+msgid "What's your question?"
+msgstr "Яке у вас питання?"
+
+#: app/templates/home.html:22
+msgid "Description (optional)"
+msgstr "Опис (необов'язково)"
+
+#: app/templates/home.html:41
+msgid "+ Add Option"
+msgstr "+ Додати варіант"
+
+#: app/templates/home.html:44 app/templates/polls.html:119
+msgid "Create Poll"
+msgstr "Створити опитування"
+
+#: app/templates/home.html:49
+msgid "People to Follow"
+msgstr "Кого читати"
+
+#: app/templates/home.html:66 app/templates/user_profile.html:25
+msgid "Follow"
+msgstr "Стежити"
+
+#: app/templates/home.html:71
+msgid "No new users to follow."
+msgstr "Немає нових користувачів для підписки."
+
+#: app/templates/home.html:81
+msgid "Search polls..."
+msgstr "Пошук опитувань..."
+
+#: app/templates/home.html:84
+msgid "Clear"
+msgstr "Очистити"
+
+#: app/templates/home.html:90
+msgid "Recent Polls"
+msgstr "Нещодавні опитування"
+
+#: app/templates/home.html:97 app/templates/poll_detail.html:83
+#: app/templates/polls.html:56
+msgid "Author"
+msgstr "Автор"
+
+#: app/templates/home.html:111
+msgid "This is a Quiz"
+msgstr "Це вікторина"
+
+#: app/templates/home.html:112
+msgid "Quiz"
+msgstr "Вікторина"
+
+#: app/templates/home.html:138
+msgid "more options"
+msgstr "ще варіанти"
+
+#: app/templates/home.html:145
+msgid "Contains Attachments"
+msgstr "Містить вкладення"
+
+#: app/templates/home.html:152 app/templates/my_polls.html:78
+#: app/templates/polls.html:87 app/templates/user_profile.html:120
+msgid "votes"
+msgstr "голосів"
+
+#: app/templates/home.html:153 app/templates/my_polls.html:81
+#: app/templates/polls.html:90
+msgid "comments"
+msgstr "коментарів"
+
+#: app/templates/home.html:155
+msgid "Vote"
+msgstr "Голосувати"
+
+#: app/templates/home.html:164 app/templates/home.html:168
+msgid "Prev"
+msgstr "Попер."
+
+#: app/templates/home.html:173 app/templates/my_polls.html:109
+#: app/templates/polls.html:107
+msgid "Page"
+msgstr "Сторінка"
+
+#: app/templates/home.html:173 app/templates/my_polls.html:109
+#: app/templates/polls.html:107
+msgid "of"
+msgstr "з"
+
+#: app/templates/home.html:178 app/templates/home.html:182
+msgid "Next"
+msgstr "Наст."
+
+#: app/templates/home.html:190
+msgid "Nothing found"
+msgstr "Нічого не знайдено"
+
+#: app/templates/home.html:190
+msgid "for"
+msgstr "за запитом"
+
+#: app/templates/home.html:191
+msgid "Try searching for something else or create a poll!"
+msgstr "Спробуйте пошукати щось інше або створіть опитування!"
+
+#: app/templates/home.html:197
+msgid "Welcome to"
+msgstr "Ласкаво просимо до"
+
+#: app/templates/home.html:198
+msgid "Join the community to create polls and vote on trending topics."
+msgstr "Приєднуйтесь до спільноти, щоб створювати опитування та голосувати."
+
+#: app/templates/home.html:214
+msgid "Limit reached for quick poll. Use full creator for more."
+msgstr "Досягнуто ліміту швидкого опитування. Використовуйте повний редактор."
+
+#: app/templates/login.html:3 app/templates/login.html:22
+msgid "Log In"
+msgstr "Вхід"
+
+#: app/templates/login.html:8
+msgid "Welcome Back"
+msgstr "З поверненням"
+
+#: app/templates/login.html:9
+msgid "Log in to manage your polls."
+msgstr "Увійдіть, щоб керувати своїми опитуваннями."
+
+#: app/templates/login.html:12 app/templates/register.html:12
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: app/templates/login.html:13
+msgid "Enter your username"
+msgstr "Введіть ім'я користувача"
+
+#: app/templates/login.html:17 app/templates/register.html:17
+msgid "Password"
+msgstr "Пароль"
+
+#: app/templates/login.html:18
+msgid "Enter your password"
+msgstr "Введіть пароль"
+
+#: app/templates/login.html:26
+msgid "No account?"
+msgstr "Немає акаунту?"
+
+#: app/templates/login.html:26
+msgid "Register here"
+msgstr "Зареєструйтеся тут"
+
+#: app/templates/my_polls.html:12
+msgid "Avatar"
+msgstr "Аватар"
+
+#: app/templates/my_polls.html:23
+msgid "Total Polls"
+msgstr "Всього опитувань"
+
+#: app/templates/my_polls.html:30
+msgid "Quick Actions"
+msgstr "Швидкі дії"
+
+#: app/templates/my_polls.html:32
+msgid "+ Create New Poll"
+msgstr "+ Створити нове опитування"
+
+#: app/templates/my_polls.html:42
+msgid "Managing"
+msgstr "Керування"
+
+#: app/templates/my_polls.html:42
+msgid "polls"
+msgstr "опитуваннями"
+
+#: app/templates/my_polls.html:51
+msgid "Posted on"
+msgstr "Опубліковано"
+
+#: app/templates/my_polls.html:87
+msgid "Edit"
+msgstr "Редагувати"
+
+#: app/templates/my_polls.html:93
+msgid "Are you sure you want to delete this poll?"
+msgstr "Ви впевнені, що хочете видалити це опитування?"
+
+#: app/templates/my_polls.html:94
+msgid "Delete"
+msgstr "Видалити"
+
+#: app/templates/my_polls.html:105 app/templates/polls.html:103
+msgid "← Previous"
+msgstr "← Попер."
+
+#: app/templates/my_polls.html:113 app/templates/polls.html:111
+msgid "Next →"
+msgstr "Наст. →"
+
+#: app/templates/my_polls.html:119
+msgid "It's quiet here..."
+msgstr "Тут тихо..."
+
+#: app/templates/my_polls.html:120
+msgid "You haven't posted any polls yet."
+msgstr "Ви ще не публікували опитувань."
+
+#: app/templates/my_polls.html:121
+msgid "Create your first poll"
+msgstr "Створіть своє перше опитування"
+
+#: app/templates/notification.html:10
+msgid "Manage"
+msgstr "Керувати"
+
+#: app/templates/notification.html:12
+msgid "Stay updated with the latest votes and comments on your polls."
+msgstr "Будьте в курсі останніх голосувань та коментарів у ваших опитуваннях."
+
+#: app/templates/notification.html:15
+msgid "Mark all as read"
+msgstr "Позначити всі як прочитані"
+
+#: app/templates/notification.html:18
+msgid "Notification Settings"
+msgstr "Налаштування сповіщень"
+
+#: app/templates/notification.html:50
+msgid "Just now"
+msgstr "Щойно"
+
+#: app/templates/notification.html:56
+msgid "View Poll"
+msgstr "Переглянути опитування"
+
+#: app/templates/notification.html:66
+msgid "All caught up!"
+msgstr "Ви все переглянули!"
+
+#: app/templates/notification.html:67
+msgid "You have no new notifications."
+msgstr "У вас немає нових сповіщень."
+
+#: app/templates/poll_detail.html:53
+msgid "Poll Stats"
+msgstr "Статистика опитування"
+
+#: app/templates/poll_detail.html:57 app/templates/profile.html:36
+msgid "Votes"
+msgstr "Голоси"
+
+#: app/templates/poll_detail.html:61 app/templates/profile.html:37
+#: app/templates/user_profile.html:95
+msgid "Comments"
+msgstr "Коментарі"
+
+#: app/templates/poll_detail.html:65
+msgid "Posted:"
+msgstr "Опубліковано:"
+
+#: app/templates/poll_detail.html:66
+msgid "Status:"
+msgstr "Статус:"
+
+#: app/templates/poll_detail.html:66
+msgid "Active"
+msgstr "Активне"
+
+#: app/templates/poll_detail.html:66
+msgid "Closed"
+msgstr "Закрите"
+
+#: app/templates/poll_detail.html:73
+msgid "Report this poll"
+msgstr "Поскаржитися на опитування"
+
+#: app/templates/poll_detail.html:89
+msgid "Asked a question"
+msgstr "Задав(-ла) питання"
+
+#: app/templates/poll_detail.html:92
+msgid "Quiz Mode"
+msgstr "Режим вікторини"
+
+#: app/templates/poll_detail.html:95
+msgid "Share this Poll"
+msgstr "Поділитися опитуванням"
+
+#: app/templates/poll_detail.html:98
+msgid "Check out this poll:"
+msgstr "Погляньте на це опитування:"
+
+#: app/templates/poll_detail.html:101
+msgid "Share on Telegram"
+msgstr "Поділитися в Telegram"
+
+#: app/templates/poll_detail.html:108
+msgid "Share on X"
+msgstr "Поділитися в X"
+
+#: app/templates/poll_detail.html:114
+msgid "Copy Link"
+msgstr "Копіювати посилання"
+
+#: app/templates/poll_detail.html:129
+msgid "Ends in:"
+msgstr "Завершується через:"
+
+#: app/templates/poll_detail.html:129
+msgid "Calculating..."
+msgstr "Обчислення..."
+
+#: app/templates/poll_detail.html:142
+msgid "d"
+msgstr "д"
+
+#: app/templates/poll_detail.html:142
+msgid "h"
+msgstr "г"
+
+#: app/templates/poll_detail.html:142
+msgid "m"
+msgstr "хв"
+
+#: app/templates/poll_detail.html:142
+msgid "s"
+msgstr "с"
+
+#: app/templates/poll_detail.html:145
+msgid "EXPIRED"
+msgstr "ЗАВЕРШЕНО"
+
+#: app/templates/poll_detail.html:153
+msgid "Poll Closed"
+msgstr "Опитування закрите"
+
+#: app/templates/poll_detail.html:160
+msgid "Attachments"
+msgstr "Вкладення"
+
+#: app/templates/poll_detail.html:186
+msgid "Poll Image"
+msgstr "Зображення опитування"
+
+#: app/templates/poll_detail.html:207
+msgid "Download"
+msgstr "Завантажити"
+
+#: app/templates/poll_detail.html:224
+msgid "Correct!"
+msgstr "Правильно!"
+
+#: app/templates/poll_detail.html:225
+msgid "You got the right answer."
+msgstr "Ви дали правильну відповідь."
+
+#: app/templates/poll_detail.html:229
+msgid "Oops! Wrong."
+msgstr "Ой! Неправильно."
+
+#: app/templates/poll_detail.html:230
+msgid "Better luck next time."
+msgstr "Пощастить наступного разу."
+
+#: app/templates/poll_detail.html:235
+msgid "You voted for:"
+msgstr "Ви проголосували за:"
+
+#: app/templates/poll_detail.html:304
+msgid "Submit Vote"
+msgstr "Проголосувати"
+
+#: app/templates/poll_detail.html:308
+msgid "Voting is disabled because the poll has ended."
+msgstr "Голосування вимкнено, оскільки опитування завершено."
+
+#: app/templates/poll_detail.html:314
+msgid "Discussion"
+msgstr "Обговорення"
+
+#: app/templates/poll_detail.html:319
+msgid "Share your thoughts..."
+msgstr "Поділіться думками..."
+
+#: app/templates/poll_detail.html:320
+msgid "Post Comment"
+msgstr "Опублікувати коментар"
+
+#: app/templates/poll_detail.html:337
+msgid "Pinned by Author"
+msgstr "Закріплено автором"
+
+#: app/templates/poll_detail.html:348
+msgid "Unpin"
+msgstr "Відкріпити"
+
+#: app/templates/poll_detail.html:348
+msgid "Pin"
+msgstr "Закріпити"
+
+#: app/templates/poll_detail.html:351
+msgid "Remove Heart"
+msgstr "Забрати вподобайку"
+
+#: app/templates/poll_detail.html:351
+msgid "Give Heart"
+msgstr "Вподобати"
+
+#: app/templates/poll_detail.html:370
+msgid "Liked by the author"
+msgstr "Сподобалось автору"
+
+#: app/templates/poll_detail.html:377
+msgid "Delete comment?"
+msgstr "Видалити коментар?"
+
+#: app/templates/poll_detail.html:385
+msgid "No comments yet. Be the first to say something!"
+msgstr "Коментарів поки немає. Скажіть щось першим!"
+
+#: app/templates/poll_detail.html:475
+msgid "Link copied to clipboard!"
+msgstr "Посилання скопійовано в буфер обміну!"
+
+#: app/templates/polls.html:3
+msgid "All Polls"
+msgstr "Всі опитування"
+
+#: app/templates/polls.html:10
+msgid "Feed Filters"
+msgstr "Фільтри стрічки"
+
+#: app/templates/polls.html:15
+msgid "Newest"
+msgstr "Найновіші"
+
+#: app/templates/polls.html:20
+msgid "Popular"
+msgstr "Популярні"
+
+#: app/templates/polls.html:25
+msgid "Most Discussed"
+msgstr "Обговорювані"
+
+#: app/templates/polls.html:31
+msgid "Got a question?"
+msgstr "Маєте питання?"
+
+#: app/templates/polls.html:32
+msgid "Ask the community and get instant feedback."
+msgstr "Запитайте спільноту та отримайте миттєвий відгук."
+
+#: app/templates/polls.html:34
+msgid "+ Create Poll"
+msgstr "+ Створити опитування"
+
+#: app/templates/polls.html:42
+msgid "Popular Polls"
+msgstr "Популярні опитування"
+
+#: app/templates/polls.html:44
+msgid "Discussed Polls"
+msgstr "Обговорювані опитування"
+
+#: app/templates/polls.html:46
+msgid "Latest Polls"
+msgstr "Останні опитування"
+
+#: app/templates/polls.html:95
+msgid "Vote Now"
+msgstr "Проголосувати"
+
+#: app/templates/polls.html:117
+msgid "No polls found..."
+msgstr "Опитувань не знайдено..."
+
+#: app/templates/polls.html:118
+msgid "Be the first one to start a conversation!"
+msgstr "Будьте першим, хто почне розмову!"
+
+#: app/templates/profile.html:3
+msgid "Your Profile"
+msgstr "Ваш профіль"
+
+#: app/templates/profile.html:14
+msgid "Profile Picture"
+msgstr "Фото профілю"
+
+#: app/templates/profile.html:38
+msgid "Joined"
+msgstr "Приєднався(-лась)"
+
+#: app/templates/profile.html:47 app/templates/user_profile.html:76
+msgid "About"
+msgstr "Про себе"
+
+#: app/templates/profile.html:48
+msgid "Just exploring and creating polls!"
+msgstr "Просто досліджую та створюю опитування!"
+
+#: app/templates/profile.html:53
+msgid "Your Polls"
+msgstr "Ваші опитування"
+
+#: app/templates/profile.html:68
+msgid "You haven't created any polls yet."
+msgstr "Ви ще не створили жодного опитування."
+
+#: app/templates/register.html:8
+msgid "Create Account"
+msgstr "Створити акаунт"
+
+#: app/templates/register.html:9
+msgid "Join the community to start voting!"
+msgstr "Приєднуйтесь до спільноти, щоб голосувати!"
+
+#: app/templates/register.html:13
+msgid "Choose a unique username"
+msgstr "Оберіть унікальне ім'я користувача"
+
+#: app/templates/register.html:18
+msgid "Create a strong password"
+msgstr "Створіть надійний пароль"
+
+#: app/templates/register.html:26
+msgid "Already have an account?"
+msgstr "Вже маєте акаунт?"
+
+#: app/templates/register.html:26
+msgid "Log in here"
+msgstr "Увійдіть тут"
+
+#: app/templates/report_form.html:3 app/templates/report_form.html:37
+msgid "Report"
+msgstr "Поскаржитися"
+
+#: app/templates/report_form.html:11
+msgid "Safety First"
+msgstr "Безпека понад усе"
+
+#: app/templates/report_form.html:14
+msgid ""
+"Thanks for helping keep Pollvoter safe! Please report content that "
+"includes:"
+msgstr "Дякуємо, що допомагаєте робити Pollvoter безпечним! Будь ласка, повідомляйте про контент, що містить:"
+
+#: app/templates/report_form.html:18
+msgid "Harassment or bullying"
+msgstr "Домагання або булінг"
+
+#: app/templates/report_form.html:21
+msgid "Spam or scams"
+msgstr "Спам або шахрайство"
+
+#: app/templates/report_form.html:24
+msgid "Inappropriate content"
+msgstr "Неприйнятний контент"
+
+#: app/templates/report_form.html:41
+msgid ""
+"You are about to report the following content. This will be sent to the "
+"admin team for review."
+msgstr "Ви збираєтесь поскаржитися на наступний контент. Це буде надіслано команді адміністраторів для перевірки."
+
+#: app/templates/report_form.html:63
+msgid "Posted by"
+msgstr "Опублікував(-ла)"
+
+#: app/templates/report_form.html:63
+msgid "on poll"
+msgstr "в опитуванні"
+
+#: app/templates/report_form.html:72
+msgid "Why are you reporting this?"
+msgstr "Чому ви скаржитесь на це?"
+
+#: app/templates/report_form.html:75
+msgid "Please provide specific details..."
+msgstr "Будь ласка, надайте конкретні деталі..."
+
+#: app/templates/report_form.html:84
+msgid "Submit Report"
+msgstr "Надіслати скаргу"
+
+#: app/templates/user_profile.html:3
+#, python-format
+msgid "%(username)s's Profile"
+msgstr "Профіль %(username)s"
+
+#: app/templates/user_profile.html:21
+msgid "Unfollow"
+msgstr "Відписатися"
+
+#: app/templates/user_profile.html:32
+msgid "Unblock"
+msgstr "Розблокувати"
+
+#: app/templates/user_profile.html:38
+msgid "Block"
+msgstr "Заблокувати"
+
+#: app/templates/user_profile.html:81
+msgid "This user hasn't written a bio yet."
+msgstr "Цей користувач ще не написав біографію."
+
+#: app/templates/user_profile.html:87
+msgid "Polls Created"
+msgstr "Створено опитувань"
+
+#: app/templates/user_profile.html:91
+msgid "Votes Cast"
+msgstr "Віддано голосів"
+
+#: app/templates/user_profile.html:102
+#, python-format
+msgid "%(username)s's Polls"
+msgstr "Опитування %(username)s"
+
+#: app/templates/user_profile.html:131
+msgid "This user hasn't posted any polls yet."
+msgstr "Цей користувач ще не опублікував жодного опитування."

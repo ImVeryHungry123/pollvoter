@@ -1,99 +1,99 @@
 {% extends "base.html" %}
 
-{% block title %}Admin Dashboard - Pollvoter{% endblock %}
+{% block title %}{{ _('Admin Dashboard') }} - Pollvoter{% endblock %}
 
 {% block content %}
 <div class="dashboard-layout">
 
     <aside class="sidebar">
-        <div class="sidebar-widget" style="border-color: #EF4444;"> <h3 class="widget-title" style="color: #EF4444;">Admin Panel</h3>
+        <div class="sidebar-widget" style="border-color: #EF4444;"> <h3 class="widget-title" style="color: #EF4444;">{{ _('Admin Panel') }}</h3>
             <div class="stat-item" style="display:flex; justify-content:space-between; margin-bottom: 10px;">
-                <span>Pending Reports</span>
+                <span>{{ _('Pending Reports') }}</span>
                 <b style="color: #EF4444;">{{ reports|length }}</b>
             </div>
             <p style="font-size: 0.9rem; color: var(--text-muted);">
-                Review reports carefully. Deleting content cannot be undone.
+                {{ _('Review reports carefully. Deleting content cannot be undone.') }}
             </p>
         </div>
     </aside>
 
     <main class="feed">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-            <h2>Reports Queue</h2>
+            <h2>{{ _('Reports Queue') }}</h2>
             <span style="font-size: 0.9rem; color: var(--text-muted);">
-                Keep the community safe, Mango! 🛡️
+                {{ _('Keep the community safe, Mango!') }} <i class="fa-solid fa-shield-halved"></i>
             </span>
         </div>
 
         {% for report in reports %}
         <div class="card" style="border-left: 4px solid #EF4444;"> <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 15px; margin-bottom: 15px;">
                 <strong>
-                    <i class="fas fa-flag" style="color: #EF4444;"></i> Case #{{ report.id }}
+                    <i class="fas fa-flag" style="color: #EF4444;"></i> {{ _('Case #') }}{{ report.id }}
                 </strong>
                 <span style="color: var(--text-muted); font-size: 0.9rem;">
-                    Reported by <a href="{{ url_for('main.profile', username=report.reporter.username) }}" style="color: var(--primary);">{{ report.reporter.username }}</a>
+                    {{ _('Reported by') }} <a href="{{ url_for('main.profile', username=report.reporter.username) }}" style="color: var(--primary);">{{ report.reporter.username }}</a>
                 </span>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h4 style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px;">Reason</h4>
+                <h4 style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px;">{{ _('Reason') }}</h4>
                 <p style="background: var(--bg-body); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
                     {{ report.reason }}
                 </p>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h4 style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px;">Evidence</h4>
+                <h4 style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px;">{{ _('Evidence') }}</h4>
                 
                 {% if report.poll %}
                     <div style="border: 1px solid var(--border-subtle); padding: 15px; border-radius: 8px;">
-                        <span style="font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Poll</span>
+                        <span style="font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">{{ _('Poll') }}</span>
                         <h3 style="margin: 10px 0;">
                             <a href="{{ url_for('polls.poll_detail', poll_id=report.poll.id) }}">{{ report.poll.title }}</a>
                         </h3>
                         <p style="font-size: 0.9rem; color: var(--text-muted);">
-                            Author: <strong>{{ report.reported_user.username }}</strong>
+                            {{ _('Author:') }} <strong>{{ report.reported_user.username }}</strong>
                         </p>
                     </div>
 
                     <div class="poll-meta-footer" style="justify-content: flex-end; gap: 10px;">
                         <form method="POST" action="{{ url_for('admin.dismiss', report_id=report.id) }}">
                             <button type="submit" class="btn btn-outline" style="font-size: 0.9rem;">
-                                Dismiss Report
+                                {{ _('Dismiss Report') }}
                             </button>
                         </form>
                         
                         <form method="POST" action="{{ url_for('admin.admin_delete_poll', poll_id=report.poll.id, report_id=report.id) }}" 
-                              onsubmit="return confirm('⚠️ WARNING: You are about to DELETE this poll. This cannot be undone.');">
+                              onsubmit="return confirm('{{ _('WARNING: You are about to DELETE this poll. This cannot be undone.') }}');">
                             <button type="submit" class="btn" style="background-color: #EF4444; color: white; border: none; font-size: 0.9rem;">
-                                Delete Poll
+                                <i class="fa-solid fa-triangle-exclamation"></i> {{ _('Delete Poll') }}
                             </button>
                         </form>
                     </div>
 
                 {% elif report.comment %}
                     <div style="border: 1px solid var(--border-subtle); padding: 15px; border-radius: 8px;">
-                        <span style="font-size: 0.7rem; background: var(--text-muted); color: white; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Comment</span>
+                        <span style="font-size: 0.7rem; background: var(--text-muted); color: white; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">{{ _('Comment') }}</span>
                         <blockquote style="margin: 10px 0; padding-left: 10px; border-left: 3px solid var(--border-subtle); font-style: italic;">
                             "{{ report.comment.content }}"
                         </blockquote>
                         <p style="font-size: 0.9rem; color: var(--text-muted);">
-                            Author: <strong>{{ report.reported_user.username }}</strong><br>
-                            Context: On poll <a href="{{ url_for('polls.poll_detail', poll_id=report.comment.poll.id) }}">{{ report.comment.poll.title }}</a>
+                            {{ _('Author:') }} <strong>{{ report.reported_user.username }}</strong><br>
+                            {{ _('Context: On poll') }} <a href="{{ url_for('polls.poll_detail', poll_id=report.comment.poll.id) }}">{{ report.comment.poll.title }}</a>
                         </p>
                     </div>
 
                     <div class="poll-meta-footer" style="justify-content: flex-end; gap: 10px;">
                         <form method="POST" action="{{ url_for('admin.dismiss', report_id=report.id) }}">
                             <button type="submit" class="btn btn-outline" style="font-size: 0.9rem;">
-                                Dismiss Report
+                                {{ _('Dismiss Report') }}
                             </button>
                         </form>
 
                         <form method="POST" action="{{ url_for('admin.admin_delete_comment', comment_id=report.comment.id, report_id=report.id) }}" 
-                              onsubmit="return confirm('⚠︎ WARNING: You are about to DELETE this comment.');">
+                              onsubmit="return confirm('{{ _('WARNING: You are about to DELETE this comment.') }}');">
                             <button type="submit" class="btn" style="background-color: #EF4444; color: white; border: none; font-size: 0.9rem;">
-                                Delete Comment
+                                <i class="fa-solid fa-triangle-exclamation"></i> {{ _('Delete Comment') }}
                             </button>
                         </form>
                     </div>
@@ -104,10 +104,12 @@
         </div>
         {% else %}
             <div class="card" style="text-align: center; padding: 50px;">
-                <div style="font-size: 3rem; margin-bottom: 20px;">✔</div>
-                <h3>All Clear!</h3>
-                <p style="color: var(--text-muted);">There are no pending reports. Great job keeping things safe.</p>
-                <a href="{{ url_for('polls.listpolls') }}" class="btn btn-primary">Go to Feed</a>
+                <div style="font-size: 3rem; margin-bottom: 20px;">
+                    <i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
+                </div>
+                <h3>{{ _('All Clear!') }}</h3>
+                <p style="color: var(--text-muted);">{{ _('There are no pending reports. Great job keeping things safe.') }}</p>
+                <a href="{{ url_for('polls.listpolls') }}" class="btn btn-primary">{{ _('Go to Feed') }}</a>
             </div>
         {% endfor %}
     </main>

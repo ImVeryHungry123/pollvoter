@@ -1,29 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Register - Pollvoter{% endblock %}
+{% block title %}{{ _('Register') }} - Pollvoter{% endblock %}
 
 {% block content %}
 <div class="auth-container">
     <form method="post" class="auth-box">
-        <h2>Create Account</h2>
-        <p>Join the community to start voting!</p>
+        <h2>{{ _('Create Account') }}</h2>
+        <p>{{ _('Join the community to start voting!') }}</p>
         
         <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required placeholder="Choose a unique username">
+            <label for="username">{{ _('Username') }}</label>
+            <input type="text" name="username" id="username" required placeholder="{{ _('Choose a unique username') }}">
         </div>
         
         <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required placeholder="Create a strong password">
+            <label for="password">{{ _('Password') }}</label>
+            <input type="password" name="password" id="password" required placeholder="{{ _('Create a strong password') }}">
         </div>
 
         <button type="submit">
-            <i class="fa-solid fa-user-plus"></i> Register
+            <i class="fa-solid fa-user-plus"></i> {{ _('Register') }}
         </button>
 
         <div class="auth-links">
-            Already have an account? <a href="{{ url_for('auth.login') }}">Log in here</a>
+            {{ _('Already have an account?') }} <a href="{{ url_for('auth.login') }}">{{ _('Log in here') }}</a>
         </div>
     </form>
 </div>

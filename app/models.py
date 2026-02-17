@@ -39,6 +39,7 @@ class User(UserMixin, db.Model):
     pfp = Column(Text)
     password_hash = Column(Text)
     is_admin = Column(Boolean, default = False)
+    bg_picture = Column(Text)
     polls = relationship("Poll", back_populates="author")
     votes = relationship("Vote", back_populates="user")
     comments = relationship("Comment", back_populates="author")
@@ -47,6 +48,12 @@ class User(UserMixin, db.Model):
     def Checkpassword(self, password):
         return check_password_hash(self.password_hash, password)
     
+
+    def getbg(self):
+        if self.bg_picture:
+            return f"/static/uploads/bg/{self.bg_picture}"
+        else:
+            return f"/static/uploads/bg/default.jpg"
     def getpfp(self):
         if self.pfp:
             return f"/static/uploads/pfp/{self.pfp}"

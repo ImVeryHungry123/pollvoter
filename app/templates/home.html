@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Home - Pollvoter{% endblock %}
+{% block title %}{{ _('Home') }} - Pollvoter{% endblock %}
 
 {% block content %}
 
@@ -9,45 +9,44 @@
         
         <div class="sidebar-widget">
             <h3 class="widget-title">
-                <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> Create a Poll
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> {{ _('Create a Poll') }}
             </h3>
             
             <form action="{{ url_for('polls.create_poll') }}" method="POST" id="sidebar-poll-form">
-                
                 <div style="margin-bottom: 10px;">
-                    <input type="text" name="title" placeholder="What's your question?" required maxlength="40" 
+                    <input type="text" name="title" placeholder="{{ _("What's your question?") }}" required maxlength="40" 
                            style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 10px; border-radius: 8px; color: var(--text-main);">
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <textarea name="description" placeholder="Description (optional)" rows="2" maxlength="70"
+                    <textarea name="description" placeholder="{{ _('Description (optional)') }}" rows="2" maxlength="70"
                               style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 10px; border-radius: 8px; color: var(--text-main); resize: none;"></textarea>
                 </div>
 
                 <div id="sidebar-options">
                     <div style="position: relative; margin-bottom: 8px;">
                         <span style="position: absolute; left: 10px; top: 10px; font-size: 0.8rem; color: var(--text-muted);">1</span>
-                        <input type="text" name="options" placeholder="Option 1" required maxlength="25"
+                        <input type="text" name="options" placeholder="{{ _('Option 1') }}" required maxlength="25"
                                style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 8px 8px 8px 30px; border-radius: 8px; color: var(--text-main);">
                     </div>
                     <div style="position: relative; margin-bottom: 8px;">
                         <span style="position: absolute; left: 10px; top: 10px; font-size: 0.8rem; color: var(--text-muted);">2</span>
-                        <input type="text" name="options" placeholder="Option 2" required maxlength="25"
+                        <input type="text" name="options" placeholder="{{ _('Option 2') }}" required maxlength="25"
                                style="background: var(--bg-body); border: 1px solid var(--border-subtle); width: 100%; padding: 8px 8px 8px 30px; border-radius: 8px; color: var(--text-main);">
                     </div>
                 </div>
 
                 <button type="button" id="sidebar-add-btn" class="btn btn-outline" 
                         style="width: 100%; border-style: dashed; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-muted);">
-                    + Add Option
+                    {{ _('+ Add Option') }}
                 </button>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; font-weight: bold;">Create Poll</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-weight: bold;">{{ _('Create Poll') }}</button>
             </form>
         </div>
 
         <div class="sidebar-widget">
-            <h3 class="widget-title">People to Follow</h3>
+            <h3 class="widget-title">{{ _('People to Follow') }}</h3>
             
             {% if suggestions %}
                 {% for user in suggestions %}
@@ -64,47 +63,38 @@
                     </div>
                     
                     <a href="{{ url_for('main.follow', username=user.username) }}" class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">
-                        Follow
+                        {{ _('Follow') }}
                     </a>
                 </div>
                 {% endfor %}
             {% else %}
-                <p style="color: var(--text-muted); font-size: 0.9rem;">No new users to follow.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">{{ _('No new users to follow.') }}</p>
             {% endif %}
         </div>
     </aside>
 
     <main class="feed">
-        <div class="search-container" style="margin-bottom: 20px;">
-    <form method="GET" action="{{ url_for('main.home') }}" style="display: flex; gap: 10px;">
-        <input type="text" name="q" placeholder="Search polls..." value="{{ q if q else '' }}" class="form-control" style="flex: 1;">
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> </button>
-        {% if q %}
-            <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Clear</a>
-        {% endif %}
-    </form>
-</div>
-
-    {% if polls %}
-        {% for poll in polls %}
-            {# The loop content starts here but is cut off in the image #}
-        {% endfor %}
-    {% else %}
-        <div style="text-align: center; margin-top: 50px; color: gray;">
-            <h3>Nothing found for "{{ q }}"</h3>
-            <p>Try searching for something else. <i class="fa-solid fa-magnifying-glass"></i> </p>
-        </div>
-    {% endif %}
+        
         {% if current_user.is_authenticated %}
+            <div class="search-container" style="margin-bottom: 20px;">
+                <form method="GET" action="{{ url_for('main.home') }}" style="display: flex; gap: 10px;">
+                    <input type="text" name="q" placeholder="{{ _('Search polls...') }}" value="{{ q if q else '' }}" class="form-control" style="flex: 1;">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> </button>
+                    {% if q %}
+                        <a href="{{ url_for('main.home') }}" class="btn btn-secondary">{{ _('Clear') }}</a>
+                    {% endif %}
+                </form>
+            </div>
+
             <div style="margin-bottom: 20px;">
-                <h2>Recent Polls <i class="fa-solid fa-clock"></i> </h2>
+                <h2>{{ _('Recent Polls') }} <i class="fa-solid fa-clock"></i> </h2>
             </div>
 
             {% if polls %}
                 {% for poll in polls %}
                 <div class="poll-card">
                     <div class="user-row" style="border:none; margin-bottom: 15px; padding: 0;">
-                        <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="Author">
+                        <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="{{ _('Author') }}">
                         <div style="margin-left: 10px;">
                             <div style="font-weight: bold; font-size: 0.95rem;">
                                 <a href="{{ url_for('main.user_profile', username=poll.author.username) }}">{{ poll.author.username }}</a>
@@ -114,16 +104,16 @@
                     </div>
 
                     <h3 style="margin-bottom: 10px;">
-    <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" style="text-decoration: none; color: var(--text-main);">
-        {{ poll.title }}
-    </a>
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" style="text-decoration: none; color: var(--text-main);">
+                            {{ poll.title }}
+                        </a>
+                        {% if poll.options | selectattr('is_correct') | list | length > 0 %}
+                            <span class="quiz-badge" title="{{ _('This is a Quiz') }}">
+                                <i class="fa-solid fa-brain"></i> {{ _('Quiz') }}
+                            </span>
+                        {% endif %}
+                    </h3>
 
-    {% if poll.options | selectattr('is_correct') | list | length > 0 %}
-        <span class="quiz-badge" title="This is a Quiz">
-            <i class="fa-solid fa-brain"></i> Quiz
-        </span>
-    {% endif %}
-    </h3>
                     {% if poll.tags %}
                     <div class="poll-tags-container" style="margin-top: 15px; margin-bottom: 10px;">
                         {% for tag in poll.tags %}
@@ -132,9 +122,9 @@
                             </a>
                         {% endfor %}
                     </div>
-                        {% endif %}
+                    {% endif %}
+
                     {% if poll.description %}
-                        
                         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">{{ poll.description }}</p>
                     {% endif %}
 
@@ -145,39 +135,70 @@
                         </div>
                         {% endfor %}
                         {% if poll.options|length > 2 %}
-                            <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">+ {{ poll.options|length - 2 }} more options</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">+ {{ poll.options|length - 2 }} {{ _('more options') }}</div>
                         {% endif %}
                     </div>
-                                {% if poll.uploads %}
+
+                    {% if poll.uploads %}
                     <div class="poll-attachments" style="margin-top: 25px;">
                         <h5 class="widget-title" style="margin-bottom: 15px;">
-                            <i class="fa-solid fa-paperclip"></i> Contains Attachments
+                            <i class="fa-solid fa-paperclip"></i> {{ _('Contains Attachments') }}
                         </h5>
                     </div>
-                    {%endif%}
+                    {% endif %}
+
                     <div class="poll-meta-footer">
                         <div style="display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-muted);">
-                            <span><i class="fa-solid fa-square-poll-vertical"></i></i> {{ poll.getvotecount() }} votes</span>
-                            <span><i class="fa-solid fa-message"></i></i> {{ poll.comments|length }} comments</span>
+                            <span><i class="fa-solid fa-square-poll-vertical"></i> {{ poll.getvotecount() }} {{ _('votes') }}</span>
+                            <span><i class="fa-solid fa-message"></i> {{ poll.comments|length }} {{ _('comments') }}</span>
                         </div>
-                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem;">Vote</a>
+                        <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem;">{{ _('Vote') }}</a>
                     </div>
                 </div>
                 {% endfor %}
+
+                {% if pagination and pagination.pages > 1 %}
+                <div class="pagination-wrapper">
+                    {% if pagination.has_prev %}
+                        <a href="{{ url_for('main.home', page=pagination.prev_num, q=q) }}" class="btn btn-outline btn-sm">
+                            <i class="fa-solid fa-chevron-left"></i> {{ _('Prev') }}
+                        </a>
+                    {% else %}
+                        <button class="btn btn-outline btn-sm disabled" disabled>
+                            <i class="fa-solid fa-chevron-left"></i> {{ _('Prev') }}
+                        </button>
+                    {% endif %}
+
+                    <span class="pagination-info">
+                        {{ _('Page') }} <strong>{{ pagination.page }}</strong> {{ _('of') }} {{ pagination.pages }}
+                    </span>
+
+                    {% if pagination.has_next %}
+                        <a href="{{ url_for('main.home', page=pagination.next_num, q=q) }}" class="btn btn-outline btn-sm">
+                            {{ _('Next') }} <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    {% else %}
+                        <button class="btn btn-outline btn-sm disabled" disabled>
+                            {{ _('Next') }} <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    {% endif %}
+                </div>
+                {% endif %}
+
             {% else %}
-                <div class="poll-card" style="text-align: center; padding: 3rem;">
-                    <i class="fa-solid fa-layer-group" style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"></i>
-                    <p>No polls found.</p>
+                <div style="text-align: center; margin-top: 50px; color: var(--text-muted);">
+                    <h3>{{ _('Nothing found') }} {% if q %}{{ _('for') }} "{{ q }}"{% endif %}</h3>
+                    <p>{{ _('Try searching for something else or create a poll!') }}</p>
                 </div>
             {% endif %}
 
         {% else %}
             <div class="card" style="text-align: center; padding: 4rem 2rem;">
-                <h1 style="margin-bottom: 10px;">Welcome to Pollvoter!</h1>
-                <p style="color: var(--text-muted); margin-bottom: 30px;">Join the community to create polls and vote on trending topics.</p>
+                <h1 style="margin-bottom: 10px;">{{ _('Welcome to') }} Pollvoter!</h1>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">{{ _('Join the community to create polls and vote on trending topics.') }}</p>
                 <div style="display: flex; gap: 15px; justify-content: center;">
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline" style="min-width: 120px;">Login</a>
-                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="min-width: 120px;">Register</a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline" style="min-width: 120px;">{{ _('Login') }}</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="min-width: 120px;">{{ _('Register') }}</a>
                 </div>
             </div>
         {% endif %}
@@ -190,7 +211,7 @@
         const count = container.querySelectorAll('input').length + 1;
         
         if (count > 5) {
-            alert("Limit reached for quick poll. Use full creator for more.");
+            alert("{{ _('Limit reached for quick poll. Use full creator for more.') }}");
             return;
         }
 
@@ -210,7 +231,8 @@
         const input = document.createElement('input');
         input.type = 'text';
         input.name = 'options';
-        input.placeholder = 'Option ' + count;
+        // Translated placeholder for JS
+        input.placeholder = '{{ _('Option') }} ' + count;
         input.required = true;
         input.maxLength = 25;
         // Copy exact styles from above
@@ -224,8 +246,6 @@
         div.appendChild(span);
         div.appendChild(input);
         container.appendChild(div);
-
-
     });
 </script>
 

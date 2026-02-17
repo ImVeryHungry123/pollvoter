@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Notifications - Pollvoter{% endblock %}
+{% block title %}{{ _('Notifications') }} - Pollvoter{% endblock %}
 
 {% block content %}
 <div class="dashboard-layout">
 
     <aside class="sidebar">
         <div class="sidebar-widget">
-            <h3 class="widget-title">Manage</h3>
+            <h3 class="widget-title">{{ _('Manage') }}</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
-                Stay updated with the latest votes and comments on your polls.
+                {{ _('Stay updated with the latest votes and comments on your polls.') }}
             </p>
             <button class="btn btn-outline" style="width: 100%; text-align: left; margin-bottom: 8px;">
-                <i class="fa-solid fa-envelope-circle-check"></i> Mark all as read
+                <i class="fa-solid fa-envelope-circle-check"></i> {{ _('Mark all as read') }}
             </button>
             <button class="btn btn-outline" style="width: 100%; text-align: left;">
-                <i class="fa-solid fa-gear"></i> Notification Settings
+                <i class="fa-solid fa-gear"></i> {{ _('Notification Settings') }}
             </button>
         </div>
     </aside>
@@ -23,7 +23,7 @@
     <main class="feed">
         <div class="card">
             <h2 style="margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 15px;">
-                Notifications
+                {{ _('Notifications') }}
             </h2>
 
             <div class="notification-list">
@@ -47,13 +47,13 @@
                             <p style="margin: 0; font-size: 0.95rem; color: var(--text-main);">
                                 {{ i.message }}
                             </p>
-                            <small style="color: var(--text-muted);">Just now</small>
+                            <small style="color: var(--text-muted);">{{ _('Just now') }}</small>
                         </div>
                     </div>
 
                     {% if i.poll_id %}
                     <a href="{{ url_for('polls.poll_detail', poll_id=i.poll_id) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 12px;">
-                        View Poll
+                        {{ _('View Poll') }}
                     </a>
                     {% endif %}
                     
@@ -63,8 +63,8 @@
                 
                 <div style="text-align: center; padding: 40px 0;">
                     <div style="font-size: 2rem; margin-bottom: 10px;">✉︎</div>
-                    <h3 style="font-size: 1.1rem; color: var(--text-main);">All caught up!</h3>
-                    <p style="color: var(--text-muted);">You have no new notifications.</p>
+                    <h3 style="font-size: 1.1rem; color: var(--text-main);">{{ _('All caught up!') }}</h3>
+                    <p style="color: var(--text-muted);">{{ _('You have no new notifications.') }}</p>
                 </div>
                 
                 {% endfor %}

@@ -50,27 +50,27 @@
 
     <aside class="sidebar">
         <div class="sidebar-widget">
-            <h3 class="widget-title">Poll Stats</h3>
+            <h3 class="widget-title">{{ _('Poll Stats') }}</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; margin-bottom: 20px;">
                 <div style="background: var(--bg-body); padding: 15px; border-radius: 8px;">
                     <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">{{ poll.getvotecount() }}</div>
-                    <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Votes</small>
+                    <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">{{ _('Votes') }}</small>
                 </div>
                 <div style="background: var(--bg-body); padding: 15px; border-radius: 8px;">
                     <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">{{ poll.comments|length }}</div>
-                    <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Comments</small>
+                    <small style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">{{ _('Comments') }}</small>
                 </div>
             </div>
             <div style="font-size: 0.85rem; color: var(--text-muted);">
-                Posted: {{ poll.created_at.strftime('%B %d, %Y') }}<br>
-                Status: <span style="color: #10B981; font-weight: bold;">{%if poll.is_active() %} Active {%else%} Closed {%endif%}</span>
+                {{ _('Posted:') }} {{ poll.created_at.strftime('%B %d, %Y') }}<br>
+                {{ _('Status:') }} <span style="color: #10B981; font-weight: bold;">{%if poll.is_active() %} {{ _('Active') }} {%else%} {{ _('Closed') }} {%endif%}</span>
             </div>
         </div>
 
         {% if poll.author != current_user %}
             <div style="text-align: center; margin-top: 10px;">
                 <a href="{{ url_for('polls.report_poll', poll_id=poll.id) }}" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: underline;">
-                    <i class="fas fa-flag"></i> Report this poll
+                    <i class="fas fa-flag"></i> {{ _('Report this poll') }}
                 </a>
             </div>
         {% endif %}
@@ -80,36 +80,42 @@
         <div class="card">
             
             <div class="user-row" style="margin-bottom: 20px;">
-                <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="Author">
+                <img src="{{ poll.author.getpfp() }}" class="avatar-sm" alt="{{ _('Author') }}">
                 <div class="user-info">
                     <strong style="color: var(--text-main); font-size: 1.1rem;">
                         <a href="{{ url_for('main.user_profile', username=poll.author.username) }}">{{ poll.author.username }}</a>
                     </strong>
                     <br>
-                    <small style="color: var(--text-muted);">Asked a question</small>
+                    <small style="color: var(--text-muted);">{{ _('Asked a question') }}</small>
                     {% if poll.options | selectattr('is_correct') | list | length > 0 %}
                     <span class="quiz-badge" style="margin-left: 5px;">
-                        <i class="fa-solid fa-circle-question"></i> Quiz Mode
+                        <i class="fa-solid fa-circle-question"></i> {{ _('Quiz Mode') }}
                     </span>
-                    <h3>Share</h3>
-                    <div>
-                        <a href="https://t.me/share/url?url={{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}&text=Check out this poll: {{ poll.title }}" 
-           target="_blank" 
-           class="btn-share telegram">
-            <i class="fa-brands fa-telegram"></i>
+                    <div class="share-section">
+                    <h3><i class="fa-solid fa-share-nodes"></i> {{ _('Share this Poll') }}</h3>
+                    
+                    <div class="share-buttons">
+                        <a href="https://t.me/share/url?url={{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}&text={{ _('Check out this poll:') }} {{ poll.title }}" 
+                        target="_blank" 
+                        class="btn-share telegram"
+                        title="{{ _('Share on Telegram') }}">
+                            <i class="fa-brands fa-telegram"></i>
+                        </a>
 
-        </a>
-        <a href="https://twitter.com/intent/tweet?text={{ poll.title }}&url={{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}" 
-           target="_blank" 
-           class="btn-share twitter">
-            <i class="fa-brands fa-twitter"></i>
-        </a>
-        <button onclick="copyLink('{{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}')" 
-                class="btn-share copy" 
-                title="Copy Link">
-            <i class="fa-solid fa-link"></i>
-        </button>
+                        <a href="https://twitter.com/intent/tweet?text={{ poll.title }}&url={{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}" 
+                        target="_blank" 
+                        class="btn-share twitter"
+                        title="{{ _('Share on X') }}">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+
+                        <button onclick="copyLink(this, '{{ url_for('polls.poll_detail', poll_id=poll.id, _external=True) }}')" 
+                                class="btn-share copy" 
+                                title="{{ _('Copy Link') }}">
+                            <i class="fa-solid fa-link"></i>
+                        </button>
                     </div>
+                </div>
 
         {% endif %}
          </small>
@@ -120,7 +126,7 @@
                 <div class="poll-timer" style="margin-bottom: 15px;">
                     {% if poll.is_active() %}
                         <span class="badge badge-warning">
-                            <i class="fa-solid fa-hourglass-start"></i> Ends in: <span id="countdown-{{ poll.id }}">Calculating...</span>
+                            <i class="fa-solid fa-hourglass-start"></i> {{ _('Ends in:') }} <span id="countdown-{{ poll.id }}">{{ _('Calculating...') }}</span>
                         </span>            
                         <script>
                             (function() {
@@ -132,10 +138,11 @@
                                     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                                     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                                     var seconds = Math.floor((distance % (1000 * 60)) / 1000); 
-                                    document.getElementById("countdown-{{ poll.id }}").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                                    // Translated JS labels
+                                    document.getElementById("countdown-{{ poll.id }}").innerHTML = days + "{{ _('d') }} " + hours + "{{ _('h') }} " + minutes + "{{ _('m') }} " + seconds + "{{ _('s') }}";
                                     if (distance < 0) {
                                         clearInterval(x);
-                                        document.getElementById("countdown-{{ poll.id }}").innerHTML = "EXPIRED";
+                                        document.getElementById("countdown-{{ poll.id }}").innerHTML = "{{ _('EXPIRED') }}";
                                         var buttons = document.querySelector('.vote-buttons-container'); 
                                         if (buttons) buttons.style.display = 'none';
                                     }
@@ -143,14 +150,14 @@
                             })();
                         </script>
                     {% else %}
-                        <span class="badge badge-danger">ꗃ Poll Closed</span>
+                        <span class="badge badge-danger">ꗃ {{ _('Poll Closed') }}</span>
                     {% endif %}
                 </div>
             {% endif %}
 
             {% if poll.uploads %}
                 <div class="poll-attachments" style="margin-top: 25px;">
-                    <h5 class="widget-title" style="margin-bottom: 15px;"><i class="fa-solid fa-paperclip"></i> Attachments</h5>
+                    <h5 class="widget-title" style="margin-bottom: 15px;"><i class="fa-solid fa-paperclip"></i> {{ _('Attachments') }}</h5>
                     
                     <div class="media-players-list">
                         {% for file in poll.uploads %}
@@ -176,7 +183,7 @@
                             <div class="slider-wrapper">
                                 {% for img in images %}
                                     <div class="slide {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}">
-                                        <img src="{{ url_for('static', filename='uploads/files/' + img.filename) }}" alt="Poll Image">
+                                        <img src="{{ url_for('static', filename='uploads/files/' + img.filename) }}" alt="{{ _('Poll Image') }}">
                                     </div>
                                 {% endfor %}
                             </div>
@@ -197,7 +204,7 @@
                             {% if file.file_type == 'other' %}
                                 <div class="attachment-item" style="margin-bottom: 10px;">
                                     <a href="{{ url_for('static', filename='uploads/files/' + file.filename) }}" class="btn btn-outline" target="_blank" download>
-                                        <i class="fa-solid fa-file-arrow-down"></i> Download {{ file.filename }}
+                                        <i class="fa-solid fa-file-arrow-down"></i> {{ _('Download') }} {{ file.filename }}
                                     </a>
                                 </div>
                             {% endif %}
@@ -214,18 +221,18 @@
                 {% if is_quiz %}
                         {% if user_vote.option.is_correct %}
                             <div style="background: #D1FAE5; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid #10B981;">
-                                <h2 style="margin:0; font-size: 1.5rem; color: #065F46 !important;"><i class="fa-solid fa-face-laugh-beam"></i> Correct!</h2>
-                                <p style="margin:5px 0 0; color: #065F46 !important;">You got the right answer.</p>
+                                <h2 style="margin:0; font-size: 1.5rem; color: #065F46 !important;"><i class="fa-solid fa-face-laugh-beam"></i> {{ _('Correct!') }}</h2>
+                                <p style="margin:5px 0 0; color: #065F46 !important;">{{ _('You got the right answer.') }}</p>
                             </div>
                         {% else %}
                             <div style="background: #FEE2E2; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid #EF4444;">
-                                <h2 style="margin:0; font-size: 1.5rem; color: #991B1B !important;"><i class="fa-solid fa-face-sad-tear"></i> Oops! Wrong.</h2>
-                                <p style="margin:5px 0 0; color: #991B1B !important;">Better luck next time.</p>
+                                <h2 style="margin:0; font-size: 1.5rem; color: #991B1B !important;"><i class="fa-solid fa-face-sad-tear"></i> {{ _('Oops! Wrong.') }}</h2>
+                                <p style="margin:5px 0 0; color: #991B1B !important;">{{ _('Better luck next time.') }}</p>
                             </div>
                         {% endif %}
                 {% else %}
                     <div class="voted-message" style="background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px;">
-                        <i class="fas fa-check-circle"></i> You voted for: <strong>{{ user_vote.option.text }}</strong>
+                        <i class="fas fa-check-circle"></i> {{ _('You voted for:') }} <strong>{{ user_vote.option.text }}</strong>
                     </div>
                 {% endif %}
 
@@ -294,23 +301,23 @@
                             {% endfor %}
                         </div>
                         <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%; padding: 12px;">
-                            Submit Vote
+                            {{ _('Submit Vote') }}
                         </button>
                     </form>
                 {% else %}
-                    <p class="text-muted">Voting is disabled because the poll has ended.</p>
+                    <p class="text-muted">{{ _('Voting is disabled because the poll has ended.') }}</p>
                 {% endif %}
             {% endif %}
         </div>
 
         <div class="card">
-            <h3 style="margin-bottom: 20px;">Discussion ({{ poll.comments|length }})</h3>
+            <h3 style="margin-bottom: 20px;">{{ _('Discussion') }} ({{ poll.comments|length }})</h3>
 
             <form method="POST" action="{{ url_for('polls.add_comment', poll_id=poll.id) }}" style="margin-bottom: 30px; display: flex; gap: 10px;">
                 <img src="{{ current_user.getpfp() }}" class="avatar-sm" style="width: 35px; height: 35px;">
                 <div style="flex-grow: 1;">
-                    <textarea name="content" placeholder="Share your thoughts..." required maxlength="60" style="width: 100%; resize: none; height: 50px; border-radius: 8px;"></textarea>
-                    <button type="submit" class="btn btn-primary" style="margin-top: 8px; float: right; font-size: 0.85rem;">Post Comment</button>
+                    <textarea name="content" placeholder="{{ _('Share your thoughts...') }}" required maxlength="60" style="width: 100%; resize: none; height: 50px; border-radius: 8px;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 8px; float: right; font-size: 0.85rem;">{{ _('Post Comment') }}</button>
                 </div>
             </form>
 
@@ -327,7 +334,7 @@
                                     <small style="color: var(--text-muted); font-size: 0.75rem;">{{ comment.created_at.strftime('%d.%m %H:%M') }}</small>
                                     {% if comment.is_pinned %}
                                         <span style="font-size: 0.7rem; color: var(--primary); font-weight: bold; margin-left: 8px;">
-                                            <i class="fas fa-thumbtack"></i> Pinned by Author
+                                            <i class="fas fa-thumbtack"></i> {{ _('Pinned by Author') }}
                                         </span>
                                     {% endif %}
                                 </div>
@@ -338,10 +345,10 @@
                                         </button>
                                         <div id="menu-{{ comment.id }}" style="display: none; position: absolute; right: 0; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999; min-width: 150px;">
                                             <a href="{{ url_for('polls.pincomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
-                                                <i class="fas fa-thumbtack"></i> {{ 'Unpin' if comment.is_pinned else 'Pin' }}
+                                                <i class="fas fa-thumbtack"></i> {{ _('Unpin') if comment.is_pinned else _('Pin') }}
                                             </a>
                                             <a href="{{ url_for('polls.heartcomment', comment_id=comment.id) }}" style="display: block; padding: 8px 12px; color: var(--text-main); text-decoration: none; font-size: 0.85rem;">
-                                                <i class="fa-solid fa-heart"></i> {{ 'Remove Heart' if comment.is_authorliked else 'Give Heart' }}
+                                                <i class="fa-solid fa-heart"></i> {{ _('Remove Heart') if comment.is_authorliked else _('Give Heart') }}
                                             </a>
                                         </div>
                                     </div>
@@ -360,14 +367,14 @@
                                     </button>
                                 </form>
                                 {% if comment.is_authorliked %}
-                                    <div style="display: flex; align-items: center; background: rgba(255, 0, 0, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255,0,0,0.2);" title="Liked by the author">
+                                    <div style="display: flex; align-items: center; background: rgba(255, 0, 0, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255,0,0,0.2);" title="{{ _('Liked by the author') }}">
                                         <img src="{{ poll.author.getpfp() }}" style="width: 16px; height: 16px; border-radius: 50%; margin-right: 5px;">
                                         <i class="fas fa-heart" style="color: rgb(220, 38, 38); font-size: 0.8rem;"></i>
                                     </div>
                                 {% endif %}
                                 {% if comment.author == current_user %}
                                     <button class="btn-link" onclick="toggleEdit({{ comment.id }})" style="border: none; background: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer;">✎</button>
-                                    <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('Delete comment?');">
+                                    <form method="POST" action="{{ url_for('polls.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('{{ _('Delete comment?') }}');">
                                         <button type="submit" style="border: none; background: none; color: #b3b3b3; font-size: 0.75rem; cursor: pointer;">⌫</button>
                                     </form>
                                 {% endif %}
@@ -375,7 +382,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">No comments yet. Be the first to say something!</p>
+                    <p style="color: var(--text-muted); text-align: center; margin: 20px 0;">{{ _('No comments yet. Be the first to say something!') }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -447,14 +454,30 @@
     });
 
 
-    function copyLink(url) {
-    navigator.clipboard.writeText(url).then(function() {
-        showToast("Link copied to clipboard! 📋");
-    }, function(err) {
-        console.error('Could not copy text: ', err);
-        alert("Failed to copy link.");
-    });
-}
+
+    function copyLink(button, url) {
+        // 1. Copy text to clipboard
+        navigator.clipboard.writeText(url).then(() => {
+            
+            // 2. Add visual feedback (Green Checkmark)
+            button.classList.add('copied');
+            
+            // 3. Revert back after 2 seconds
+            setTimeout(() => {
+                button.classList.remove('copied');
+            }, 2000);
+            
+            // Optional: Toast notification
+            const Toast = Swal.mixin({
+                toast: true, position: 'top', timer: 2000, showConfirmButton: false,
+                background: 'var(--bg-card)', color: 'var(--text-main)'
+            });
+            Toast.fire({ icon: 'success', title: '{{ _('Link copied to clipboard!') }}' });
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    }
+
 
 function showToast(message) {
     let toast = document.createElement("div");

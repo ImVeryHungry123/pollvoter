@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}My Polls - Pollvoter{% endblock %}
+{% block title %}{{ _('My Polls') }} - Pollvoter{% endblock %}
 
 {% block content %}
 <div class="dashboard-layout">
@@ -9,7 +9,7 @@
         
         <div class="sidebar-widget">
             <div class="user-row">
-                <img src="{{ current_user.avatar_url or url_for('static', filename='default_avatar.png') }}" class="avatar-sm" alt="Avatar">
+                <img src="{{ current_user.avatar_url or url_for('static', filename='default_avatar.png') }}" class="avatar-sm" alt="{{ _('Avatar') }}">
                 <div class="user-info">
                     <h3 style="margin:0; font-size:1rem;">{{ current_user.username }}</h3>
                  
@@ -20,16 +20,16 @@
             
             <div style="font-size: 0.9rem; color: var(--text-muted);">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
-                    <span>Total Polls</span>
+                    <span>{{ _('Total Polls') }}</span>
                     <b style="color: var(--text-main);">{{ polls.total }}</b>
                 </div>
             </div>
         </div>
 
         <div class="sidebar-widget">
-            <h3 class="widget-title">Quick Actions</h3>
+            <h3 class="widget-title">{{ _('Quick Actions') }}</h3>
             <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary" style="display:block; text-align:center; width:100%;">
-                + Create New Poll
+                {{ _('+ Create New Poll') }}
             </a>
         </div>
 
@@ -38,8 +38,8 @@
     <main class="feed">
         
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-            <h2>My Polls</h2>
-            <span style="color: var(--text-muted); font-size: 0.9rem;">Managing {{ polls.total }} polls</span>
+            <h2>{{ _('My Polls') }}</h2>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">{{ _('Managing') }} {{ polls.total }} {{ _('polls') }}</span>
         </div>
 
         {% if polls.items %}
@@ -48,7 +48,7 @@
                 
                 <div class="poll-header" style="justify-content: space-between;">
                     <span style="font-size: 0.85rem; color: var(--text-muted);">
-                        Posted on {{ poll.created_at.strftime('%d.%m.%Y') }}
+                        {{ _('Posted on') }} {{ poll.created_at.strftime('%d.%m.%Y') }}
                     </span>
                     </div>
 
@@ -56,7 +56,7 @@
                     <h3 class="poll-question">
                         <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}">{{ poll.title }}</a>
                     </h3>
-                                        {% if poll.tags %}
+                                            {% if poll.tags %}
                     <div class="poll-tags-container" style="margin-top: 15px; margin-bottom: 10px;">
                         {% for tag in poll.tags %}
                             <a href="{{ url_for('main.home', tag=tag.name) }}" class="tag-pill">
@@ -75,23 +75,23 @@
                 <div class="poll-meta-footer">
                     <div class="stats">
                         <span style="margin-right: 15px;">
-                            <i class="fa-solid fa-square-poll-vertical"></i> <strong>{{ poll.getvotecount() }}</strong> votes
+                            <i class="fa-solid fa-square-poll-vertical"></i> <strong>{{ poll.getvotecount() }}</strong> {{ _('votes') }}
                         </span>
                         <span>
-                            <i class="fa-solid fa-message"></i> <strong>{{ poll.comments|length }}</strong> comments
+                            <i class="fa-solid fa-message"></i> <strong>{{ poll.comments|length }}</strong> {{ _('comments') }}
                         </span>
                     </div>
 
                     <div class="actions" style="display:flex; gap: 10px;">
                         <a href="{{ url_for('polls.edit_poll', poll_id=poll.id) }}" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;">
-                            Edit
+                            {{ _('Edit') }}
                         </a>
                         
                         <form action="{{url_for('polls.delete_poll', poll_id = poll.id)}}" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-outline" 
                                     style="padding: 6px 12px; font-size: 0.85rem; color: #EF4444; border-color: #EF4444;" 
-                                    onclick="return confirm('Are you sure you want to delete this poll?')">
-                                Delete
+                                    onclick="return confirm('{{ _('Are you sure you want to delete this poll?') }}')">
+                                {{ _('Delete') }}
                             </button>
                         </form>
                     </div>
@@ -102,23 +102,23 @@
 
             <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
                 {% if polls.has_prev %}
-                    <a href="{{ url_for('polls.my_polls', page=polls.prev_num) }}" class="btn btn-outline">← Previous</a>
+                    <a href="{{ url_for('polls.my_polls', page=polls.prev_num) }}" class="btn btn-outline">{{ _('← Previous') }}</a>
                 {% endif %}
                 
                 <span style="display: flex; align-items: center; padding: 0 10px; color: var(--text-muted);">
-                    Page {{ polls.page }} of {{ polls.pages }}
+                    {{ _('Page') }} {{ polls.page }} {{ _('of') }} {{ polls.pages }}
                 </span>
                 
                 {% if polls.has_next %}
-                    <a href="{{ url_for('polls.my_polls', page=polls.next_num) }}" class="btn btn-outline">Next →</a>
+                    <a href="{{ url_for('polls.my_polls', page=polls.next_num) }}" class="btn btn-outline">{{ _('Next →') }}</a>
                 {% endif %}
             </div>
 
         {% else %}
             <div class="card" style="text-align: center; padding: 40px;">
-                <h3 style="color: var(--text-muted);">It's quiet here...</h3>
-                <p>You haven't posted any polls yet.</p>
-                <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary" style="margin-top: 10px;">Create your first poll</a>
+                <h3 style="color: var(--text-muted);">{{ _("It's quiet here...") }}</h3>
+                <p>{{ _("You haven't posted any polls yet.") }}</p>
+                <a href="{{ url_for('polls.create_poll') }}" class="btn btn-primary" style="margin-top: 10px;">{{ _('Create your first poll') }}</a>
             </div>
         {% endif %}
         

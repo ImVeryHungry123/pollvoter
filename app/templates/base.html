@@ -1,236 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-       
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{%block title%}Pollvoter{%endblock%}</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}"> 
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* === LANGUAGE DROPDOWN STYLES === */
+        .language-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main, #333);
+            text-decoration: none;
+        }
+        .language-item:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        .lang-native {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .lang-english {
+            font-size: 0.85em;
+            opacity: 0.7;
+        }
+
+        /* === OLD (BROKEN) === */
+/* .bpFabIcon { display: none !important; }
+.bpReset bpFabContainer { display: none !important; }
+#fab-root { display: none !important; }  <-- THIS IS THE PROBLEM
+.bpFab { display: none !important; } 
+*/
+
+/* === NEW (WORKING) === */
+/* Hide the floating button/icon parts only */
+.bpFab, 
+.bpFabIcon, 
+.bp-widget-side, 
+.bp-widget-launcher { 
+    display: none !important; 
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Ensure the main root container is visible so the window can appear */
+#fab-root { 
+    display: block !important; 
+    /* Optional: Ensure the invisible container doesn't block clicks on your page */
+    pointer-events: none; 
+}
+
+/* Re-enable clicking on the actual chat window when it opens */
+#fab-root .bp-widget-webchat-container,
+#fab-root .bp-widget-web,
+#fab-root div[class*="bp-widget"] {
+    pointer-events: all;
+}
+
+        /* === MOBILE VISIBILITY CONTROLS === */
+        /* Default: Bottom Nav is hidden on Desktop */
+        .mobile-nav { display: none; }
+
+        @media (max-width: 768px) {
+            /* 1. Show Bottom Nav on Mobile */
+            .mobile-nav { display: flex; }
+            
+            /* 2. Hide specific Top-Nav items on Mobile */
+            #language-toggle, 
+            #language-dropdown,
+            #desktop-ai-trigger { 
+                display: none !important; 
+            }
+
+            /* 3. Hide Text Links in Top Nav */
+            .nav-links { display: none; }
+            
+            /* 4. Adjust Body padding for bottom bar */
+            body { padding-bottom: 80px; }
+        }
+    </style>
 </head>
 <body>
     {% set unread_count = unread_count if unread_count is defined else 0 %}
 
-<nav class="navbar">
-    <div class="navcontainer">
-        <a href="{{url_for('main.home')}}" class="navbar-brand">
-            <i class="fa-solid fa-bars-progress"></i>
-            <span class="brand-text">Pollvoter</span>
-        </a>
+    <nav class="navbar">
+        <div class="navcontainer">
+            <a href="{{url_for('main.home')}}" class="navbar-brand">
+                <i class="fa-solid fa-bars-progress"></i>
+                <span class="brand-text">Pollvoter</span>
+            </a>
 
-        <div class="nav-links">
-            {%if current_user.is_authenticated%}
-                <a href="{{url_for('main.home')}}">Home</a>
-                <a href="{{url_for('polls.my_polls')}}">My Polls</a>
-                <a href="{{url_for('polls.create_poll')}}">Create</a>
-                <a href="{{url_for('polls.listpolls')}}">Polls</a>
-                <a href="{{url_for('main.notifications')}}">Notifications</a>
+            <div class="nav-links">
+                {%if current_user.is_authenticated%}
+                    <a href="{{url_for('main.home')}}">{{ _('Home') }}</a>
+                    <a href="{{url_for('polls.my_polls')}}">{{ _('My Polls') }}</a>
+                    <a href="{{url_for('polls.create_poll')}}">{{ _('Create') }}</a>
+                    <a href="{{url_for('polls.listpolls')}}">{{ _('Polls') }}</a>
+                    <a href="{{url_for('main.notifications')}}">{{ _('Notifications') }}</a>
 
-                {%if current_user.is_authenticated and current_user.is_admin%}
-
-                        <a href="{{url_for('admin.dashboard')}}">Admin</a>
-
+                    {%if current_user.is_authenticated and current_user.is_admin%}
+                        <a href="{{url_for('admin.dashboard')}}">{{ _('Admin') }}</a>
                     {%endif%}
-                <a href="{{url_for('main.profile')}}">Profile</a>
-            {%endif%}
-        </div>
-
-        
-                <div class="nav-controls">
-            <button id="toggledarkmode" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+                    <a href="{{url_for('main.profile')}}">{{ _('Profile') }}</a>
+                {%endif%}
+            </div>
             
-            <button class="icon-btn" title="Settings"><i class="fa-solid fa-gear"></i></button>
-
-            <button id="mobile-ai-trigger" class="icon-btn" title="AI Chat">
-                <i class="fa-solid fa-robot"></i>
-            </button>
-
-            <div class="notification-dropdown-container">
-
-                <button class="icon-btn" id="notification-toggle">
-                    <i class="fa-solid fa-bell"></i>
-                    {% if unread_count > 0 %}
-                        <span class="notif-badge">{{ unread_count }}</span>
-                    {% endif %}
-                </button>
+            <div class="nav-controls">
+                <button id="toggledarkmode" class="icon-btn" title="{{ _('Toggle Theme') }}"><i class="fa-solid fa-moon"></i></button>
                 
-                <div class="notification-dropdown-content" id="notification-dropdown">
-                    <h4>Notifications <i class="fa-solid fa-bell"></i></h4>
-                    {%if latest_notifs%}
-                        {%for i in latest_notifs%}
-                        <div class="notification-item">
-                            <p>{{i.message}}</p>
-                            {%if i.poll_id%}
-                            <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">View</a>
+                <div class="notification-dropdown-container">
+                    <button class="icon-btn" id="language-toggle" title="{{ _('Change Language') }}">
+                        <i class="fa-solid fa-globe"></i>
+                    </button>
+                    
+                    <div class="notification-dropdown-content" id="language-dropdown">
+                        <h4>{{ _('Language') }} <i class="fa-solid fa-language"></i></h4>
+                        <a href="{{ url_for('main.set_language', code='en') }}" class="language-item">
+                            <span class="lang-native">English</span><span class="lang-english">English</span>
+                        </a>
+                        <a href="{{ url_for('main.set_language', code='zh') }}" class="language-item">
+                            <span class="lang-native">中文</span><span class="lang-english">Chinese</span>
+                        </a>
+                        <a href="{{ url_for('main.set_language', code='es') }}" class="language-item">
+                            <span class="lang-native">Español</span><span class="lang-english">Spanish</span>
+                        </a>
+                        <a href="{{ url_for('main.set_language', code='fr') }}" class="language-item">
+                            <span class="lang-native">Français</span><span class="lang-english">French</span>
+                        </a>
+                        <a href="{{ url_for('main.set_language', code='ru') }}" class="language-item">
+                            <span class="lang-native">Русский</span><span class="lang-english">Russian</span>
+                        </a>
+                        <a href="{{ url_for('main.set_language', code='hi') }}" class="language-item">
+                            <span class="lang-native">हिन्दी</span><span class="lang-english">Hindi</span>
+                        </a>
+                        <a href="{{ url_for('main.set_language', code='uk') }}" class="language-item">
+                            <span class="lang-native">Українська</span><span class="lang-english">Ukrainian</span>
+                        </a>
+                    </div>
+                </div>
+
+                <button class="icon-btn" title="{{ _('Settings') }}"><i class="fa-solid fa-gear"></i></button>
+
+                <button id="desktop-ai-trigger" class="icon-btn" title="{{ _('AI Chat') }}" onclick="openBotpress()">
+                    <i class="fa-solid fa-robot"></i>
+                </button>
+
+                <div class="notification-dropdown-container">
+                    <button class="icon-btn" id="notification-toggle">
+                        <i class="fa-solid fa-bell"></i>
+                        {% if unread_count > 0 %}
+                            <span class="notif-badge">{{ unread_count }}</span>
+                        {% endif %}
+                    </button>
+                    
+                    <div class="notification-dropdown-content" id="notification-dropdown">
+                        <h4>{{ _('Notifications') }} <i class="fa-solid fa-bell"></i></h4>
+                        <div class="notif-scroll-area">
+                            {%if latest_notifs%}
+                                {%for i in latest_notifs%}
+                                <div class="notification-item">
+                                    <p>{{i.message}}</p>
+                                    {%if i.poll_id%}
+                                    <a href="{{url_for('polls.poll_detail', poll_id = i.poll_id)}}">{{ _('View') }}</a>
+                                    {%endif%}
+                                </div>
+                                {%endfor%}
+                            {%else%}
+                                <div class="notification-item"><p>{{ _('No notifications') }}</p></div>
                             {%endif%}
                         </div>
-                        {%endfor%}
-                        <a href="{{url_for('main.notifications')}}" class="view-all-link">View all</a>
-                    {%else%}
-                        <div class="notification-item"><p>No notifications</p></div>
-                    {%endif%}
+                        <a href="{{url_for('main.notifications')}}" class="view-all-link">{{ _('View all') }}</a>
+                    </div>
                 </div>
-            </div>
 
-            {%if current_user.is_authenticated%}
-                <a href="{{url_for('auth.logout')}}" class="btn btn-sm btn-outline">Log out</a>
-            {%else%}
-                <a href="{{url_for('auth.login')}}" class="btn btn-sm">Login</a>
-                <a href="{{url_for('auth.register')}}" class="btn btn-sm btn-primary">Register</a>
-            {%endif%}
+                {%if current_user.is_authenticated%}
+                    <a href="{{url_for('auth.logout')}}" class="btn btn-sm btn-outline">{{ _('Log out') }}</a>
+                {%else%}
+                    <a href="{{url_for('auth.login')}}" class="btn btn-sm">{{ _('Login') }}</a>
+                    <a href="{{url_for('auth.register')}}" class="btn btn-sm btn-primary">{{ _('Register') }}</a>
+                {%endif%}
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <div class="main-container">
-
-
         {%block content%}{%endblock%}
     </div>
 
     <footer>
-        <p>Have a nice day!</p>
+        <p>{{ _('Have a nice day!') }}</p>
     </footer>
 
-
-
-
-
     <div class="mobile-nav">
-    <a href="{{url_for('main.home')}}" class="nav-item">
-        <i class="fa-solid fa-house"></i>
-        <span>Home</span>
-    </a>
-    
-    <a href="{{url_for('polls.listpolls')}}" class="nav-item">
-        <i class="fa-solid fa-list-ul"></i>
-        <span>Polls</span>
-    </a>
-
-    <a href="{{url_for('polls.create_poll')}}" class="nav-item">
-        <div class="nav-circle-btn">
-            <i class="fa-solid fa-plus"></i>
-        </div>
-    </a>
-
-    <a href="{{url_for('main.notifications')}}" class="nav-item">
-        <i class="fa-solid fa-bell"></i>
-        <span>Notifs</span>
-    </a>
-
-    <a href="{{url_for('main.profile')}}" class="nav-item">
-        <i class="fa-solid fa-user"></i>
-        <span>Profile</span>
-    </a>
-</div>
-    <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>
-    <script src="https://files.bpcontent.cloud/2025/11/15/09/20251115093148-HGRHJZHT.js" defer></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script> 
-{% with messages = get_flashed_messages(with_categories = true) %}
-    {% if messages %}
-
-            document.addEventListener('DOMContentLoaded', function() {
-                const toast = Swal.mixin({
-                    toast: true,
-                    position: "top",
-                    timer: 2000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    // Match the website styling
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-main)',
-                    customClass: {
-                        popup: 'swal-custom-border'
-                    }
-                });
-
-                {% for category, message in messages %}
-                    var icon_type = "{{ category }}";
-                    if (icon_type === "message") { icon_type = "info" };
-                    if (icon_type === "danger") { icon_type = "error" };
-
-                    toast.fire({
-                        icon: icon_type,
-                        title: "{{ message }}",
-                        // Using your primary blue for the progress bar
-                        iconColor: icon_type === 'success' ? '#10B981' : (icon_type === 'error' ? '#EF4444' : 'var(--primary)'),
-                    });
-                {% endfor %}
-            });
-
-    {% endif %}
-{% endwith %}
-</script>
-    <script>
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-        const aiTrigger = document.getElementById('mobile-ai-trigger');
+        <a href="{{url_for('main.home')}}" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span>{{ _('Home') }}</span>
+        </a>
         
-        if(aiTrigger) {
-            aiTrigger.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // 1. Add class to body so CSS can reveal the container
-                document.body.classList.add('chat-active');
+        <a href="{{url_for('polls.listpolls')}}" class="nav-item">
+            <i class="fa-solid fa-list-ul"></i>
+            <span>{{ _('Polls') }}</span>
+        </a>
 
-                // 2. Trigger Botpress to open
-                if (window.botpress) {
-                    window.botpress.open();
-                } else {
-                    console.error("Botpress not loaded yet");
-                }
-            });
+        <a href="{{url_for('polls.create_poll')}}" class="nav-item">
+            <div class="nav-circle-btn">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+        </a>
+
+        <button class="nav-item" onclick="openBotpress()" style="background:none; border:none; padding:0; color:var(--text-muted);">
+            <i class="fa-solid fa-robot"></i>
+            <span>AI</span>
+        </button>
+
+        <a href="{{url_for('main.profile')}}" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <span>{{ _('Profile') }}</span>
+        </a>
+    </div>
+
+    
+    <script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/11/15/09/20251115093148-HGRHJZHT.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script> 
+        // 1. FLASH MESSAGES (SweetAlert2)
+        {% with messages = get_flashed_messages(with_categories = true) %}
+            {% if messages %}
+                document.addEventListener('DOMContentLoaded', function() {
+                    const toast = Swal.mixin({
+                        toast: true, position: "top", timer: 2000, timerProgressBar: true, showConfirmButton: false,
+                        background: 'var(--bg-card)', color: 'var(--text-main)',
+                        customClass: { popup: 'swal-custom-border' }
+                    });
+
+                    {% for category, message in messages %}
+                        var icon_type = "{{ category }}";
+                        if (icon_type === "message") { icon_type = "info" };
+                        if (icon_type === "danger") { icon_type = "error" };
+
+                        toast.fire({
+                            icon: icon_type,
+                            title: "{{ message }}",
+                            iconColor: icon_type === 'success' ? '#10B981' : (icon_type === 'error' ? '#EF4444' : 'var(--primary)'),
+                        });
+                    {% endfor %}
+                });
+            {% endif %}
+        {% endwith %}
+
+        // 2. BOTPRESS LOGIC (Mobile & Desktop)
+        function openBotpress() {
+            // Trigger animation class
+            document.body.classList.add('chat-active');
+            
+            // Open Botpress
+            if (window.botpress) {
+                window.botpress.open();
+            } else {
+                console.log("Botpress loading...");
+                // Fallback mechanism
+                const widgetBtn = document.getElementById('bp-web-widget-container');
+                if(widgetBtn) widgetBtn.click();
+            }
         }
 
-        // Optional: Listen for Botpress closing to hide the container again
-        // (This depends on Botpress V3 API support, but the visual toggle above is usually enough)
-        if (window.botpress) {
-            window.botpress.on('webchat:closed', () => {
-                document.body.classList.remove('chat-active');
-            });
-        }
-    });
+        // 3. DARK MODE TOGGLE
         const button = document.getElementById("toggledarkmode");
         const body = document.body;
         
-        // Check local storage on load
+        // Load preference
         const current_theme = localStorage.getItem("theme");
         if (current_theme === "dark"){
             body.classList.add("dark-mode");
-            button.innerHTML = "<i class='fa-solid fa-sun'></i>";
+            if(button) button.innerHTML = "<i class='fa-solid fa-sun'></i>";
         }
 
-        button.addEventListener("click", function(){
-            body.classList.toggle("dark-mode");
-            
-            let theme = "light";
-            if (body.classList.contains("dark-mode")){
-                theme = "dark";
-                button.innerHTML = "<i class='fa-solid fa-sun'></i>";
-            } else {
-                button.innerHTML = "<i class='fa-solid fa-moon'></i>";
-            }
-            localStorage.setItem("theme", theme);
-        });
+        if(button) {
+            button.addEventListener("click", function(){
+                body.classList.toggle("dark-mode");
+                let theme = "light";
+                if (body.classList.contains("dark-mode")){
+                    theme = "dark";
+                    button.innerHTML = "<i class='fa-solid fa-sun'></i>";
+                } else {
+                    button.innerHTML = "<i class='fa-solid fa-moon'></i>";
+                }
+                localStorage.setItem("theme", theme);
+            });
+        }
+
+        // 4. DROPDOWN LOGIC (Exclusive Opening)
         const notifToggle = document.getElementById('notification-toggle');
         const notifDropdown = document.getElementById('notification-dropdown');
+        const langToggle = document.getElementById('language-toggle');
+        const langDropdown = document.getElementById('language-dropdown');
 
-        // Function to toggle the display of the dropdown
-        notifToggle.addEventListener('click', function() {
-            notifDropdown.classList.toggle('show');
-        });
+        // Toggle Notification
+        if(notifToggle) {
+            notifToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if(langDropdown) langDropdown.classList.remove('show'); // Close lang
+                notifDropdown.classList.toggle('show');
+            });
+        }
 
-        // Close the dropdown if the user clicks outside of it
+        // Toggle Language (Only if visible/desktop)
+        if(langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if(notifDropdown) notifDropdown.classList.remove('show'); // Close notif
+                langDropdown.classList.toggle('show');
+            });
+        }
+
+        // Close when clicking outside
         window.addEventListener('click', function(event) {
-            // Check if the click is outside both the button AND the dropdown content
-            if (!notifToggle.contains(event.target) && !notifDropdown.contains(event.target)) {
-                if (notifDropdown.classList.contains('show')) {
+            if (notifDropdown && notifDropdown.classList.contains('show')) {
+                if (!notifToggle.contains(event.target) && !notifDropdown.contains(event.target)) {
                     notifDropdown.classList.remove('show');
+                }
+            }
+            if (langDropdown && langDropdown.classList.contains('show')) {
+                if (!langToggle.contains(event.target) && !langDropdown.contains(event.target)) {
+                    langDropdown.classList.remove('show');
                 }
             }
         });

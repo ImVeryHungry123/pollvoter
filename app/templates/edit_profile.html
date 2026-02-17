@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Edit Profile - Pollvoter{% endblock %}
+{% block title %}{{ _('Edit Profile') }} - Pollvoter{% endblock %}
 
 {% block content %}
 <div class="main-container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
@@ -8,7 +8,7 @@
     <div class="card" style="width: 100%; max-width: 500px; padding: 30px; position: relative;">
         
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2 style="margin: 0; font-size: 1.25rem;">Edit Profile</h2>
+            <h2 style="margin: 0; font-size: 1.25rem;">{{ _('Edit Profile') }}</h2>
             <a href="{{ url_for('main.profile', username=current_user.username) }}" style="color: var(--text-muted); font-size: 1.2rem;">&times;</a>
         </div>
 
@@ -16,7 +16,7 @@
             
             <div style="display: flex; justify-content: center; margin-bottom: 30px;">
                 <div class="avatar-upload-wrapper">
-                    <img src="{{ current_user.getpfp() }}" alt="Current Profile" id="avatar-preview">
+                    <img src="{{ current_user.getpfp() }}" alt="{{ _('Current Profile') }}" id="avatar-preview">
                     
                     <label for="pfp-input" class="camera-overlay">
                         <i class="fas fa-camera"></i>
@@ -25,16 +25,33 @@
                     <input type="file" name="pfp" id="pfp-input" accept="image/*" onchange="previewImage(this)">
                 </div>
             </div>
+        <div class="form-group banner-upload-section">
+            <label class="form-label">{{ _('Profile Banner') }}</label>
+            
+            <div class="banner-wrapper">
+                <img id="banner-preview" src="{{ current_user.getbg() }}" alt="{{ _('Current Banner') }}">
+                
+                <label for="bg_picture_input" class="banner-overlay">
+                    <div class="camera-icon">
+                        <i class="fa-solid fa-image"></i>
+                    </div>
+                    <span>{{ _('Change Cover') }}</span>
+                </label>
+
+                <input type="file" id="bg_picture_input" name="bg_picture" accept="image/*" onchange="previewBanner(event)">
+            </div>
+            <p class="form-hint">{{ _('Recommended size: 1200x300px') }}</p>
+        </div>
 
             <div class="form-group" style="margin-bottom: 20px;">
-                <label for="full_name" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: block;">Display Name</label>
+                <label for="full_name" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: block;">{{ _('Display Name') }}</label>
                 <input type="text" name="full_name" id="full_name" 
                        value="{{ current_user.full_name or '' }}" 
                        class="dark-input" maxlength="30">
             </div>
 
             <div class="form-group" style="margin-bottom: 10px;">
-                <label for="bio" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: block;">Bio</label>
+                <label for="bio" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: block;">{{ _('Bio') }}</label>
                 <textarea name="bio" id="bio" rows="3" class="dark-input" maxlength="160" oninput="updateCount(this)">{{ current_user.bio or '' }}</textarea>
                 
                 <div style="text-align: right; font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">
@@ -43,8 +60,8 @@
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px;">
-                <a href="{{ url_for('main.user_profile', username=current_user.username) }}" class="btn btn-outline">Cancel</a>
-                <button type="submit" class="btn btn-primary" style="background-color: white; color: black; border: none;">Save</button>
+                <a href="{{ url_for('main.user_profile', username=current_user.username) }}" class="btn btn-outline">{{ _('Cancel') }}</a>
+                <button type="submit" class="btn btn-primary" style="background-color: white; color: black; border: none;">{{ _('Save') }}</button>
             </div>
         </form>
     </div>
@@ -136,5 +153,20 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+    function previewBanner(event) {
+        const input = event.target;
+        const preview = document.getElementById('banner-preview');
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
+
 {% endblock %}

@@ -1,0 +1,1052 @@
+# Chinese translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-02-14 11:22+0200\n"
+"PO-Revision-Date: 2026-02-14 11:32+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: app/templates/admin_panel.html:3
+msgid "Admin Dashboard"
+msgstr "管理后台"
+
+#: app/templates/admin_panel.html:9
+msgid "Admin Panel"
+msgstr "管理面板"
+
+#: app/templates/admin_panel.html:11
+msgid "Pending Reports"
+msgstr "待处理举报"
+
+#: app/templates/admin_panel.html:15
+msgid "Review reports carefully. Deleting content cannot be undone."
+msgstr "请仔细核查举报。删除内容后将无法恢复。"
+
+#: app/templates/admin_panel.html:22
+msgid "Reports Queue"
+msgstr "举报队列"
+
+#: app/templates/admin_panel.html:24
+msgid "Keep the community safe, Mango!"
+msgstr "保护社区安全，Mango！"
+
+#: app/templates/admin_panel.html:31
+msgid "Case #"
+msgstr "案件编号 #"
+
+#: app/templates/admin_panel.html:34
+msgid "Reported by"
+msgstr "举报人"
+
+#: app/templates/admin_panel.html:39
+msgid "Reason"
+msgstr "原因"
+
+#: app/templates/admin_panel.html:46
+msgid "Evidence"
+msgstr "证据"
+
+#: app/templates/admin_panel.html:50 app/templates/report_form.html:46
+msgid "Poll"
+msgstr "投票"
+
+#: app/templates/admin_panel.html:55 app/templates/admin_panel.html:81
+msgid "Author:"
+msgstr "作者："
+
+#: app/templates/admin_panel.html:62 app/templates/admin_panel.html:89
+msgid "Dismiss Report"
+msgstr "忽略举报"
+
+#: app/templates/admin_panel.html:67
+msgid "WARNING: You are about to DELETE this poll. This cannot be undone."
+msgstr "警告：您即将删除此投票。此操作不可撤销。"
+
+#: app/templates/admin_panel.html:69
+msgid "Delete Poll"
+msgstr "删除投票"
+
+#: app/templates/admin_panel.html:76 app/templates/report_form.html:56
+msgid "Comment"
+msgstr "评论"
+
+#: app/templates/admin_panel.html:82
+msgid "Context: On poll"
+msgstr "上下文：于投票"
+
+#: app/templates/admin_panel.html:94
+msgid "WARNING: You are about to DELETE this comment."
+msgstr "警告：您即将删除此评论。"
+
+#: app/templates/admin_panel.html:96
+msgid "Delete Comment"
+msgstr "删除评论"
+
+#: app/templates/admin_panel.html:110
+msgid "All Clear!"
+msgstr "已全部处理！"
+
+#: app/templates/admin_panel.html:111
+msgid "There are no pending reports. Great job keeping things safe."
+msgstr "没有待处理的举报。维护安全辛苦了！"
+
+#: app/templates/admin_panel.html:112
+msgid "Go to Feed"
+msgstr "返回动态"
+
+#: app/templates/base.html:23 app/templates/base.html:102
+#: app/templates/home.html:2
+msgid "Home"
+msgstr "首页"
+
+#: app/templates/base.html:24 app/templates/my_polls.html:3
+#: app/templates/my_polls.html:41
+msgid "My Polls"
+msgstr "我的投票"
+
+#: app/templates/base.html:25
+msgid "Create"
+msgstr "创建"
+
+#: app/templates/base.html:26 app/templates/base.html:107
+#: app/templates/profile.html:35
+msgid "Polls"
+msgstr "投票"
+
+#: app/templates/base.html:27 app/templates/base.html:58
+#: app/templates/notification.html:3 app/templates/notification.html:26
+msgid "Notifications"
+msgstr "通知"
+
+#: app/templates/base.html:31
+msgid "Admin"
+msgstr "管理"
+
+#: app/templates/base.html:34 app/templates/base.html:123
+msgid "Profile"
+msgstr "个人资料"
+
+#: app/templates/base.html:40
+msgid "Toggle Theme"
+msgstr "切换主题"
+
+#: app/templates/base.html:42
+msgid "Settings"
+msgstr "设置"
+
+#: app/templates/base.html:44
+msgid "AI Chat"
+msgstr "AI 聊天"
+
+#: app/templates/base.html:64 app/templates/profile.html:61
+#: app/templates/user_profile.html:123
+msgid "View"
+msgstr "查看"
+
+#: app/templates/base.html:68
+msgid "View all"
+msgstr "查看全部"
+
+#: app/templates/base.html:70
+msgid "No notifications"
+msgstr "暂无通知"
+
+#: app/templates/base.html:76
+msgid "Log out"
+msgstr "登出"
+
+#: app/templates/base.html:78 app/templates/home.html:200
+msgid "Login"
+msgstr "登录"
+
+#: app/templates/base.html:79 app/templates/home.html:201
+#: app/templates/register.html:3 app/templates/register.html:22
+msgid "Register"
+msgstr "注册"
+
+#: app/templates/base.html:92
+msgid "Have a nice day!"
+msgstr "祝你有美好的一天！"
+
+#: app/templates/base.html:118
+msgid "Notifs"
+msgstr "通知"
+
+#: app/templates/create_poll.html:3 app/templates/create_poll.html:51
+msgid "Create a New Poll"
+msgstr "发起新投票"
+
+#: app/templates/create_poll.html:29
+msgid "Posting Tips"
+msgstr "发布小贴士"
+
+#: app/templates/create_poll.html:32
+msgid "Keep it short"
+msgstr "言简意赅"
+
+#: app/templates/create_poll.html:33
+msgid "短小精悍的标题能获得更多票数。"
+msgstr "短小精悍的标题能获得更多票数。"
+
+#: app/templates/create_poll.html:36
+msgid "Be clear"
+msgstr "表述清晰"
+
+#: app/templates/create_poll.html:37
+msgid "Make sure your options cover all bases."
+msgstr "确保选项覆盖了所有可能的情况。"
+
+#: app/templates/create_poll.html:40
+msgid "Engage"
+msgstr "互动性"
+
+#: app/templates/create_poll.html:41
+msgid "Ask questions that spark debate!"
+msgstr "提出能引发讨论的问题！"
+
+#: app/templates/create_poll.html:56
+msgid "Question / Title"
+msgstr "问题 / 标题"
+
+#: app/templates/create_poll.html:58
+msgid "e.g., What is the best winter game?"
+msgstr "例如：冬天最好玩的游戏是什么？"
+
+#: app/templates/create_poll.html:63
+msgid "Description (Optional)"
+msgstr "描述（可选）"
+
+#: app/templates/create_poll.html:65
+msgid "Add a little context..."
+msgstr "添加一些背景介绍..."
+
+#: app/templates/create_poll.html:67
+msgid "Max 70 characters"
+msgstr "最多 70 个字符"
+
+#: app/templates/create_poll.html:70
+msgid "Upload your files"
+msgstr "上传文件"
+
+#: app/templates/create_poll.html:75 app/templates/create_poll.html:182
+msgid "Drag & drop or click to upload"
+msgstr "拖放文件或点击上传"
+
+#: app/templates/create_poll.html:76
+msgid "Images, Videos, Audio, or Text files"
+msgstr "图片、视频、音频或文本文件"
+
+#: app/templates/create_poll.html:83
+msgid "Max size: 10MB per file"
+msgstr "单文件上限：10MB"
+
+#: app/templates/create_poll.html:84
+msgid "Multiple files allowed"
+msgstr "支持多个文件"
+
+#: app/templates/create_poll.html:88
+msgid "Poll End Date (Optional):"
+msgstr "投票截止日期（可选）："
+
+#: app/templates/create_poll.html:94
+msgid "Add Tags"
+msgstr "添加标签"
+
+#: app/templates/create_poll.html:94
+msgid "(Divide by Commas, don't use hashtags!)"
+msgstr "（用逗号分隔，不要使用 # 符号！）"
+
+#: app/templates/create_poll.html:96
+msgid "Funny, Cool, etc"
+msgstr "搞笑，酷，等等"
+
+#: app/templates/create_poll.html:100
+msgid "Poll Options"
+msgstr "投票选项"
+
+#: app/templates/create_poll.html:102
+msgid "Select the radio button"
+msgstr "选择单选按钮"
+
+#: app/templates/create_poll.html:102
+msgid "to mark the"
+msgstr "以标记"
+
+#: app/templates/create_poll.html:102
+msgid "correct answer"
+msgstr "正确答案"
+
+#: app/templates/create_poll.html:102
+msgid "(for Quiz mode). Leave blank for a regular poll."
+msgstr "（适用于测验模式）。普通投票请留空。"
+
+#: app/templates/create_poll.html:107 app/templates/create_poll.html:112
+#: app/templates/create_poll.html:150
+msgid "Mark as correct answer"
+msgstr "标记为正确答案"
+
+#: app/templates/create_poll.html:108 app/templates/home.html:29
+msgid "Option 1"
+msgstr "选项 1"
+
+#: app/templates/create_poll.html:113 app/templates/home.html:34
+msgid "Option 2"
+msgstr "选项 2"
+
+#: app/templates/create_poll.html:118
+msgid "+ Add Another Option"
+msgstr "+ 添加更多选项"
+
+#: app/templates/create_poll.html:124
+msgid "Publish Poll"
+msgstr "发布投票"
+
+#: app/templates/create_poll.html:138
+msgid "Maximum 10 options allowed!"
+msgstr "最多允许 10 个选项！"
+
+#: app/templates/create_poll.html:156 app/templates/home.html:235
+msgid "Option"
+msgstr "选项"
+
+#: app/templates/create_poll.html:174
+msgid "Files selected!"
+msgstr "文件已选择！"
+
+#: app/templates/create_poll.html:178
+msgid " file"
+msgstr " 个文件"
+
+#: app/templates/create_poll.html:178
+msgid " files"
+msgstr " 个文件"
+
+#: app/templates/create_poll.html:179
+msgid " ready"
+msgstr " 就绪"
+
+#: app/templates/edit_poll.html:3 app/templates/edit_poll.html:37
+msgid "Edit Poll"
+msgstr "编辑投票"
+
+#: app/templates/edit_poll.html:11
+msgid "Current Stats"
+msgstr "当前数据"
+
+#: app/templates/edit_poll.html:14
+msgid "You are editing"
+msgstr "您正在编辑"
+
+#: app/templates/edit_poll.html:18
+msgid "Votes:"
+msgstr "票数："
+
+#: app/templates/edit_poll.html:22
+msgid "Comments:"
+msgstr "评论数："
+
+#: app/templates/edit_poll.html:29
+msgid "Back to Poll"
+msgstr "返回投票"
+
+#: app/templates/edit_poll.html:39
+msgid "ID:"
+msgstr "ID："
+
+#: app/templates/edit_poll.html:47
+msgid "Title"
+msgstr "标题"
+
+#: app/templates/edit_poll.html:55
+msgid "Description"
+msgstr "描述"
+
+#: app/templates/edit_poll.html:60
+msgid "Max 100 characters"
+msgstr "最多 100 个字符"
+
+#: app/templates/edit_poll.html:66
+msgid "Save Changes"
+msgstr "保存修改"
+
+#: app/templates/edit_poll.html:70 app/templates/edit_profile.html:63
+#: app/templates/report_form.html:81
+msgid "Cancel"
+msgstr "取消"
+
+#: app/templates/edit_profile.html:3 app/templates/edit_profile.html:11
+#: app/templates/profile.html:11 app/templates/user_profile.html:46
+msgid "Edit Profile"
+msgstr "编辑个人资料"
+
+#: app/templates/edit_profile.html:19
+msgid "Current Profile"
+msgstr "当前个人资料"
+
+#: app/templates/edit_profile.html:29
+msgid "Profile Banner"
+msgstr "个人资料横幅"
+
+#: app/templates/edit_profile.html:32
+msgid "Current Banner"
+msgstr "当前横幅"
+
+#: app/templates/edit_profile.html:38
+msgid "Change Cover"
+msgstr "更换封面"
+
+#: app/templates/edit_profile.html:43
+msgid "Recommended size: 1200x300px"
+msgstr "建议尺寸：1200x300px"
+
+#: app/templates/edit_profile.html:47
+msgid "Display Name"
+msgstr "显示名称"
+
+#: app/templates/edit_profile.html:54
+msgid "Bio"
+msgstr "个人简介"
+
+#: app/templates/edit_profile.html:64
+msgid "Save"
+msgstr "保存"
+
+#: app/templates/home.html:12
+msgid "Create a Poll"
+msgstr "发起投票"
+
+#: app/templates/home.html:17
+msgid "What's your question?"
+msgstr "想问大家什么？"
+
+#: app/templates/home.html:22
+msgid "Description (optional)"
+msgstr "描述（可选）"
+
+#: app/templates/home.html:41
+msgid "+ Add Option"
+msgstr "+ 添加选项"
+
+#: app/templates/home.html:44 app/templates/polls.html:119
+msgid "Create Poll"
+msgstr "创建投票"
+
+#: app/templates/home.html:49
+msgid "People to Follow"
+msgstr "推荐关注"
+
+#: app/templates/home.html:66 app/templates/user_profile.html:25
+msgid "Follow"
+msgstr "关注"
+
+#: app/templates/home.html:71
+msgid "No new users to follow."
+msgstr "暂无新用户推荐。"
+
+#: app/templates/home.html:81
+msgid "Search polls..."
+msgstr "搜索投票..."
+
+#: app/templates/home.html:84
+msgid "Clear"
+msgstr "清除"
+
+#: app/templates/home.html:90
+msgid "Recent Polls"
+msgstr "最新投票"
+
+#: app/templates/home.html:97 app/templates/poll_detail.html:83
+#: app/templates/polls.html:56
+msgid "Author"
+msgstr "作者"
+
+#: app/templates/home.html:111
+msgid "This is a Quiz"
+msgstr "这是一个测验"
+
+#: app/templates/home.html:112
+msgid "Quiz"
+msgstr "测验"
+
+#: app/templates/home.html:138
+msgid "more options"
+msgstr "更多选项"
+
+#: app/templates/home.html:145
+msgid "Contains Attachments"
+msgstr "包含附件"
+
+#: app/templates/home.html:152 app/templates/my_polls.html:78
+#: app/templates/polls.html:87 app/templates/user_profile.html:120
+msgid "votes"
+msgstr " 票"
+
+#: app/templates/home.html:153 app/templates/my_polls.html:81
+#: app/templates/polls.html:90
+msgid "comments"
+msgstr " 条评论"
+
+#: app/templates/home.html:155
+msgid "Vote"
+msgstr "投票"
+
+#: app/templates/home.html:164 app/templates/home.html:168
+msgid "Prev"
+msgstr "上一页"
+
+#: app/templates/home.html:173 app/templates/my_polls.html:109
+#: app/templates/polls.html:107
+msgid "Page"
+msgstr "第 "
+
+#: app/templates/home.html:173 app/templates/my_polls.html:109
+#: app/templates/polls.html:107
+msgid "of"
+msgstr " 页，共 "
+
+#: app/templates/home.html:178 app/templates/home.html:182
+msgid "Next"
+msgstr "下一页"
+
+#: app/templates/home.html:190
+msgid "Nothing found"
+msgstr "未找到内容"
+
+#: app/templates/home.html:190
+msgid "for"
+msgstr " 匹配 "
+
+#: app/templates/home.html:191
+msgid "Try searching for something else or create a poll!"
+msgstr "试着搜索别的，或者自己发起一个投票！"
+
+#: app/templates/home.html:197
+msgid "Welcome to"
+msgstr "欢迎来到"
+
+#: app/templates/home.html:198
+msgid "Join the community to create polls and vote on trending topics."
+msgstr "加入社区发起投票，参与热门话题。"
+
+#: app/templates/home.html:214
+msgid "Limit reached for quick poll. Use full creator for more."
+msgstr "快捷投票选项已达上限。请使用完整编辑器。"
+
+#: app/templates/login.html:3 app/templates/login.html:22
+msgid "Log In"
+msgstr "登录"
+
+#: app/templates/login.html:8
+msgid "Welcome Back"
+msgstr "欢迎回来"
+
+#: app/templates/login.html:9
+msgid "Log in to manage your polls."
+msgstr "登录以管理您的投票。"
+
+#: app/templates/login.html:12 app/templates/register.html:12
+msgid "Username"
+msgstr "用户名"
+
+#: app/templates/login.html:13
+msgid "Enter your username"
+msgstr "输入您的用户名"
+
+#: app/templates/login.html:17 app/templates/register.html:17
+msgid "Password"
+msgstr "密码"
+
+#: app/templates/login.html:18
+msgid "Enter your password"
+msgstr "输入您的密码"
+
+#: app/templates/login.html:26
+msgid "No account?"
+msgstr "没有账号？"
+
+#: app/templates/login.html:26
+msgid "Register here"
+msgstr "立即注册"
+
+#: app/templates/my_polls.html:12
+msgid "Avatar"
+msgstr "头像"
+
+#: app/templates/my_polls.html:23
+msgid "Total Polls"
+msgstr "投票总数"
+
+#: app/templates/my_polls.html:30
+msgid "Quick Actions"
+msgstr "快捷操作"
+
+#: app/templates/my_polls.html:32
+msgid "+ Create New Poll"
+msgstr "+ 发起新投票"
+
+#: app/templates/my_polls.html:42
+msgid "Managing"
+msgstr "正在管理"
+
+#: app/templates/my_polls.html:42
+msgid "polls"
+msgstr "个投票"
+
+#: app/templates/my_polls.html:51
+msgid "Posted on"
+msgstr "发布于"
+
+#: app/templates/my_polls.html:87
+msgid "Edit"
+msgstr "编辑"
+
+#: app/templates/my_polls.html:93
+msgid "Are you sure you want to delete this poll?"
+msgstr "确定要删除此投票吗？"
+
+#: app/templates/my_polls.html:94
+msgid "Delete"
+msgstr "删除"
+
+#: app/templates/my_polls.html:105 app/templates/polls.html:103
+msgid "← Previous"
+msgstr "← 上一页"
+
+#: app/templates/my_polls.html:113 app/templates/polls.html:111
+msgid "Next →"
+msgstr "下一页 →"
+
+#: app/templates/my_polls.html:119
+msgid "It's quiet here..."
+msgstr "这里静悄悄的..."
+
+#: app/templates/my_polls.html:120
+msgid "You haven't posted any polls yet."
+msgstr "您还没有发布过任何投票。"
+
+#: app/templates/my_polls.html:121
+msgid "Create your first poll"
+msgstr "发布您的第一个投票"
+
+#: app/templates/notification.html:10
+msgid "Manage"
+msgstr "管理"
+
+#: app/templates/notification.html:12
+msgid "Stay updated with the latest votes and comments on your polls."
+msgstr "实时查看投票的最新票数和评论。"
+
+#: app/templates/notification.html:15
+msgid "Mark all as read"
+msgstr "全部标记为已读"
+
+#: app/templates/notification.html:18
+msgid "Notification Settings"
+msgstr "通知设置"
+
+#: app/templates/notification.html:50
+msgid "Just now"
+msgstr "刚刚"
+
+#: app/templates/notification.html:56
+msgid "View Poll"
+msgstr "查看投票"
+
+#: app/templates/notification.html:66
+msgid "All caught up!"
+msgstr "已全部读完！"
+
+#: app/templates/notification.html:67
+msgid "You have no new notifications."
+msgstr "暂无新通知。"
+
+#: app/templates/poll_detail.html:53
+msgid "Poll Stats"
+msgstr "投票数据"
+
+#: app/templates/poll_detail.html:57 app/templates/profile.html:36
+msgid "Votes"
+msgstr "票数"
+
+#: app/templates/poll_detail.html:61 app/templates/profile.html:37
+#: app/templates/user_profile.html:95
+msgid "Comments"
+msgstr "评论"
+
+#: app/templates/poll_detail.html:65
+msgid "Posted:"
+msgstr "发布于："
+
+#: app/templates/poll_detail.html:66
+msgid "Status:"
+msgstr "状态："
+
+#: app/templates/poll_detail.html:66
+msgid "Active"
+msgstr "进行中"
+
+#: app/templates/poll_detail.html:66
+msgid "Closed"
+msgstr "已结束"
+
+#: app/templates/poll_detail.html:73
+msgid "Report this poll"
+msgstr "举报此投票"
+
+#: app/templates/poll_detail.html:89
+msgid "Asked a question"
+msgstr "提出了一个问题"
+
+#: app/templates/poll_detail.html:92
+msgid "Quiz Mode"
+msgstr "测验模式"
+
+#: app/templates/poll_detail.html:95
+msgid "Share this Poll"
+msgstr "分享此投票"
+
+#: app/templates/poll_detail.html:98
+msgid "Check out this poll:"
+msgstr "看看这个投票："
+
+#: app/templates/poll_detail.html:101
+msgid "Share on Telegram"
+msgstr "分享到 Telegram"
+
+#: app/templates/poll_detail.html:108
+msgid "Share on X"
+msgstr "分享到 X"
+
+#: app/templates/poll_detail.html:114
+msgid "Copy Link"
+msgstr "复制链接"
+
+#: app/templates/poll_detail.html:129
+msgid "Ends in:"
+msgstr "距离结束还有："
+
+#: app/templates/poll_detail.html:129
+msgid "Calculating..."
+msgstr "计算中..."
+
+#: app/templates/poll_detail.html:142
+msgid "d"
+msgstr "天"
+
+#: app/templates/poll_detail.html:142
+msgid "h"
+msgstr "时"
+
+#: app/templates/poll_detail.html:142
+msgid "m"
+msgstr "分"
+
+#: app/templates/poll_detail.html:142
+msgid "s"
+msgstr "秒"
+
+#: app/templates/poll_detail.html:145
+msgid "EXPIRED"
+msgstr "已过期"
+
+#: app/templates/poll_detail.html:153
+msgid "Poll Closed"
+msgstr "投票已关闭"
+
+#: app/templates/poll_detail.html:160
+msgid "Attachments"
+msgstr "附件"
+
+#: app/templates/poll_detail.html:186
+msgid "Poll Image"
+msgstr "投票图片"
+
+#: app/templates/poll_detail.html:207
+msgid "Download"
+msgstr "下载"
+
+#: app/templates/poll_detail.html:224
+msgid "Correct!"
+msgstr "答对了！"
+
+#: app/templates/poll_detail.html:225
+msgid "You got the right answer."
+msgstr "您选择了正确答案。"
+
+#: app/templates/poll_detail.html:229
+msgid "Oops! Wrong."
+msgstr "哎呀！答错了。"
+
+#: app/templates/poll_detail.html:230
+msgid "Better luck next time."
+msgstr "下次再接再厉。"
+
+#: app/templates/poll_detail.html:235
+msgid "You voted for:"
+msgstr "您的投票选择："
+
+#: app/templates/poll_detail.html:304
+msgid "Submit Vote"
+msgstr "提交投票"
+
+#: app/templates/poll_detail.html:308
+msgid "Voting is disabled because the poll has ended."
+msgstr "投票已结束，无法投票。"
+
+#: app/templates/poll_detail.html:314
+msgid "Discussion"
+msgstr "讨论区"
+
+#: app/templates/poll_detail.html:319
+msgid "Share your thoughts..."
+msgstr "分享你的看法..."
+
+#: app/templates/poll_detail.html:320
+msgid "Post Comment"
+msgstr "发布评论"
+
+#: app/templates/poll_detail.html:337
+msgid "Pinned by Author"
+msgstr "作者置顶"
+
+#: app/templates/poll_detail.html:348
+msgid "Unpin"
+msgstr "取消置顶"
+
+#: app/templates/poll_detail.html:348
+msgid "Pin"
+msgstr "置顶"
+
+#: app/templates/poll_detail.html:351
+msgid "Remove Heart"
+msgstr "取消作者点赞"
+
+#: app/templates/poll_detail.html:351
+msgid "Give Heart"
+msgstr "作者点赞"
+
+#: app/templates/poll_detail.html:370
+msgid "Liked by the author"
+msgstr "作者已点赞"
+
+#: app/templates/poll_detail.html:377
+msgid "Delete comment?"
+msgstr "删除评论？"
+
+#: app/templates/poll_detail.html:385
+msgid "No comments yet. Be the first to say something!"
+msgstr "暂无评论。来坐沙发！"
+
+#: app/templates/poll_detail.html:475
+msgid "Link copied to clipboard!"
+msgstr "链接已复制到剪贴板！"
+
+#: app/templates/polls.html:3
+msgid "All Polls"
+msgstr "所有投票"
+
+#: app/templates/polls.html:10
+msgid "Feed Filters"
+msgstr "动态筛选"
+
+#: app/templates/polls.html:15
+msgid "Newest"
+msgstr "最新发布"
+
+#: app/templates/polls.html:20
+msgid "Popular"
+msgstr "热门推荐"
+
+#: app/templates/polls.html:25
+msgid "Most Discussed"
+msgstr "讨论最多"
+
+#: app/templates/polls.html:31
+msgid "Got a question?"
+msgstr "有什么疑问？"
+
+#: app/templates/polls.html:32
+msgid "Ask the community and get instant feedback."
+msgstr "向社区提问并获得实时反馈。"
+
+#: app/templates/polls.html:34
+msgid "+ Create Poll"
+msgstr "+ 发起投票"
+
+#: app/templates/polls.html:42
+msgid "Popular Polls"
+msgstr "热门投票"
+
+#: app/templates/polls.html:44
+msgid "Discussed Polls"
+msgstr "热议投票"
+
+#: app/templates/polls.html:46
+msgid "Latest Polls"
+msgstr "最新投票"
+
+#: app/templates/polls.html:95
+msgid "Vote Now"
+msgstr "立即投票"
+
+#: app/templates/polls.html:117
+msgid "No polls found..."
+msgstr "未找到投票..."
+
+#: app/templates/polls.html:118
+msgid "Be the first one to start a conversation!"
+msgstr "成为第一个发起讨论的人吧！"
+
+#: app/templates/profile.html:3
+msgid "Your Profile"
+msgstr "个人资料"
+
+#: app/templates/profile.html:14
+msgid "Profile Picture"
+msgstr "头像"
+
+#: app/templates/profile.html:38
+msgid "Joined"
+msgstr "注册于"
+
+#: app/templates/profile.html:47 app/templates/user_profile.html:76
+msgid "About"
+msgstr "关于"
+
+#: app/templates/profile.html:48
+msgid "Just exploring and creating polls!"
+msgstr "只是在探索和创建投票！"
+
+#: app/templates/profile.html:53
+msgid "Your Polls"
+msgstr "您的投票"
+
+#: app/templates/profile.html:68
+msgid "You haven't created any polls yet."
+msgstr "您还没有发起过投票。"
+
+#: app/templates/register.html:8
+msgid "Create Account"
+msgstr "创建账号"
+
+#: app/templates/register.html:9
+msgid "Join the community to start voting!"
+msgstr "加入社区，开始投票吧！"
+
+#: app/templates/register.html:13
+msgid "Choose a unique username"
+msgstr "选择一个独一无二的用户名"
+
+#: app/templates/register.html:18
+msgid "Create a strong password"
+msgstr "创建一个强密码"
+
+#: app/templates/register.html:26
+msgid "Already have an account?"
+msgstr "已有账号？"
+
+#: app/templates/register.html:26
+msgid "Log in here"
+msgstr "点此登录"
+
+#: app/templates/report_form.html:3 app/templates/report_form.html:37
+msgid "Report"
+msgstr "举报"
+
+#: app/templates/report_form.html:11
+msgid "Safety First"
+msgstr "安全第一"
+
+#: app/templates/report_form.html:14
+msgid ""
+"Thanks for helping keep Pollvoter safe! Please report content that "
+"includes:"
+msgstr "感谢您协助维护 Pollvoter 的社区安全！请举报包含以下内容的信息："
+
+#: app/templates/report_form.html:18
+msgid "Harassment or bullying"
+msgstr "骚扰或欺凌"
+
+#: app/templates/report_form.html:21
+msgid "Spam or scams"
+msgstr "垃圾信息或诈骗"
+
+#: app/templates/report_form.html:24
+msgid "Inappropriate content"
+msgstr "不当内容"
+
+#: app/templates/report_form.html:41
+msgid ""
+"You are about to report the following content. This will be sent to the "
+"admin team for review."
+msgstr "您即将举报以下内容。举报将被发送至管理员团队进行审核。"
+
+#: app/templates/report_form.html:63
+msgid "Posted by"
+msgstr "发布者"
+
+#: app/templates/report_form.html:63
+msgid "on poll"
+msgstr "于投票"
+
+#: app/templates/report_form.html:72
+msgid "Why are you reporting this?"
+msgstr "为什么要举报此内容？"
+
+#: app/templates/report_form.html:75
+msgid "Please provide specific details..."
+msgstr "请提供具体细节..."
+
+#: app/templates/report_form.html:84
+msgid "Submit Report"
+msgstr "提交举报"
+
+#: app/templates/user_profile.html:3
+#, python-format
+msgid "%(username)s's Profile"
+msgstr "%(username)s 的个人资料"
+
+#: app/templates/user_profile.html:21
+msgid "Unfollow"
+msgstr "取消关注"
+
+#: app/templates/user_profile.html:32
+msgid "Unblock"
+msgstr "取消拉黑"
+
+#: app/templates/user_profile.html:38
+msgid "Block"
+msgstr "拉黑"
+
+#: app/templates/user_profile.html:81
+msgid "This user hasn't written a bio yet."
+msgstr "该用户很懒，什么都没有留下。"
+
+#: app/templates/user_profile.html:87
+msgid "Polls Created"
+msgstr "发起投票"
+
+#: app/templates/user_profile.html:91
+msgid "Votes Cast"
+msgstr "参与投票"
+
+#: app/templates/user_profile.html:102
+#, python-format
+msgid "%(username)s's Polls"
+msgstr "%(username)s 的投票"
+
+#: app/templates/user_profile.html:131
+msgid "This user hasn't posted any polls yet."
+msgstr "该用户还没有发布过任何投票。"

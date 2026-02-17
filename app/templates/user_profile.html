@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user.username }}'s Profile - Pollvoter{% endblock %}
+{% block title %}{{ _("%(username)s's Profile", username=user.username) }} - Pollvoter{% endblock %}
 
 {% block content %}
 
 <div class="profile-header-card">
-    <div class="profile-cover"></div>
+    <div class="profile-cover" style="background-image: url('{{current_user.getbg()}}');"></div>
     
     <div class="profile-content">
         <img src="{{ user.getpfp() }}" 
@@ -18,24 +18,24 @@
                 
                 {% if current_user.is_following(user) %}
                     <a href="{{ url_for('main.unfollow', username=user.username) }}" class="btn btn-outline">
-                        <i class="fa-solid fa-user-slash"></i> Unfollow
+                        <i class="fa-solid fa-user-slash"></i> {{ _('Unfollow') }}
                     </a>
                 {% else %}
                     <a href="{{ url_for('main.follow', username=user.username) }}" class="btn btn-primary">
-                        <i class="fa-solid fa-user-plus"></i> Follow
+                        <i class="fa-solid fa-user-plus"></i> {{ _('Follow') }}
                     </a>
                 {% endif %}
 
                 <div style="margin-left: 10px; display: inline-block;">
                     {% if current_user.is_blocking(user) %}
                         <form action="{{ url_for('main.unblock', username=user.username) }}" method="POST">
-                            <button type="submit" class="btn btn-primary" style="font-size: 0.8rem;"><i class="fa-solid fa-lock-open"></i> Unblock</button>
+                            <button type="submit" class="btn btn-primary" style="font-size: 0.8rem;"><i class="fa-solid fa-lock-open"></i> {{ _('Unblock') }}</button>
                         </form>
                     {% else %}
                         <form action="{{ url_for('main.block', username=user.username) }}" method="POST">
                             <button type="submit" class="btn btn-primary" 
                                     style="font-size: 0.8rem; padding: 6px 12px;">
-                                <i class="fa-solid fa-lock"></i> Block
+                                <i class="fa-solid fa-lock"></i> {{ _('Block') }}
                             </button>
                         </form>
                     {% endif %}
@@ -43,7 +43,7 @@
             {% endif %}
             
             {% if user == current_user %}
-                <a href="#" class="btn btn-outline">✎ Edit Profile</a>
+                <a href="#" class="btn btn-outline">✎ {{ _('Edit Profile') }}</a>
             {% endif %}
         </div>
 
@@ -73,33 +73,33 @@
 
     <aside class="sidebar">
         <div class="sidebar-widget">
-            <h3 class="widget-title">About</h3>
+            <h3 class="widget-title">{{ _('About') }}</h3>
             
             {% if user.bio %}
                 <p style="color: var(--text-main); margin-bottom: 20px;">{{ user.bio }}</p>
             {% else %}
-                <p style="color: var(--text-muted); font-style: italic;">This user hasn't written a bio yet.</p>
+                <p style="color: var(--text-muted); font-style: italic;">{{ _("This user hasn't written a bio yet.") }}</p>
             {% endif %}
 
             <hr style="border:0; border-top:1px solid var(--border-subtle); margin: 15px 0;">
             
             <div class="stat-item" style="display:flex; justify-content:space-between; margin-bottom: 8px;">
-                <span style="color:var(--text-muted);">Polls Created</span>
+                <span style="color:var(--text-muted);">{{ _('Polls Created') }}</span>
                 <b>{{ polls_count }}</b>
             </div>
             <div class="stat-item" style="display:flex; justify-content:space-between; margin-bottom: 8px;">
-                <span style="color:var(--text-muted);">Votes Cast</span>
+                <span style="color:var(--text-muted);">{{ _('Votes Cast') }}</span>
                 <b>{{ total_votes }}</b>
             </div>
             <div class="stat-item" style="display:flex; justify-content:space-between;">
-                <span style="color:var(--text-muted);">Comments</span>
+                <span style="color:var(--text-muted);">{{ _('Comments') }}</span>
                 <b>{{ total_comments }}</b>
             </div>
         </div>
     </aside>
 
     <main class="feed">
-        <h3 style="margin-bottom: 20px;">{{ user.username }}'s Polls</h3>
+        <h3 style="margin-bottom: 20px;">{{ _("%(username)s's Polls", username=user.username) }}</h3>
         
         {% if user_polls %}
             <ul style="list-style: none; padding: 0;">
@@ -117,10 +117,10 @@
                     
                     <div class="poll-meta-footer">
                         <div class="stats">
-                            <span style="margin-right: 15px;"><i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} votes</span>
+                            <span style="margin-right: 15px;"><i class="fas fa-vote-yea"></i> {{ poll.getvotecount() }} {{ _('votes') }}</span>
                         </div>
                         <a href="{{ url_for('polls.poll_detail', poll_id=poll.id) }}" class="btn btn-primary" style="padding: 6px 15px;">
-                            View
+                            {{ _('View') }}
                         </a>
                     </div>
                 </li>
@@ -128,7 +128,7 @@
             </ul>
         {% else %}
             <div class="card" style="text-align: center; padding: 30px; opacity: 0.7;">
-                <p>This user hasn't posted any polls yet.</p>
+                <p>{{ _("This user hasn't posted any polls yet.") }}</p>
             </div>
         {% endif %}
     </main>

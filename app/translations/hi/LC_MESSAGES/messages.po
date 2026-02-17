@@ -1,0 +1,1052 @@
+# Hindi translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-02-14 11:22+0200\n"
+"PO-Revision-Date: 2026-02-14 11:28+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: hi\n"
+"Language-Team: hi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: app/templates/admin_panel.html:3
+msgid "Admin Dashboard"
+msgstr "एडमिन डैशबोर्ड"
+
+#: app/templates/admin_panel.html:9
+msgid "Admin Panel"
+msgstr "एडमिन पैनल"
+
+#: app/templates/admin_panel.html:11
+msgid "Pending Reports"
+msgstr "लंबित रिपोर्ट"
+
+#: app/templates/admin_panel.html:15
+msgid "Review reports carefully. Deleting content cannot be undone."
+msgstr "रिपोर्ट की सावधानीपूर्वक समीक्षा करें। सामग्री को हटाने के बाद इसे पूर्ववत नहीं किया जा सकता है।"
+
+#: app/templates/admin_panel.html:22
+msgid "Reports Queue"
+msgstr "रिपोर्ट कतार"
+
+#: app/templates/admin_panel.html:24
+msgid "Keep the community safe, Mango!"
+msgstr "समुदाय को सुरक्षित रखें, मैंगो!"
+
+#: app/templates/admin_panel.html:31
+msgid "Case #"
+msgstr "केस #"
+
+#: app/templates/admin_panel.html:34
+msgid "Reported by"
+msgstr "द्वारा रिपोर्ट किया गया"
+
+#: app/templates/admin_panel.html:39
+msgid "Reason"
+msgstr "कारण"
+
+#: app/templates/admin_panel.html:46
+msgid "Evidence"
+msgstr "सबूत"
+
+#: app/templates/admin_panel.html:50 app/templates/report_form.html:46
+msgid "Poll"
+msgstr "पोल"
+
+#: app/templates/admin_panel.html:55 app/templates/admin_panel.html:81
+msgid "Author:"
+msgstr "लेखक:"
+
+#: app/templates/admin_panel.html:62 app/templates/admin_panel.html:89
+msgid "Dismiss Report"
+msgstr "रिपोर्ट खारिज करें"
+
+#: app/templates/admin_panel.html:67
+msgid "WARNING: You are about to DELETE this poll. This cannot be undone."
+msgstr "चेतावनी: आप इस पोल को हटाने वाले हैं। इसे पूर्ववत नहीं किया जा सकता है।"
+
+#: app/templates/admin_panel.html:69
+msgid "Delete Poll"
+msgstr "पोल हटाएं"
+
+#: app/templates/admin_panel.html:76 app/templates/report_form.html:56
+msgid "Comment"
+msgstr "टिप्पणी"
+
+#: app/templates/admin_panel.html:82
+msgid "Context: On poll"
+msgstr "संदर्भ: पोल पर"
+
+#: app/templates/admin_panel.html:94
+msgid "WARNING: You are about to DELETE this comment."
+msgstr "चेतावनी: आप इस टिप्पणी को हटाने वाले हैं।"
+
+#: app/templates/admin_panel.html:96
+msgid "Delete Comment"
+msgstr "टिप्पणी हटाएं"
+
+#: app/templates/admin_panel.html:110
+msgid "All Clear!"
+msgstr "सब साफ़ है!"
+
+#: app/templates/admin_panel.html:111
+msgid "There are no pending reports. Great job keeping things safe."
+msgstr "कोई लंबित रिपोर्ट नहीं है। चीजों को सुरक्षित रखने का बहुत अच्छा काम।"
+
+#: app/templates/admin_panel.html:112
+msgid "Go to Feed"
+msgstr "फ़ीड पर जाएं"
+
+#: app/templates/base.html:23 app/templates/base.html:102
+#: app/templates/home.html:2
+msgid "Home"
+msgstr "होम"
+
+#: app/templates/base.html:24 app/templates/my_polls.html:3
+#: app/templates/my_polls.html:41
+msgid "My Polls"
+msgstr "मेरे पोल"
+
+#: app/templates/base.html:25
+msgid "Create"
+msgstr "बनाएं"
+
+#: app/templates/base.html:26 app/templates/base.html:107
+#: app/templates/profile.html:35
+msgid "Polls"
+msgstr "पोल"
+
+#: app/templates/base.html:27 app/templates/base.html:58
+#: app/templates/notification.html:3 app/templates/notification.html:26
+msgid "Notifications"
+msgstr "सूचनाएं"
+
+#: app/templates/base.html:31
+msgid "Admin"
+msgstr "एडमिन"
+
+#: app/templates/base.html:34 app/templates/base.html:123
+msgid "Profile"
+msgstr "प्रोफ़ाइल"
+
+#: app/templates/base.html:40
+msgid "Toggle Theme"
+msgstr "थीम बदलें"
+
+#: app/templates/base.html:42
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+#: app/templates/base.html:44
+msgid "AI Chat"
+msgstr "AI चैट"
+
+#: app/templates/base.html:64 app/templates/profile.html:61
+#: app/templates/user_profile.html:123
+msgid "View"
+msgstr "देखें"
+
+#: app/templates/base.html:68
+msgid "View all"
+msgstr "सभी देखें"
+
+#: app/templates/base.html:70
+msgid "No notifications"
+msgstr "कोई सूचना नहीं"
+
+#: app/templates/base.html:76
+msgid "Log out"
+msgstr "लॉग आउट"
+
+#: app/templates/base.html:78 app/templates/home.html:200
+msgid "Login"
+msgstr "लॉग इन"
+
+#: app/templates/base.html:79 app/templates/home.html:201
+#: app/templates/register.html:3 app/templates/register.html:22
+msgid "Register"
+msgstr "रजिस्टर"
+
+#: app/templates/base.html:92
+msgid "Have a nice day!"
+msgstr "आपका दिन शुभ हो!"
+
+#: app/templates/base.html:118
+msgid "Notifs"
+msgstr "सूचनाएं"
+
+#: app/templates/create_poll.html:3 app/templates/create_poll.html:51
+msgid "Create a New Poll"
+msgstr "एक नया पोल बनाएं"
+
+#: app/templates/create_poll.html:29
+msgid "Posting Tips"
+msgstr "पोस्टिंग सुझाव"
+
+#: app/templates/create_poll.html:32
+msgid "Keep it short"
+msgstr "इसे छोटा रखें"
+
+#: app/templates/create_poll.html:33
+msgid "Short titles get more votes."
+msgstr "छोटे शीर्षकों को अधिक वोट मिलते हैं।"
+
+#: app/templates/create_poll.html:36
+msgid "Be clear"
+msgstr "स्पष्ट रहें"
+
+#: app/templates/create_poll.html:37
+msgid "Make sure your options cover all bases."
+msgstr "सुनिश्चित करें कि आपके विकल्प सभी पहलुओं को कवर करते हैं।"
+
+#: app/templates/create_poll.html:40
+msgid "Engage"
+msgstr "जुड़ाव बढ़ाएं"
+
+#: app/templates/create_poll.html:41
+msgid "Ask questions that spark debate!"
+msgstr "ऐसे प्रश्न पूछें जो बहस छेड़ दें!"
+
+#: app/templates/create_poll.html:56
+msgid "Question / Title"
+msgstr "प्रश्न / शीर्षक"
+
+#: app/templates/create_poll.html:58
+msgid "e.g., What is the best winter game?"
+msgstr "जैसे, सबसे अच्छा शीतकालीन खेल कौन सा है?"
+
+#: app/templates/create_poll.html:63
+msgid "Description (Optional)"
+msgstr "विवरण (वैकल्पिक)"
+
+#: app/templates/create_poll.html:65
+msgid "Add a little context..."
+msgstr "थोड़ा संदर्भ जोड़ें..."
+
+#: app/templates/create_poll.html:67
+msgid "Max 70 characters"
+msgstr "अधिकतम 70 अक्षर"
+
+#: app/templates/create_poll.html:70
+msgid "Upload your files"
+msgstr "अपनी फ़ाइलें अपलोड करें"
+
+#: app/templates/create_poll.html:75 app/templates/create_poll.html:182
+msgid "Drag & drop or click to upload"
+msgstr "ड्रैग और ड्रॉप करें या अपलोड करने के लिए क्लिक करें"
+
+#: app/templates/create_poll.html:76
+msgid "Images, Videos, Audio, or Text files"
+msgstr "चित्र, वीडियो, ऑडियो, या टेक्स्ट फ़ाइलें"
+
+#: app/templates/create_poll.html:83
+msgid "Max size: 10MB per file"
+msgstr "अधिकतम आकार: प्रति फ़ाइल 10MB"
+
+#: app/templates/create_poll.html:84
+msgid "Multiple files allowed"
+msgstr "एकाधिक फ़ाइलों की अनुमति है"
+
+#: app/templates/create_poll.html:88
+msgid "Poll End Date (Optional):"
+msgstr "पोल समाप्ति तिथि (वैकल्पिक):"
+
+#: app/templates/create_poll.html:94
+msgid "Add Tags"
+msgstr "टैग जोड़ें"
+
+#: app/templates/create_poll.html:94
+msgid "(Divide by Commas, don't use hashtags!)"
+msgstr "(अल्पविराम से विभाजित करें, हैशटैग का उपयोग न करें!)"
+
+#: app/templates/create_poll.html:96
+msgid "Funny, Cool, etc"
+msgstr "मजेदार, कूल, आदि"
+
+#: app/templates/create_poll.html:100
+msgid "Poll Options"
+msgstr "पोल विकल्प"
+
+#: app/templates/create_poll.html:102
+msgid "Select the radio button"
+msgstr "रेडियो बटन का चयन करें"
+
+#: app/templates/create_poll.html:102
+msgid "to mark the"
+msgstr "चिह्नित करने के लिए"
+
+#: app/templates/create_poll.html:102
+msgid "correct answer"
+msgstr "सही उत्तर"
+
+#: app/templates/create_poll.html:102
+msgid "(for Quiz mode). Leave blank for a regular poll."
+msgstr "(क्विज़ मोड के लिए)। नियमित पोल के लिए खाली छोड़ दें।"
+
+#: app/templates/create_poll.html:107 app/templates/create_poll.html:112
+#: app/templates/create_poll.html:150
+msgid "Mark as correct answer"
+msgstr "सही उत्तर के रूप में चिह्नित करें"
+
+#: app/templates/create_poll.html:108 app/templates/home.html:29
+msgid "Option 1"
+msgstr "विकल्प 1"
+
+#: app/templates/create_poll.html:113 app/templates/home.html:34
+msgid "Option 2"
+msgstr "विकल्प 2"
+
+#: app/templates/create_poll.html:118
+msgid "+ Add Another Option"
+msgstr "+ एक और विकल्प जोड़ें"
+
+#: app/templates/create_poll.html:124
+msgid "Publish Poll"
+msgstr "पोल प्रकाशित करें"
+
+#: app/templates/create_poll.html:138
+msgid "Maximum 10 options allowed!"
+msgstr "अधिकतम 10 विकल्पों की अनुमति है!"
+
+#: app/templates/create_poll.html:156 app/templates/home.html:235
+msgid "Option"
+msgstr "विकल्प"
+
+#: app/templates/create_poll.html:174
+msgid "Files selected!"
+msgstr "फ़ाइलें चयनित!"
+
+#: app/templates/create_poll.html:178
+msgid " file"
+msgstr " फ़ाइल"
+
+#: app/templates/create_poll.html:178
+msgid " files"
+msgstr " फ़ाइलें"
+
+#: app/templates/create_poll.html:179
+msgid " ready"
+msgstr " तैयार"
+
+#: app/templates/edit_poll.html:3 app/templates/edit_poll.html:37
+msgid "Edit Poll"
+msgstr "पोल संपादित करें"
+
+#: app/templates/edit_poll.html:11
+msgid "Current Stats"
+msgstr "वर्तमान आँकड़े"
+
+#: app/templates/edit_poll.html:14
+msgid "You are editing"
+msgstr "आप संपादन कर रहे हैं"
+
+#: app/templates/edit_poll.html:18
+msgid "Votes:"
+msgstr "वोट:"
+
+#: app/templates/edit_poll.html:22
+msgid "Comments:"
+msgstr "टिप्पणियाँ:"
+
+#: app/templates/edit_poll.html:29
+msgid "Back to Poll"
+msgstr "पोल पर वापस"
+
+#: app/templates/edit_poll.html:39
+msgid "ID:"
+msgstr "ID:"
+
+#: app/templates/edit_poll.html:47
+msgid "Title"
+msgstr "शीर्षक"
+
+#: app/templates/edit_poll.html:55
+msgid "Description"
+msgstr "विवरण"
+
+#: app/templates/edit_poll.html:60
+msgid "Max 100 characters"
+msgstr "अधिकतम 100 अक्षर"
+
+#: app/templates/edit_poll.html:66
+msgid "Save Changes"
+msgstr "परिवर्तन सहेजें"
+
+#: app/templates/edit_poll.html:70 app/templates/edit_profile.html:63
+#: app/templates/report_form.html:81
+msgid "Cancel"
+msgstr "रद्द करें"
+
+#: app/templates/edit_profile.html:3 app/templates/edit_profile.html:11
+#: app/templates/profile.html:11 app/templates/user_profile.html:46
+msgid "Edit Profile"
+msgstr "प्रोफ़ाइल संपादित करें"
+
+#: app/templates/edit_profile.html:19
+msgid "Current Profile"
+msgstr "वर्तमान प्रोफ़ाइल"
+
+#: app/templates/edit_profile.html:29
+msgid "Profile Banner"
+msgstr "प्रोफ़ाइल बैनर"
+
+#: app/templates/edit_profile.html:32
+msgid "Current Banner"
+msgstr "वर्तमान बैनर"
+
+#: app/templates/edit_profile.html:38
+msgid "Change Cover"
+msgstr "कवर बदलें"
+
+#: app/templates/edit_profile.html:43
+msgid "Recommended size: 1200x300px"
+msgstr "अनुशंसित आकार: 1200x300px"
+
+#: app/templates/edit_profile.html:47
+msgid "Display Name"
+msgstr "प्रदर्शन नाम"
+
+#: app/templates/edit_profile.html:54
+msgid "Bio"
+msgstr "बायो"
+
+#: app/templates/edit_profile.html:64
+msgid "Save"
+msgstr "सहेजें"
+
+#: app/templates/home.html:12
+msgid "Create a Poll"
+msgstr "एक पोल बनाएं"
+
+#: app/templates/home.html:17
+msgid "What's your question?"
+msgstr "आपका प्रश्न क्या है?"
+
+#: app/templates/home.html:22
+msgid "Description (optional)"
+msgstr "विवरण (वैकल्पिक)"
+
+#: app/templates/home.html:41
+msgid "+ Add Option"
+msgstr "+ विकल्प जोड़ें"
+
+#: app/templates/home.html:44 app/templates/polls.html:119
+msgid "Create Poll"
+msgstr "पोल बनाएं"
+
+#: app/templates/home.html:49
+msgid "People to Follow"
+msgstr "फ़ॉलो करने के लिए लोग"
+
+#: app/templates/home.html:66 app/templates/user_profile.html:25
+msgid "Follow"
+msgstr "फ़ॉलो करें"
+
+#: app/templates/home.html:71
+msgid "No new users to follow."
+msgstr "फ़ॉलो करने के लिए कोई नया उपयोगकर्ता नहीं।"
+
+#: app/templates/home.html:81
+msgid "Search polls..."
+msgstr "पोल खोजें..."
+
+#: app/templates/home.html:84
+msgid "Clear"
+msgstr "साफ़ करें"
+
+#: app/templates/home.html:90
+msgid "Recent Polls"
+msgstr "हालिया पोल"
+
+#: app/templates/home.html:97 app/templates/poll_detail.html:83
+#: app/templates/polls.html:56
+msgid "Author"
+msgstr "लेखक"
+
+#: app/templates/home.html:111
+msgid "This is a Quiz"
+msgstr "यह एक क्विज़ है"
+
+#: app/templates/home.html:112
+msgid "Quiz"
+msgstr "क्विज़"
+
+#: app/templates/home.html:138
+msgid "more options"
+msgstr "अधिक विकल्प"
+
+#: app/templates/home.html:145
+msgid "Contains Attachments"
+msgstr "संलग्नक शामिल हैं"
+
+#: app/templates/home.html:152 app/templates/my_polls.html:78
+#: app/templates/polls.html:87 app/templates/user_profile.html:120
+msgid "votes"
+msgstr "वोट"
+
+#: app/templates/home.html:153 app/templates/my_polls.html:81
+#: app/templates/polls.html:90
+msgid "comments"
+msgstr "टिप्पणियाँ"
+
+#: app/templates/home.html:155
+msgid "Vote"
+msgstr "वोट"
+
+#: app/templates/home.html:164 app/templates/home.html:168
+msgid "Prev"
+msgstr "पिछला"
+
+#: app/templates/home.html:173 app/templates/my_polls.html:109
+#: app/templates/polls.html:107
+msgid "Page"
+msgstr "पृष्ठ"
+
+#: app/templates/home.html:173 app/templates/my_polls.html:109
+#: app/templates/polls.html:107
+msgid "of"
+msgstr "का"
+
+#: app/templates/home.html:178 app/templates/home.html:182
+msgid "Next"
+msgstr "अगला"
+
+#: app/templates/home.html:190
+msgid "Nothing found"
+msgstr "कुछ नहीं मिला"
+
+#: app/templates/home.html:190
+msgid "for"
+msgstr "के लिए"
+
+#: app/templates/home.html:191
+msgid "Try searching for something else or create a poll!"
+msgstr "कुछ और खोजने का प्रयास करें या एक पोल बनाएं!"
+
+#: app/templates/home.html:197
+msgid "Welcome to"
+msgstr "में आपका स्वागत है"
+
+#: app/templates/home.html:198
+msgid "Join the community to create polls and vote on trending topics."
+msgstr "पोल बनाने और ट्रेंडिंग विषयों पर वोट करने के लिए समुदाय में शामिल हों।"
+
+#: app/templates/home.html:214
+msgid "Limit reached for quick poll. Use full creator for more."
+msgstr "त्वरित पोल की सीमा समाप्त। अधिक के लिए पूर्ण निर्माता का उपयोग करें।"
+
+#: app/templates/login.html:3 app/templates/login.html:22
+msgid "Log In"
+msgstr "लॉग इन"
+
+#: app/templates/login.html:8
+msgid "Welcome Back"
+msgstr "वापसी पर स्वागत है"
+
+#: app/templates/login.html:9
+msgid "Log in to manage your polls."
+msgstr "अपने पोल प्रबंधित करने के लिए लॉग इन करें।"
+
+#: app/templates/login.html:12 app/templates/register.html:12
+msgid "Username"
+msgstr "उपयोगकर्ता नाम"
+
+#: app/templates/login.html:13
+msgid "Enter your username"
+msgstr "अपना उपयोगकर्ता नाम दर्ज करें"
+
+#: app/templates/login.html:17 app/templates/register.html:17
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: app/templates/login.html:18
+msgid "Enter your password"
+msgstr "अपना पासवर्ड दर्ज करें"
+
+#: app/templates/login.html:26
+msgid "No account?"
+msgstr "कोई खाता नहीं?"
+
+#: app/templates/login.html:26
+msgid "Register here"
+msgstr "यहाँ रजिस्टर करें"
+
+#: app/templates/my_polls.html:12
+msgid "Avatar"
+msgstr "अवतार"
+
+#: app/templates/my_polls.html:23
+msgid "Total Polls"
+msgstr "कुल पोल"
+
+#: app/templates/my_polls.html:30
+msgid "Quick Actions"
+msgstr "त्वरित कार्रवाई"
+
+#: app/templates/my_polls.html:32
+msgid "+ Create New Poll"
+msgstr "+ नया पोल बनाएं"
+
+#: app/templates/my_polls.html:42
+msgid "Managing"
+msgstr "प्रबंधन"
+
+#: app/templates/my_polls.html:42
+msgid "polls"
+msgstr "पोल"
+
+#: app/templates/my_polls.html:51
+msgid "Posted on"
+msgstr "को पोस्ट किया गया"
+
+#: app/templates/my_polls.html:87
+msgid "Edit"
+msgstr "संपादित करें"
+
+#: app/templates/my_polls.html:93
+msgid "Are you sure you want to delete this poll?"
+msgstr "क्या आप वाकई इस पोल को हटाना चाहते हैं?"
+
+#: app/templates/my_polls.html:94
+msgid "Delete"
+msgstr "हटाएं"
+
+#: app/templates/my_polls.html:105 app/templates/polls.html:103
+msgid "← Previous"
+msgstr "← पिछला"
+
+#: app/templates/my_polls.html:113 app/templates/polls.html:111
+msgid "Next →"
+msgstr "अगला →"
+
+#: app/templates/my_polls.html:119
+msgid "It's quiet here..."
+msgstr "यहाँ शांति है..."
+
+#: app/templates/my_polls.html:120
+msgid "You haven't posted any polls yet."
+msgstr "आपने अभी तक कोई पोल पोस्ट नहीं किया है।"
+
+#: app/templates/my_polls.html:121
+msgid "Create your first poll"
+msgstr "अपना पहला पोल बनाएं"
+
+#: app/templates/notification.html:10
+msgid "Manage"
+msgstr "प्रबंधित करें"
+
+#: app/templates/notification.html:12
+msgid "Stay updated with the latest votes and comments on your polls."
+msgstr "अपने पोल पर नवीनतम वोटों और टिप्पणियों के साथ अपडेट रहें।"
+
+#: app/templates/notification.html:15
+msgid "Mark all as read"
+msgstr "सभी को पढ़ा हुआ चिह्नित करें"
+
+#: app/templates/notification.html:18
+msgid "Notification Settings"
+msgstr "अधिसूचना सेटिंग्स"
+
+#: app/templates/notification.html:50
+msgid "Just now"
+msgstr "अभी अभी"
+
+#: app/templates/notification.html:56
+msgid "View Poll"
+msgstr "पोल देखें"
+
+#: app/templates/notification.html:66
+msgid "All caught up!"
+msgstr "सब कुछ देख लिया!"
+
+#: app/templates/notification.html:67
+msgid "You have no new notifications."
+msgstr "आपके पास कोई नई सूचना नहीं है।"
+
+#: app/templates/poll_detail.html:53
+msgid "Poll Stats"
+msgstr "पोल आँकड़े"
+
+#: app/templates/poll_detail.html:57 app/templates/profile.html:36
+msgid "Votes"
+msgstr "वोट"
+
+#: app/templates/poll_detail.html:61 app/templates/profile.html:37
+#: app/templates/user_profile.html:95
+msgid "Comments"
+msgstr "टिप्पणियाँ"
+
+#: app/templates/poll_detail.html:65
+msgid "Posted:"
+msgstr "पोस्ट किया गया:"
+
+#: app/templates/poll_detail.html:66
+msgid "Status:"
+msgstr "स्थिति:"
+
+#: app/templates/poll_detail.html:66
+msgid "Active"
+msgstr "सक्रिय"
+
+#: app/templates/poll_detail.html:66
+msgid "Closed"
+msgstr "बंद"
+
+#: app/templates/poll_detail.html:73
+msgid "Report this poll"
+msgstr "इस पोल की रिपोर्ट करें"
+
+#: app/templates/poll_detail.html:89
+msgid "Asked a question"
+msgstr "एक प्रश्न पूछा"
+
+#: app/templates/poll_detail.html:92
+msgid "Quiz Mode"
+msgstr "क्विज़ मोड"
+
+#: app/templates/poll_detail.html:95
+msgid "Share this Poll"
+msgstr "इस पोल को साझा करें"
+
+#: app/templates/poll_detail.html:98
+msgid "Check out this poll:"
+msgstr "इस पोल को देखें:"
+
+#: app/templates/poll_detail.html:101
+msgid "Share on Telegram"
+msgstr "Telegram पर साझा करें"
+
+#: app/templates/poll_detail.html:108
+msgid "Share on X"
+msgstr "X पर साझा करें"
+
+#: app/templates/poll_detail.html:114
+msgid "Copy Link"
+msgstr "लिंक कॉपी करें"
+
+#: app/templates/poll_detail.html:129
+msgid "Ends in:"
+msgstr "में समाप्त:"
+
+#: app/templates/poll_detail.html:129
+msgid "Calculating..."
+msgstr "गणना हो रही है..."
+
+#: app/templates/poll_detail.html:142
+msgid "d"
+msgstr "दिन"
+
+#: app/templates/poll_detail.html:142
+msgid "h"
+msgstr "घंटे"
+
+#: app/templates/poll_detail.html:142
+msgid "m"
+msgstr "मिनट"
+
+#: app/templates/poll_detail.html:142
+msgid "s"
+msgstr "सेकंड"
+
+#: app/templates/poll_detail.html:145
+msgid "EXPIRED"
+msgstr "समाप्त"
+
+#: app/templates/poll_detail.html:153
+msgid "Poll Closed"
+msgstr "पोल बंद"
+
+#: app/templates/poll_detail.html:160
+msgid "Attachments"
+msgstr "संलग्नक"
+
+#: app/templates/poll_detail.html:186
+msgid "Poll Image"
+msgstr "पोल छवि"
+
+#: app/templates/poll_detail.html:207
+msgid "Download"
+msgstr "डाउनलोड"
+
+#: app/templates/poll_detail.html:224
+msgid "Correct!"
+msgstr "सही!"
+
+#: app/templates/poll_detail.html:225
+msgid "You got the right answer."
+msgstr "आपने सही उत्तर दिया।"
+
+#: app/templates/poll_detail.html:229
+msgid "Oops! Wrong."
+msgstr "ओह! गलत।"
+
+#: app/templates/poll_detail.html:230
+msgid "Better luck next time."
+msgstr "अगली बार बेहतर किस्मत।"
+
+#: app/templates/poll_detail.html:235
+msgid "You voted for:"
+msgstr "आपने वोट दिया:"
+
+#: app/templates/poll_detail.html:304
+msgid "Submit Vote"
+msgstr "वोट जमा करें"
+
+#: app/templates/poll_detail.html:308
+msgid "Voting is disabled because the poll has ended."
+msgstr "वोटिंग अक्षम है क्योंकि पोल समाप्त हो गया है।"
+
+#: app/templates/poll_detail.html:314
+msgid "Discussion"
+msgstr "चर्चा"
+
+#: app/templates/poll_detail.html:319
+msgid "Share your thoughts..."
+msgstr "अपने विचार साझा करें..."
+
+#: app/templates/poll_detail.html:320
+msgid "Post Comment"
+msgstr "टिप्पणी पोस्ट करें"
+
+#: app/templates/poll_detail.html:337
+msgid "Pinned by Author"
+msgstr "लेखक द्वारा पिन किया गया"
+
+#: app/templates/poll_detail.html:348
+msgid "Unpin"
+msgstr "अनपिन करें"
+
+#: app/templates/poll_detail.html:348
+msgid "Pin"
+msgstr "पिन करें"
+
+#: app/templates/poll_detail.html:351
+msgid "Remove Heart"
+msgstr "हार्ट हटाएँ"
+
+#: app/templates/poll_detail.html:351
+msgid "Give Heart"
+msgstr "हार्ट दें"
+
+#: app/templates/poll_detail.html:370
+msgid "Liked by the author"
+msgstr "लेखक द्वारा पसंद किया गया"
+
+#: app/templates/poll_detail.html:377
+msgid "Delete comment?"
+msgstr "टिप्पणी हटाएं?"
+
+#: app/templates/poll_detail.html:385
+msgid "No comments yet. Be the first to say something!"
+msgstr "अभी तक कोई टिप्पणी नहीं। कुछ कहने वाले पहले व्यक्ति बनें!"
+
+#: app/templates/poll_detail.html:475
+msgid "Link copied to clipboard!"
+msgstr "लिंक क्लिपबोर्ड पर कॉपी किया गया!"
+
+#: app/templates/polls.html:3
+msgid "All Polls"
+msgstr "सभी पोल"
+
+#: app/templates/polls.html:10
+msgid "Feed Filters"
+msgstr "फ़ीड फ़िल्टर"
+
+#: app/templates/polls.html:15
+msgid "Newest"
+msgstr "नवीनतम"
+
+#: app/templates/polls.html:20
+msgid "Popular"
+msgstr "लोकप्रिय"
+
+#: app/templates/polls.html:25
+msgid "Most Discussed"
+msgstr "सबसे ज्यादा चर्चा में"
+
+#: app/templates/polls.html:31
+msgid "Got a question?"
+msgstr "कोई प्रश्न है?"
+
+#: app/templates/polls.html:32
+msgid "Ask the community and get instant feedback."
+msgstr "समुदाय से पूछें और तुरंत प्रतिक्रिया प्राप्त करें।"
+
+#: app/templates/polls.html:34
+msgid "+ Create Poll"
+msgstr "+ पोल बनाएं"
+
+#: app/templates/polls.html:42
+msgid "Popular Polls"
+msgstr "लोकप्रिय पोल"
+
+#: app/templates/polls.html:44
+msgid "Discussed Polls"
+msgstr "चर्चित पोल"
+
+#: app/templates/polls.html:46
+msgid "Latest Polls"
+msgstr "नवीनतम पोल"
+
+#: app/templates/polls.html:95
+msgid "Vote Now"
+msgstr "अभी वोट करें"
+
+#: app/templates/polls.html:117
+msgid "No polls found..."
+msgstr "कोई पोल नहीं मिला..."
+
+#: app/templates/polls.html:118
+msgid "Be the first one to start a conversation!"
+msgstr "बातचीत शुरू करने वाले पहले व्यक्ति बनें!"
+
+#: app/templates/profile.html:3
+msgid "Your Profile"
+msgstr "आपकी प्रोफ़ाइल"
+
+#: app/templates/profile.html:14
+msgid "Profile Picture"
+msgstr "प्रोफ़ाइल चित्र"
+
+#: app/templates/profile.html:38
+msgid "Joined"
+msgstr "शामिल हुए"
+
+#: app/templates/profile.html:47 app/templates/user_profile.html:76
+msgid "About"
+msgstr "के बारे में"
+
+#: app/templates/profile.html:48
+msgid "Just exploring and creating polls!"
+msgstr "बस खोज रहा हूँ और पोल बना रहा हूँ!"
+
+#: app/templates/profile.html:53
+msgid "Your Polls"
+msgstr "आपके पोल"
+
+#: app/templates/profile.html:68
+msgid "You haven't created any polls yet."
+msgstr "आपने अभी तक कोई पोल नहीं बनाया है।"
+
+#: app/templates/register.html:8
+msgid "Create Account"
+msgstr "खाता बनाएं"
+
+#: app/templates/register.html:9
+msgid "Join the community to start voting!"
+msgstr "वोटिंग शुरू करने के लिए समुदाय में शामिल हों!"
+
+#: app/templates/register.html:13
+msgid "Choose a unique username"
+msgstr "एक अद्वितीय उपयोगकर्ता नाम चुनें"
+
+#: app/templates/register.html:18
+msgid "Create a strong password"
+msgstr "एक मजबूत पासवर्ड बनाएं"
+
+#: app/templates/register.html:26
+msgid "Already have an account?"
+msgstr "क्या आपके पास पहले से एक खाता है?"
+
+#: app/templates/register.html:26
+msgid "Log in here"
+msgstr "यहाँ लॉग इन करें"
+
+#: app/templates/report_form.html:3 app/templates/report_form.html:37
+msgid "Report"
+msgstr "रिपोर्ट"
+
+#: app/templates/report_form.html:11
+msgid "Safety First"
+msgstr "सुरक्षा पहले"
+
+#: app/templates/report_form.html:14
+msgid ""
+"Thanks for helping keep Pollvoter safe! Please report content that "
+"includes:"
+msgstr "Pollvoter को सुरक्षित रखने में मदद करने के लिए धन्यवाद! कृपया ऐसी सामग्री की रिपोर्ट करें जिसमें शामिल हो:"
+
+#: app/templates/report_form.html:18
+msgid "Harassment or bullying"
+msgstr "उत्पीड़न या धमकाना"
+
+#: app/templates/report_form.html:21
+msgid "Spam or scams"
+msgstr "स्पैम या घोटाले"
+
+#: app/templates/report_form.html:24
+msgid "Inappropriate content"
+msgstr "अनुचित सामग्री"
+
+#: app/templates/report_form.html:41
+msgid ""
+"You are about to report the following content. This will be sent to the "
+"admin team for review."
+msgstr "आप निम्नलिखित सामग्री की रिपोर्ट करने वाले हैं। इसे समीक्षा के लिए एडमिन टीम को भेजा जाएगा।"
+
+#: app/templates/report_form.html:63
+msgid "Posted by"
+msgstr "द्वारा पोस्ट किया गया"
+
+#: app/templates/report_form.html:63
+msgid "on poll"
+msgstr "पोल पर"
+
+#: app/templates/report_form.html:72
+msgid "Why are you reporting this?"
+msgstr "आप इसकी रिपोर्ट क्यों कर रहे हैं?"
+
+#: app/templates/report_form.html:75
+msgid "Please provide specific details..."
+msgstr "कृपया विशिष्ट विवरण प्रदान करें..."
+
+#: app/templates/report_form.html:84
+msgid "Submit Report"
+msgstr "रिपोर्ट जमा करें"
+
+#: app/templates/user_profile.html:3
+#, python-format
+msgid "%(username)s's Profile"
+msgstr "%(username)s की प्रोफ़ाइल"
+
+#: app/templates/user_profile.html:21
+msgid "Unfollow"
+msgstr "अनफ़ॉलो करें"
+
+#: app/templates/user_profile.html:32
+msgid "Unblock"
+msgstr "अनब्लॉक करें"
+
+#: app/templates/user_profile.html:38
+msgid "Block"
+msgstr "ब्लॉक करें"
+
+#: app/templates/user_profile.html:81
+msgid "This user hasn't written a bio yet."
+msgstr "इस उपयोगकर्ता ने अभी तक कोई बायो नहीं लिखा है।"
+
+#: app/templates/user_profile.html:87
+msgid "Polls Created"
+msgstr "बनाए गए पोल"
+
+#: app/templates/user_profile.html:91
+msgid "Votes Cast"
+msgstr "डाले गए वोट"
+
+#: app/templates/user_profile.html:102
+#, python-format
+msgid "%(username)s's Polls"
+msgstr "%(username)s के पोल"
+
+#: app/templates/user_profile.html:131
+msgid "This user hasn't posted any polls yet."
+msgstr "इस उपयोगकर्ता ने अभी तक कोई पोल पोस्ट नहीं किया है।"

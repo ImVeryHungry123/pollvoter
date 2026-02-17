@@ -1036,7 +1036,7 @@ input:-webkit-autofill:focus {
         display: flex;
         align-items: center;
         justify-content: center;
-        transform: translateY(-15px);
+        transform: translateY(-5px);
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .nav-circle-btn i { color: white !important; margin: 0; }
@@ -1067,7 +1067,7 @@ input:-webkit-autofill:focus {
         display: flex; 
         align-items: center;
         justify-content: center;
-        color: var(--primary);
+        
     }
 
     /* Hide the default floating Botpress bubble */
@@ -1084,4 +1084,187 @@ input:-webkit-autofill:focus {
         pointer-events: all;
         z-index: 10000;
     }
+}
+/* === BANNER UPLOAD COMPONENT === */
+.banner-upload-section {
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.banner-wrapper {
+    position: relative;
+    width: 100%;
+    height: 180px; /* Fixed height for consistent banner look */
+    background-color: var(--bg-body);
+    border-radius: var(--radius-md);
+    overflow: hidden; /* Clips the image to rounded corners */
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s;
+}
+
+.banner-wrapper:hover {
+    border-color: var(--primary);
+}
+
+/* The actual image */
+.banner-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills box without stretching */
+    display: block;
+}
+
+/* The Overlay (Hidden by default, shown on hover) */
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dark dimming */
+    backdrop-filter: blur(2px); /* Glass blur effect */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Hidden */
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+/* Show overlay on hover */
+.banner-wrapper:hover .banner-overlay {
+    opacity: 1;
+}
+
+.camera-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-overlay span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Hide the ugly default input */
+#bg_picture_input {
+    display: none;
+}
+
+/* Tiny hint text below */
+.form-hint {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+
+/* === PAGINATION CONTROLS === */
+.pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.pagination-info strong {
+    color: var(--text-main);
+}
+
+/* Disabled button state (e.g., on Page 1, 'Prev' is disabled) */
+.btn.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    background-color: var(--bg-body);
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
+}
+/* === SHARE SECTION STYLES === */
+.share-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.share-section h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+/* Base Button Style (Neutral) */
+.btn-share {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Perfect Circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy hover */
+    text-decoration: none;
+    position: relative;
+}
+
+/* Hover Effects - Lift and Brand Colors */
+.btn-share:hover {
+    color: white;
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btn-share.telegram:hover { background-color: #000000; }
+.btn-share.twitter:hover { background-color: #000000; } /* X Black */
+.btn-share.copy:hover { background-color: var(--primary); }
+
+/* "Copied" State (Triggered by JS) */
+.btn-share.copied {
+    background-color: #222222 !important; /* Success Green */
+    color: white !important;
+    border-color: #202020 !important;
+}
+
+.btn-share.copied i::before {
+    content: "\f00c"; /* FontAwesome Checkmark icon code */
 }

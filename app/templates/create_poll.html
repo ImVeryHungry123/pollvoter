@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Create a New Poll{% endblock %}
+{% block title %}{{ _('Create a New Poll') }}{% endblock %}
 
 {% block content %}
 
@@ -26,19 +26,19 @@
 
     <aside class="sidebar">
         <div class="sidebar-widget">
-            <h3 class="widget-title">Posting Tips</h3>
+            <h3 class="widget-title">{{ _('Posting Tips') }}</h3>
             <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-muted);">
                 <li style="margin-bottom: 12px;">
-                    <strong style="color: var(--text-main);">Keep it short</strong><br>
-                    Short titles get more votes.
+                    <strong style="color: var(--text-main);">{{ _('Keep it short') }}</strong><br>
+                    {{ _('Short titles get more votes.') }}
                 </li>
                 <li style="margin-bottom: 12px;">
-                    <strong style="color: var(--text-main);">Be clear</strong><br>
-                    Make sure your options cover all bases.
+                    <strong style="color: var(--text-main);">{{ _('Be clear') }}</strong><br>
+                    {{ _('Make sure your options cover all bases.') }}
                 </li>
                 <li style="margin-bottom: 12px;">
-                    <strong style="color: var(--text-main);">Engage</strong><br>
-                    Ask questions that spark debate!
+                    <strong style="color: var(--text-main);">{{ _('Engage') }}</strong><br>
+                    {{ _('Ask questions that spark debate!') }}
                 </li>
             </ul>
         </div>
@@ -48,80 +48,80 @@
 
     <main class="feed">
         <div class="card">
-            <h2 style="margin-bottom: 20px;">Create a New Poll</h2>
+            <h2 style="margin-bottom: 20px;">{{ _('Create a New Poll') }}</h2>
             
             <form method="POST" id="poll-form" enctype="multipart/form-data">
                 
                 <div style="margin-bottom: 20px;">
-                    <label for="title" style="display:block; margin-bottom: 8px; font-weight: 600;">Question / Title</label>
+                    <label for="title" style="display:block; margin-bottom: 8px; font-weight: 600;">{{ _('Question / Title') }}</label>
                     <input type="text" name="title" id="title" required maxlength="40" 
-                           placeholder="e.g., What is the best winter game?" 
+                           placeholder="{{ _('e.g., What is the best winter game?') }}" 
                            style="font-size: 1.1rem; padding: 14px;">
                 </div>
 
                 <div style="margin-bottom: 25px;">
-                    <label for="description" style="display:block; margin-bottom: 8px; font-weight: 600;">Description (Optional)</label>
+                    <label for="description" style="display:block; margin-bottom: 8px; font-weight: 600;">{{ _('Description (Optional)') }}</label>
                     <textarea name="description" id="description" maxlength="70" rows="3" 
-                              placeholder="Add a little context..." 
+                              placeholder="{{ _('Add a little context...') }}" 
                               style="resize: none;"></textarea>
-                    <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">Max 70 characters</div>
+                    <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">{{ _('Max 70 characters') }}</div>
                 </div>
                 <div class="form-group" style="margin-top: 20px;">
-    <label for="files" style="display: block; font-weight: 600; margin-bottom: 10px;">Upload your files</label>
+    <label for="files" style="display: block; font-weight: 600; margin-bottom: 10px;">{{ _('Upload your files') }}</label>
     
     <div class="upload-container">
         <label for="files" class="upload-dropzone" id="dropzone">
             <i class="fa-solid fa-cloud-arrow-up"></i>
-            <span id="file-label">Drag & drop or click to upload</span>
-            <small>Images, Videos, Audio, or Text files</small>
+            <span id="file-label">{{ _('Drag & drop or click to upload') }}</span>
+            <small>{{ _('Images, Videos, Audio, or Text files') }}</small>
             <div id="file-preview-count" class="file-badge" style="display: none;"></div>
         </label>
         <input type="file" id="files" name="files" multiple hidden onchange="handleFileSelect(this)">
     </div>
     
     <div style="display: flex; justify-content: space-between; margin-top: 8px;">
-        <small style="color: var(--text-muted);">Max size: 10MB per file</small>
-        <small style="color: var(--text-muted); font-weight: 600;">Multiple files allowed</small>
+        <small style="color: var(--text-muted);">{{ _('Max size: 10MB per file') }}</small>
+        <small style="color: var(--text-muted); font-weight: 600;">{{ _('Multiple files allowed') }}</small>
     </div>
 </div>
                 <div class="form-group">
-                <label for="end_date">Poll End Date (Optional):</label>
+                <label for="end_date">{{ _('Poll End Date (Optional):') }}</label>
                 <input type="datetime-local" class="form-control" id="end_date" name="end_date">
             </div>
                 <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 25px 0;">
 
                  <div style="margin-bottom: 20px;">
-                    <label for="tags" style="display:block; margin-bottom: 8px; font-weight: 600;">Add Tags <i class="fa-solid fa-hashtag"></i> (Divide by Commas, don't use hashtags!) </label>
+                    <label for="tags" style="display:block; margin-bottom: 8px; font-weight: 600;">{{ _('Add Tags') }} <i class="fa-solid fa-hashtag"></i> {{ _("(Divide by Commas, don't use hashtags!)") }} </label>
                     <input type="text" name="tags" id="tags" required maxlength="90" 
-                           placeholder="Funny, Cool, etc" 
+                           placeholder="{{ _('Funny, Cool, etc') }}" 
                            style="font-size: 1.1rem; padding: 14px;">
                 </div>
                 
-                <h4 style="margin-bottom: 5px;">Poll Options</h4>
+                <h4 style="margin-bottom: 5px;">{{ _('Poll Options') }}</h4>
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
-                        Select the radio button <input type="radio" checked disabled> to mark the <strong>correct answer</strong> (for Quiz mode). Leave blank for a regular poll.
+                        {{ _('Select the radio button') }} <input type="radio" checked disabled> {{ _('to mark the') }} <strong>{{ _('correct answer') }}</strong> {{ _('(for Quiz mode). Leave blank for a regular poll.') }}
                     </p>
 
                     <div id="options-container">
                         <div class="option-wrapper">
-                            <input type="radio" name="correct_option_index" value="0" class="correct-answer-radio" title="Mark as correct answer">
-                            <input type="text" name="options" placeholder="Option 1" required maxlength="25" style="flex-grow: 1;">
+                            <input type="radio" name="correct_option_index" value="0" class="correct-answer-radio" title="{{ _('Mark as correct answer') }}">
+                            <input type="text" name="options" placeholder="{{ _('Option 1') }}" required maxlength="25" style="flex-grow: 1;">
                         </div>
                         
                         <div class="option-wrapper">
-                            <input type="radio" name="correct_option_index" value="1" class="correct-answer-radio" title="Mark as correct answer">
-                            <input type="text" name="options" placeholder="Option 2" required maxlength="25" style="flex-grow: 1;">
+                            <input type="radio" name="correct_option_index" value="1" class="correct-answer-radio" title="{{ _('Mark as correct answer') }}">
+                            <input type="text" name="options" placeholder="{{ _('Option 2') }}" required maxlength="25" style="flex-grow: 1;">
                         </div>
                     </div>
                 
                 <button type="button" id="add-option-btn" class="btn btn-outline" style="width: 100%; border-style: dashed; margin-top: 10px;">
-                    + Add Another Option
+                    {{ _('+ Add Another Option') }}
                 </button>
 
                 <br><br>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
-                    <i class="fa-solid fa-upload"></i> Publish Poll
+                    <i class="fa-solid fa-upload"></i> {{ _('Publish Poll') }}
                 </button>
             </form>
         </div>
@@ -135,7 +135,7 @@
         const currentCount = container.querySelectorAll('input[type="text"]').length;
         
         if (currentCount >= 10) {
-            alert("Maximum 10 options allowed!");
+            alert("{{ _('Maximum 10 options allowed!') }}");
             return;
         }
 
@@ -147,12 +147,13 @@
         radio.name = 'correct_option_index';
         radio.value = currentCount;
         radio.className = 'correct-answer-radio';
-        radio.title = "Mark as correct answer";
+        radio.title = "{{ _('Mark as correct answer') }}";
 
         const input = document.createElement('input');
         input.type = 'text';
         input.name = 'options';
-        input.placeholder = 'Option ' + (currentCount + 1);
+        // JS String concatenation for translation
+        input.placeholder = '{{ _('Option') }} ' + (currentCount + 1);
         input.maxLength = 25;
         input.required = true;
         input.style.flexGrow = '1';
@@ -170,13 +171,15 @@
     const count = input.files.length;
 
     if (count > 0) {
-        fileLabel.textContent = "Files selected!";
+        fileLabel.textContent = "{{ _('Files selected!') }}";
         fileLabel.style.color = "var(--primary)";
         
-        badge.textContent = count + (count === 1 ? " file" : " files") + " ready";
+        // Simple pluralization logic for the JS side
+        const fileWord = count === 1 ? "{{ _(' file') }}" : "{{ _(' files') }}";
+        badge.textContent = count + fileWord + "{{ _(' ready') }}";
         badge.style.display = "inline-block";
     } else {
-        fileLabel.textContent = "Drag & drop or click to upload";
+        fileLabel.textContent = "{{ _('Drag & drop or click to upload') }}";
         fileLabel.style.color = "var(--text-main)";
         badge.style.display = "none";
     }
