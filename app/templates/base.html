@@ -31,37 +31,7 @@
             opacity: 0.7;
         }
 
-        /* === OLD (BROKEN) === */
-/* .bpFabIcon { display: none !important; }
-.bpReset bpFabContainer { display: none !important; }
-#fab-root { display: none !important; }  <-- THIS IS THE PROBLEM
-.bpFab { display: none !important; } 
-*/
-
-/* === NEW (WORKING) === */
-/* Hide the floating button/icon parts only */
-.bpFab, 
-.bpFabIcon, 
-.bp-widget-side, 
-.bp-widget-launcher { 
-    display: none !important; 
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
-
-/* Ensure the main root container is visible so the window can appear */
-#fab-root { 
-    display: block !important; 
-    /* Optional: Ensure the invisible container doesn't block clicks on your page */
-    pointer-events: none; 
-}
-
-/* Re-enable clicking on the actual chat window when it opens */
-#fab-root .bp-widget-webchat-container,
-#fab-root .bp-widget-web,
-#fab-root div[class*="bp-widget"] {
-    pointer-events: all;
-}
+        
 
         /* === MOBILE VISIBILITY CONTROLS === */
         /* Default: Bottom Nav is hidden on Desktop */
